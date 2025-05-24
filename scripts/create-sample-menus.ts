@@ -23,6 +23,46 @@ async function createSampleMenus() {
 
     console.log('Creating sample menu items and menus...')
 
+    // Check for existing menus and clean them up
+    const existingMenus = await environment.getEntries({
+      content_type: 'menu',
+    })
+
+    if (existingMenus.items.length > 0) {
+      console.log('Existing menus found! Cleaning up...')
+      for (const menu of existingMenus.items) {
+        try {
+          if (menu.isPublished()) {
+            await menu.unpublish()
+          }
+          await menu.delete()
+          console.log(`Deleted existing menu: ${menu.fields.name?.['en-US'] || menu.sys.id}`)
+        } catch (error) {
+          console.log(`Could not delete menu ${menu.sys.id}, it may have references`)
+        }
+      }
+    }
+
+    // Check for existing menu items and clean them up
+    const existingMenuItems = await environment.getEntries({
+      content_type: 'menuItem',
+    })
+
+    if (existingMenuItems.items.length > 0) {
+      console.log('Existing menu items found! Cleaning up...')
+      for (const menuItem of existingMenuItems.items) {
+        try {
+          if (menuItem.isPublished()) {
+            await menuItem.unpublish()
+          }
+          await menuItem.delete()
+          console.log(`Deleted existing menu item: ${menuItem.fields.title?.['en-US'] || menuItem.sys.id}`)
+        } catch (error) {
+          console.log(`Could not delete menu item ${menuItem.sys.id}, it may have references`)
+        }
+      }
+    }
+
     // Create main menu items
     const homeMenuItem = await environment.createEntry('menuItem', {
       fields: {
