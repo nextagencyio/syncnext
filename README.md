@@ -16,6 +16,7 @@ This is a starter project for a Next.js app that connects to a Drupal using Grap
 ### Contentful Integration
 - [x] Full Contentful CMS integration
 - [x] Dynamic content types (Landing, Page, Article)
+- [x] Dynamic menu management
 - [x] Reusable section components
 - [x] Rich text rendering
 - [x] Image optimization with Next.js
@@ -61,7 +62,7 @@ This project includes a complete Contentful integration with React components fo
 
 1. Set up your Contentful credentials in `.env`
 2. Create content types: `npm run setup-contentful`
-3. Create demo content: `npm run create-landing && npm run create-pages`
+3. Create demo content: `npm run create-landing && npm run create-pages && npm run create-menus`
 4. Visit your pages at the generated URLs
 
 ## Next.js docs

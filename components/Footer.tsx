@@ -1,4 +1,3 @@
-import { FooterMenuQuery } from "@/graphql/queries";
 import SiteFooter, { SiteFooterProps } from './site-footer/SiteFooter';
 import getConfig from 'next/config';
 

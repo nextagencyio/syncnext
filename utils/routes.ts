@@ -3,8 +3,8 @@ interface CalculatePathArgs {
   url: string;
 }
 
-// Set frontpage path.
-export const frontpagePath = '/welcome';
+// Set frontpage path - can be used for both Drupal and Contentful
+export const frontpagePath = '/';
 
 export const calculatePath = ({ path = "/", url }: CalculatePathArgs): string => {
   if (path.startsWith("node/preview")) {

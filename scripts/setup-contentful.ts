@@ -590,6 +590,63 @@ async function setupContentful() {
       console.log('Article content type already exists')
     }
 
+    // Create MenuItem content type
+    if (!existingTypes.has('menuItem')) {
+      const menuItemContentType = await environment.createContentTypeWithId('menuItem', {
+        name: 'Menu Item',
+        displayField: 'title',
+        fields: [
+          symbolField('title', 'Title', true),
+          symbolField('url', 'URL', true),
+          {
+            id: 'order',
+            name: 'Order',
+            type: 'Integer',
+            required: false,
+            localized: false,
+          },
+          entryArrayField('children', 'Child Menu Items', ['menuItem']),
+        ],
+      })
+      await menuItemContentType.publish()
+      console.log('MenuItem content type created and published')
+    }
+    else {
+      console.log('MenuItem content type already exists')
+    }
+
+    // Create Menu content type
+    if (!existingTypes.has('menu')) {
+      const menuContentType = await environment.createContentTypeWithId('menu', {
+        name: 'Menu',
+        displayField: 'name',
+        fields: [
+          symbolField('name', 'Menu Name', true),
+          {
+            id: 'identifier',
+            name: 'Identifier',
+            type: 'Symbol',
+            required: true,
+            localized: false,
+            validations: [
+              {
+                unique: true,
+              },
+              {
+                in: ['main', 'footer'],
+              },
+            ],
+          },
+          entryArrayField('items', 'Menu Items', ['menuItem']),
+        ],
+      })
+      await menuContentType.publish()
+      console.log('Menu content type created and published')
+    }
+    else {
+      console.log('Menu content type already exists')
+    }
+
     console.log('All content types setup completed successfully!')
   } catch (error) {
     console.error('Error setting up content types:', error)

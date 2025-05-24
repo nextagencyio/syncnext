@@ -2,8 +2,7 @@ import { Open_Sans } from "next/font/google";
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { MainMenuQuery, FooterMenuQuery } from "@/graphql/queries";
-import { getClientWithAuth } from "@/utils/client.server";
+import { getMenuByIdentifier, transformContentfulMenu } from "@/utils/contentful";
 import getConfig from 'next/config';
 
 import './globals.css'
@@ -16,18 +15,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const client = await getClientWithAuth();
+  // Get menu data from Contentful
+  let menuData = null;
+  let footerData = null;
 
-  const { data: menuData, error: menuError } = await client.query(MainMenuQuery, {});
+  try {
+    const [mainMenu, footerMenu] = await Promise.all([
+      getMenuByIdentifier('main'),
+      getMenuByIdentifier('footer'),
+    ]);
 
-  if (menuError) {
-    throw menuError;
-  }
-
-  const { data: footerData, error: footerError } = await client.query(FooterMenuQuery, {});
-
-  if (footerError) {
-    throw footerError;
+    menuData = transformContentfulMenu(mainMenu);
+    footerData = transformContentfulMenu(footerMenu);
+  } catch (error) {
+    console.warn('Failed to fetch menus from Contentful:', error);
   }
 
   return (

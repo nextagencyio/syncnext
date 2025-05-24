@@ -239,4 +239,67 @@ export function resolveRichText(richTextContent: any): string {
     .join('')
 }
 
+// Menu-related types
+export interface MenuItemEntry extends Entry<any> {
+  fields: {
+    title: string
+    url: string
+    order?: number
+    children?: MenuItemEntry[]
+  }
+}
+
+export interface MenuEntry extends Entry<any> {
+  fields: {
+    name: string
+    identifier: string
+    items: MenuItemEntry[]
+  }
+}
+
+// Helper function to get a menu by identifier
+export async function getMenuByIdentifier(identifier: 'main' | 'footer'): Promise<MenuEntry | null> {
+  try {
+    const entries = await client.getEntries({
+      content_type: 'menu',
+      'fields.identifier': identifier,
+      include: 3, // Include linked menu items and their children
+    })
+
+    if (entries.items.length === 0) {
+      return null
+    }
+
+    return entries.items[0] as MenuEntry
+  } catch (error) {
+    console.error(`Error fetching menu with identifier ${identifier}:`, error)
+    return null
+  }
+}
+
+// Helper function to transform Contentful menu to the format expected by components
+export function transformContentfulMenu(menu: MenuEntry | null) {
+  if (!menu) {
+    return null
+  }
+
+  return {
+    menu: {
+      name: menu.fields.name,
+      items: menu.fields.items
+        ?.sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0))
+        .map((item) => ({
+          title: item.fields.title,
+          url: item.fields.url,
+          children: item.fields.children
+            ?.sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0))
+            .map((child) => ({
+              title: child.fields.title,
+              url: child.fields.url,
+            })) || [],
+        })) || [],
+    },
+  }
+}
+
 export default client
