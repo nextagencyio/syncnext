@@ -22,7 +22,7 @@ const Logo: FC<LogoProps> = ({
   const currentSize = sizeClasses[size];
 
   return (
-    <div className={`flex items-center gap-2.5 ${modifier}`}>
+    <div className={`flex items-center gap-2 ${modifier}`}>
       <Zap className={`${currentSize.icon} text-primary flex-shrink-0`} />
       <span className={`font-bold ${currentSize.text} ${textColor} tracking-tight leading-none`}>
         sync<span className="text-primary">next</span>

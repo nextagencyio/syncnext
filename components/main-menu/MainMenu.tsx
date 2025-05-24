@@ -59,7 +59,7 @@ const MainMenu: React.FC<MainMenuProps> = ({
             className="flex items-center"
           >
             {showLogo ? (
-              <Logo size="md" textColor="text-foreground" />
+              <Logo size="lg" textColor="text-foreground" />
             ) : showSiteName && siteName ? (
               <span className="text-2xl font-bold">{siteName.split('\n').map((line, index) => (
                 <React.Fragment key={index}>
