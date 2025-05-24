@@ -1,7 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getEntryBySlug, getEntriesByType, LandingPageEntry } from '@/utils/contentful'
-import { Landing, Page as PageComponent, Article } from '@/components'
+import Landing from '@/components/Landing'
+import PageComponent from '@/components/Page'
+import Article from '@/components/Article'
 
 // Enable dynamic rendering for Contentful
 export const dynamic = 'force-dynamic'
