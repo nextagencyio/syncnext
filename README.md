@@ -55,9 +55,10 @@ npm run setup-contentful
 
 Create sample content:
 ```bash
-npm run create-landing
-npm run create-pages
-npm run create-menus
+npm run create-homepage    # Creates the homepage (slug: 'home')
+npm run create-landing     # Creates additional demo landing pages
+npm run create-pages       # Creates sample pages
+npm run create-menus       # Creates navigation menus
 ```
 
 ### Development
@@ -67,7 +68,7 @@ Start the development server:
 npm run dev
 ```
 
-Visit [http://localhost:8080](http://localhost:8080) to see your application.
+Visit [http://localhost:8080](http://localhost:8080) to see your homepage.
 
 ### Storybook
 

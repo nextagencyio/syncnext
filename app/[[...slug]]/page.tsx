@@ -26,12 +26,18 @@ export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
 
     const allPages = [...landingPages, ...pages, ...articles]
 
-    return allPages.map((page) => ({
+    const params = allPages.map((page) => ({
       slug: (page.fields.slug as string).split('/').filter(segment => segment !== ''),
     }))
+
+    // Add empty slug array for homepage (root route)
+    params.push({ slug: [] })
+
+    return params
   } catch (error) {
     console.error('Error generating static params:', error)
-    return []
+    // Always include the root route even if there's an error
+    return [{ slug: [] }]
   }
 }
 

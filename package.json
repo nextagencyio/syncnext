@@ -14,6 +14,7 @@
     "create-landing": "tsx scripts/create-landing-page.ts",
     "create-pages": "tsx scripts/create-sample-pages.ts",
     "create-menus": "tsx scripts/create-sample-menus.ts",
+    "create-homepage": "tsx scripts/create-homepage.ts",
     "cleanup-content": "tsx scripts/cleanup-contentful.ts",
     "cleanup-all": "tsx scripts/cleanup-contentful.ts --structure"
   },
