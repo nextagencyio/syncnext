@@ -65,7 +65,7 @@ async function createPlaceholderImageIfNeeded(environment: any) {
 
   // Create new placeholder image
   console.log('Creating placeholder image...')
-  const imagePath = path.resolve(__dirname, 'card.webp')
+  const imagePath = path.resolve(__dirname, 'images', 'card.png')
   const imageData = fs.readFileSync(imagePath)
 
   const upload = await environment.createUpload({
@@ -82,8 +82,8 @@ async function createPlaceholderImageIfNeeded(environment: any) {
       },
       file: {
         'en-US': {
-          contentType: 'image/webp',
-          fileName: 'homepage-hero.webp',
+          contentType: 'image/png',
+          fileName: 'homepage-hero.png',
           uploadFrom: {
             sys: {
               type: 'Link',
@@ -131,6 +131,69 @@ async function createBullet(environment: any, icon: string, summary: string) {
   return bullet.sys.id
 }
 
+// Helper function to create logo assets from the images directory
+async function createLogoAssets(environment: any) {
+  const logoFiles = [
+    { name: 'nextjs.png', title: 'Next.js Logo' },
+    { name: 'react.png', title: 'React Logo' },
+    { name: 'tailwind.png', title: 'Tailwind CSS Logo' },
+    { name: 'contentful.png', title: 'Contentful Logo' },
+    { name: 'storybook.png', title: 'Storybook Logo' },
+    { name: 'shadcn.png', title: 'shadcn/ui Logo' },
+    { name: 'graphql.png', title: 'GraphQL Logo' },
+  ]
+
+  const logoAssetIds = []
+
+  for (const logoFile of logoFiles) {
+    try {
+      const imagePath = path.resolve(__dirname, 'images', logoFile.name)
+      const imageData = fs.readFileSync(imagePath)
+
+      const upload = await environment.createUpload({
+        file: imageData
+      })
+
+      const asset = await environment.createAsset({
+        fields: {
+          title: {
+            'en-US': logoFile.title
+          },
+          description: {
+            'en-US': `${logoFile.title} for logo collection`
+          },
+          file: {
+            'en-US': {
+              contentType: 'image/png',
+              fileName: logoFile.name,
+              uploadFrom: {
+                sys: {
+                  type: 'Link',
+                  linkType: 'Upload',
+                  id: upload.sys.id
+                }
+              }
+            }
+          }
+        }
+      })
+
+      await asset.processForAllLocales()
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Wait for processing
+
+      const processedAsset = await environment.getAsset(asset.sys.id)
+      const publishedAsset = await processedAsset.publish()
+      logoAssetIds.push(publishedAsset.sys.id)
+
+      console.log(`Created logo asset: ${logoFile.title}`)
+    } catch (error) {
+      console.error(`Error creating logo asset ${logoFile.name}:`, error)
+    }
+  }
+
+  return logoAssetIds
+}
+
 async function createHomepage() {
   const accessToken = process.env.CONTENTFUL_MANAGEMENT_TOKEN
   const spaceId = process.env.CONTENTFUL_SPACE_ID
@@ -170,6 +233,7 @@ async function createHomepage() {
     }
 
     const imageId = await createPlaceholderImageIfNeeded(environment)
+    const logoAssetIds = await createLogoAssets(environment)
     const entries = []
 
     // 1. Create Hero section for homepage
@@ -385,50 +449,13 @@ async function createHomepage() {
           'en-US': 'Trusted Open Source Technology'
         },
         logos: {
-          'en-US': [
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Asset',
-                id: imageId
-              }
+          'en-US': logoAssetIds.map(assetId => ({
+            sys: {
+              type: 'Link',
+              linkType: 'Asset',
+              id: assetId
             }
-          ]
+          }))
         }
       }
     })

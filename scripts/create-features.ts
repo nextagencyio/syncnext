@@ -62,15 +62,15 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
       return existingAssets.items[0].sys.id
     }
 
-    // Check if card.webp exists in scripts directory
-    const imagePath = join(__dirname, 'card.webp')
+    // Check if card.png exists in scripts/images directory
+    const imagePath = join(__dirname, 'images', 'card.png')
     let imageBuffer: Buffer
 
     try {
       imageBuffer = readFileSync(imagePath)
-      console.log('Found card.webp in scripts directory')
+      console.log('Found card.png in scripts/images directory')
     } catch (error) {
-      console.log('card.webp not found in scripts directory, using placeholder image URL...')
+      console.log('card.png not found in scripts/images directory, using placeholder image URL...')
       // Use a placeholder image URL instead of trying to upload
       const asset = await environment.createAsset({
         fields: {
@@ -99,7 +99,7 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
     // If we have a local image file, we need to upload it first
     const upload = await environment.createUpload({
       file: imageBuffer,
-      contentType: 'image/webp'
+      contentType: 'image/png'
     })
 
     // Create asset using the upload
@@ -113,8 +113,8 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
         },
         file: {
           'en-US': {
-            contentType: 'image/webp',
-            fileName: 'features-hero.webp',
+            contentType: 'image/png',
+            fileName: 'features-hero.png',
             uploadFrom: {
               sys: {
                 type: 'Link',
@@ -218,10 +218,7 @@ async function createFeaturesPage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'SyncNext Features'
-        },
-        heading: {
-          'en-US': createHeadingRichText('Empower Your Web Development with SyncNext')
+          'en-US': 'Empower Your Web Development with SyncNext'
         },
         summary: {
           'en-US': createRichText('Discover the future of web development with SyncNext, where innovation meets reliability. Our platform offers cutting-edge tools that streamline your workflow and elevate your projects.')

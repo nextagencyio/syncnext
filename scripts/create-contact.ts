@@ -65,7 +65,7 @@ async function createPlaceholderImageIfNeeded(environment: any) {
 
   // Create new placeholder image
   console.log('Creating placeholder image...')
-  const imagePath = path.resolve(__dirname, 'card.webp')
+  const imagePath = path.resolve(__dirname, 'images', 'card.png')
   const imageData = fs.readFileSync(imagePath)
 
   const upload = await environment.createUpload({
@@ -82,8 +82,8 @@ async function createPlaceholderImageIfNeeded(environment: any) {
       },
       file: {
         'en-US': {
-          contentType: 'image/webp',
-          fileName: 'contact.webp',
+          contentType: 'image/png',
+          fileName: 'contact.png',
           uploadFrom: {
             sys: {
               type: 'Link',

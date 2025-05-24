@@ -78,14 +78,14 @@ async function createSamplePages() {
     })
 
     // Use local image file
-    const imagePath = path.join(__dirname, 'card.webp')
+    const imagePath = path.join(__dirname, 'images', 'card.png')
 
     // Check if image exists
     try {
       fs.accessSync(imagePath)
-      console.log('Using existing card.webp file')
+      console.log('Using existing card.png file')
     } catch (error) {
-      console.error('card.webp file not found in scripts directory. Please ensure the file exists.')
+      console.error('card.png file not found in scripts/images directory. Please ensure the file exists.')
       process.exit(1)
     }
 
@@ -109,8 +109,8 @@ async function createSamplePages() {
         },
         file: {
           'en-US': {
-            contentType: 'image/webp',
-            fileName: `sample-page-${Date.now()}.webp`,
+            contentType: 'image/png',
+            fileName: `sample-page-${Date.now()}.png`,
             uploadFrom: {
               sys: {
                 type: 'Link',

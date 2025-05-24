@@ -119,7 +119,7 @@ export default async function Page(props: {
   // Render the appropriate component based on content type
   switch (type) {
     case 'landing':
-      return <Landing landing={content} hidePageTitle={slug === 'home'} />
+      return <Landing landing={content} hidePageTitle={true} />
 
     case 'page':
       return <PageComponent page={content} />
