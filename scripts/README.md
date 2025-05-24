@@ -47,19 +47,25 @@ npm run create-landing
 ```
 
 ### 3. `cleanup-contentful.ts`
-**Purpose**: Completely cleans your Contentful space by deleting all entries, assets, and content types.
+**Purpose**: Cleans your Contentful space with two modes of operation.
 
-**⚠️ WARNING**: This script will permanently delete ALL content in your Contentful space. Use with caution!
+**Two cleanup modes**:
 
-**What it deletes**:
-- All entries
-- All assets
-- All content types
-
-**Usage**:
+#### Content Only (Default)
+Deletes all entries and assets but preserves content types structure.
 ```bash
-npm run cleanup-contentful
+npm run cleanup-content
 ```
+
+#### Complete Cleanup
+**⚠️ WARNING**: This will permanently delete ALL content AND structure in your Contentful space!
+```bash
+npm run cleanup-all
+```
+
+**What each mode deletes**:
+- **Content Only**: All entries, All assets (preserves content types)
+- **Complete**: All entries, All assets, All content types
 
 ## Recommended Workflow
 
@@ -77,9 +83,14 @@ npm run cleanup-contentful
 
 ### Development Workflow
 - **To add new content types**: Update `setup-contentful.ts` and run it again
-- **To reset everything**: Run cleanup, then setup, then create demo content:
+- **To reset content only**: Clear entries/assets and recreate demo content:
   ```bash
-  npm run cleanup-contentful
+  npm run cleanup-content
+  npm run create-landing
+  ```
+- **To reset everything**: Complete cleanup, setup, then create demo content:
+  ```bash
+  npm run cleanup-all
   npm run setup-contentful
   npm run create-landing
   ```

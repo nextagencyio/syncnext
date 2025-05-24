@@ -13,12 +13,21 @@ async function cleanupContentful() {
     process.exit(1)
   }
 
+  // Check if we should delete content types (structure) as well
+  const deleteStructure = process.argv.includes('--structure')
+
   const client = createClient({
     accessToken,
   })
 
   try {
-    console.log('Starting Contentful cleanup...')
+    if (deleteStructure) {
+      console.log('Starting Contentful FULL cleanup (content + structure)...')
+    }
+    else {
+      console.log('Starting Contentful content cleanup (preserving structure)...')
+    }
+
     const space = await client.getSpace(spaceId)
     const environment = await space.getEnvironment('master')
 
@@ -44,21 +53,33 @@ async function cleanupContentful() {
     }
     console.log(`Deleted ${assets.items.length} assets`)
 
-    // Delete all content types
-    console.log('\nDeleting content types...')
-    const contentTypes = await environment.getContentTypes()
-    for (const contentType of contentTypes.items) {
-      if (contentType.isPublished()) {
-        await contentType.unpublish()
+    // Only delete content types if --structure flag is passed
+    if (deleteStructure) {
+      console.log('\nDeleting content types...')
+      const contentTypes = await environment.getContentTypes()
+      for (const contentType of contentTypes.items) {
+        if (contentType.isPublished()) {
+          await contentType.unpublish()
+        }
+        await contentType.delete()
       }
-      await contentType.delete()
+      console.log(`Deleted ${contentTypes.items.length} content types`)
     }
-    console.log(`Deleted ${contentTypes.items.length} content types`)
+    else {
+      console.log('\nContent types preserved (use --structure flag to delete them)')
+    }
 
     console.log('\nContentful cleanup completed successfully!')
-    console.log('\nTo start fresh:')
-    console.log('1. Run: npm run setup-contentful')
-    console.log('2. Run: npm run create-landing')
+
+    if (deleteStructure) {
+      console.log('\nTo start fresh:')
+      console.log('1. Run: npm run setup-contentful')
+      console.log('2. Run: npm run create-landing')
+    }
+    else {
+      console.log('\nTo create new content:')
+      console.log('1. Run: npm run create-landing')
+    }
 
   } catch (error) {
     console.error('Error cleaning up Contentful:', error)

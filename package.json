@@ -12,7 +12,8 @@
     "cypress": "npx cypress run",
     "setup-contentful": "tsx scripts/setup-contentful.ts",
     "create-landing": "tsx scripts/create-landing-page.ts",
-    "cleanup-contentful": "tsx scripts/cleanup-contentful.ts"
+    "cleanup-content": "tsx scripts/cleanup-contentful.ts",
+    "cleanup-all": "tsx scripts/cleanup-contentful.ts --structure"
   },
   "dependencies": {
     "@0no-co/graphqlsp": "^1.11.0",
