@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getEntryBySlug, getEntriesByType, LandingPageEntry } from '@/utils/contentful'
-import SectionRenderer from '@/components/sections/SectionRenderer'
+import { Landing, Page as PageComponent, Article } from '@/components'
 
 // Enable dynamic rendering for Contentful
 export const dynamic = 'force-dynamic'
@@ -10,14 +10,21 @@ type Params = Promise<{ slug: string[] }>
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
 /**
- * Generates static parameters for all landing pages.
+ * Generates static parameters for all content types.
  * @returns Promise<{ slug: string[] }[]> Array of slug parameters for static generation.
  */
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   try {
-    const landingPages = await getEntriesByType('landing')
+    // Get all content types that have slugs
+    const [landingPages, pages, articles] = await Promise.all([
+      getEntriesByType('landing'),
+      getEntriesByType('page'),
+      getEntriesByType('article'),
+    ])
 
-    return landingPages.map((page) => ({
+    const allPages = [...landingPages, ...pages, ...articles]
+
+    return allPages.map((page) => ({
       slug: (page.fields.slug as string).split('/').filter(segment => segment !== ''),
     }))
   } catch (error) {
@@ -29,7 +36,7 @@ export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
 /**
  * Fetches page data for the current route.
  * @param props Route parameters.
- * @returns Promise containing the page data.
+ * @returns Promise containing the page data and its type.
  */
 async function getPageData(props: {
   params: Params
@@ -39,13 +46,24 @@ async function getPageData(props: {
   const slug = params.slug?.join('/') || 'home'
 
   try {
-    const landingPage = await getEntryBySlug('landing', slug) as LandingPageEntry
+    // Try to find the content in different content types
+    const [landingPage, page, article] = await Promise.all([
+      getEntryBySlug('landing', slug),
+      getEntryBySlug('page', slug),
+      getEntryBySlug('article', slug),
+    ])
 
-    if (!landingPage) {
-      return null
+    if (landingPage) {
+      return { content: landingPage, type: 'landing' }
+    }
+    if (page) {
+      return { content: page, type: 'page' }
+    }
+    if (article) {
+      return { content: article, type: 'article' }
     }
 
-    return landingPage
+    return null
   } catch (error) {
     console.error('Error fetching page data:', error)
     return null
@@ -62,52 +80,49 @@ export async function generateMetadata(
   props: { params: Params; searchParams: SearchParams },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const landingPage = await getPageData({ params: props.params })
+  const pageData = await getPageData({ params: props.params })
 
   return {
-    title: landingPage?.fields.title || 'Page Not Found',
+    title: (pageData?.content.fields.title as string) || 'Page Not Found',
   }
 }
 
 /**
- * Main page component that renders Contentful landing pages.
+ * Main page component that renders Contentful content.
  * @param props Object containing route parameters.
- * @returns React component for the landing page.
+ * @returns React component for the page.
  */
 export default async function Page(props: {
   params: Params
   searchParams: SearchParams
 }) {
-  const landingPage = await getPageData({ params: props.params })
+  const pageData = await getPageData({ params: props.params })
 
-  if (!landingPage) {
+  if (!pageData) {
     notFound()
   }
 
-  const { title, sections } = landingPage.fields
+  const { content, type } = pageData
 
-  return (
-    <div className="landing-page">
-      {/* Optional: Add page title if needed
-      <h1 className="sr-only">{title}</h1>
-      */}
+  // Render the appropriate component based on content type
+  switch (type) {
+    case 'landing':
+      return <Landing landing={content} />
 
-      {sections && sections.length > 0 ? (
-        sections.map((section, index) => (
-          <SectionRenderer
-            key={section.sys.id}
-            section={section}
-            modifier={`section-${index}`}
-          />
-        ))
-      ) : (
+    case 'page':
+      return <PageComponent page={content} />
+
+    case 'article':
+      return <Article article={content} />
+
+    default:
+      return (
         <div className="p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">No Content Available</h2>
+          <h2 className="text-2xl font-bold mb-4">Unknown Content Type</h2>
           <p className="text-gray-600">
-            This page does not have any sections configured.
+            Content type &ldquo;{type}&rdquo; is not supported.
           </p>
         </div>
-      )}
-    </div>
-  )
+      )
+  }
 }

@@ -13,7 +13,9 @@ export default function SectionText({ section, modifier }: SectionTextProps) {
 
   const textProps: Partial<TextProps> = {
     title: title as string,
-    body: resolveRichText(body),
+    body: body ? {
+      processed: resolveRichText(body)
+    } : undefined,
     textLayout: (textLayout as 'default' | 'centered' | 'buttons-right') || undefined,
     eyebrow: eyebrow as string,
     link: linkTitle && linkUrl ? {

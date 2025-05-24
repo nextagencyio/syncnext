@@ -2,7 +2,7 @@ import { createClient, Entry, Asset } from 'contentful'
 import * as dotenv from 'dotenv'
 
 // Load environment variables
-dotenv.config({ path: '.env.local' })
+dotenv.config({ path: '.env' })
 
 // Create a Contentful client instance
 const client = createClient({
@@ -88,29 +88,155 @@ export function resolveContentfulImage(asset: ContentfulImage | undefined) {
   }
 }
 
-// Helper function to resolve rich text content
-export function resolveRichText(richTextContent: any) {
+// Helper function to resolve rich text content to HTML
+export function resolveRichText(richTextContent: any): string {
   if (!richTextContent) return ''
 
-  // Simple conversion for now - in a real app you might want to use @contentful/rich-text-react-renderer
+  // If it's already a string, return it
   if (typeof richTextContent === 'string') {
     return richTextContent
   }
 
-  if (richTextContent.content) {
-    return richTextContent.content
-      .map((node: any) => {
-        if (node.nodeType === 'paragraph' && node.content) {
-          return node.content
-            .map((textNode: any) => textNode.value || '')
-            .join('')
-        }
-        return ''
-      })
-      .join('\n')
-  }
+  // If it doesn't have content, return empty
+  if (!richTextContent.content) return ''
 
-  return ''
+  // Convert Contentful rich text nodes to HTML
+  return richTextContent.content
+    .map((node: any) => {
+      switch (node.nodeType) {
+        case 'paragraph':
+          if (node.content && node.content.length > 0) {
+            const content = node.content
+              .map((textNode: any) => {
+                if (textNode.nodeType === 'text') {
+                  let text = textNode.value || ''
+                  // Apply marks (bold, italic, etc.)
+                  if (textNode.marks && textNode.marks.length > 0) {
+                    textNode.marks.forEach((mark: any) => {
+                      switch (mark.type) {
+                        case 'bold':
+                          text = `<strong>${text}</strong>`
+                          break
+                        case 'italic':
+                          text = `<em>${text}</em>`
+                          break
+                        case 'underline':
+                          text = `<u>${text}</u>`
+                          break
+                        case 'code':
+                          text = `<code>${text}</code>`
+                          break
+                      }
+                    })
+                  }
+                  return text
+                }
+                return ''
+              })
+              .join('')
+            return `<p>${content}</p>`
+          }
+          return ''
+
+        case 'heading-1':
+          const h1Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h1>${h1Content}</h1>`
+
+        case 'heading-2':
+          const h2Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h2>${h2Content}</h2>`
+
+        case 'heading-3':
+          const h3Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h3>${h3Content}</h3>`
+
+        case 'heading-4':
+          const h4Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h4>${h4Content}</h4>`
+
+        case 'heading-5':
+          const h5Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h5>${h5Content}</h5>`
+
+        case 'heading-6':
+          const h6Content = node.content
+            ?.map((textNode: any) => textNode.value || '')
+            .join('')
+          return `<h6>${h6Content}</h6>`
+
+        case 'unordered-list':
+          const ulItems = node.content
+            ?.map((listItem: any) => {
+              if (listItem.nodeType === 'list-item' && listItem.content) {
+                const itemContent = listItem.content
+                  .map((paragraph: any) => {
+                    if (paragraph.nodeType === 'paragraph' && paragraph.content) {
+                      return paragraph.content
+                        .map((textNode: any) => textNode.value || '')
+                        .join('')
+                    }
+                    return ''
+                  })
+                  .join('')
+                return `<li>${itemContent}</li>`
+              }
+              return ''
+            })
+            .join('')
+          return `<ul>${ulItems}</ul>`
+
+        case 'ordered-list':
+          const olItems = node.content
+            ?.map((listItem: any) => {
+              if (listItem.nodeType === 'list-item' && listItem.content) {
+                const itemContent = listItem.content
+                  .map((paragraph: any) => {
+                    if (paragraph.nodeType === 'paragraph' && paragraph.content) {
+                      return paragraph.content
+                        .map((textNode: any) => textNode.value || '')
+                        .join('')
+                    }
+                    return ''
+                  })
+                  .join('')
+                return `<li>${itemContent}</li>`
+              }
+              return ''
+            })
+            .join('')
+          return `<ol>${olItems}</ol>`
+
+        case 'blockquote':
+          const quoteContent = node.content
+            ?.map((paragraph: any) => {
+              if (paragraph.nodeType === 'paragraph' && paragraph.content) {
+                return paragraph.content
+                  .map((textNode: any) => textNode.value || '')
+                  .join('')
+              }
+              return ''
+            })
+            .join('')
+          return `<blockquote>${quoteContent}</blockquote>`
+
+        case 'hr':
+          return '<hr>'
+
+        default:
+          return ''
+      }
+    })
+    .join('')
 }
 
 export default client
