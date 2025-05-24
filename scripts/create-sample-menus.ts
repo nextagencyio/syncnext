@@ -34,31 +34,51 @@ async function createSampleMenus() {
     await homeMenuItem.publish()
     console.log('Home menu item created')
 
-    const aboutMenuItem = await environment.createEntry('menuItem', {
+    const featuresMenuItem = await environment.createEntry('menuItem', {
       fields: {
-        title: { 'en-US': 'About Us' },
-        url: { 'en-US': '/about-us' },
+        title: { 'en-US': 'Features' },
+        url: { 'en-US': '/features' },
         order: { 'en-US': 2 },
       },
     })
-    await aboutMenuItem.publish()
-    console.log('About menu item created')
+    await featuresMenuItem.publish()
+    console.log('Features menu item created')
 
-    const servicesMenuItem = await environment.createEntry('menuItem', {
+    const pricingMenuItem = await environment.createEntry('menuItem', {
       fields: {
-        title: { 'en-US': 'Services' },
-        url: { 'en-US': '/services' },
+        title: { 'en-US': 'Pricing' },
+        url: { 'en-US': '/pricing' },
         order: { 'en-US': 3 },
       },
     })
-    await servicesMenuItem.publish()
-    console.log('Services menu item created')
+    await pricingMenuItem.publish()
+    console.log('Pricing menu item created')
+
+    const resourcesMenuItem = await environment.createEntry('menuItem', {
+      fields: {
+        title: { 'en-US': 'Resources' },
+        url: { 'en-US': '/resources' },
+        order: { 'en-US': 4 },
+      },
+    })
+    await resourcesMenuItem.publish()
+    console.log('Resources menu item created')
+
+    const getStartedMenuItem = await environment.createEntry('menuItem', {
+      fields: {
+        title: { 'en-US': 'Get Started' },
+        url: { 'en-US': '/get-started' },
+        order: { 'en-US': 5 },
+      },
+    })
+    await getStartedMenuItem.publish()
+    console.log('Get Started menu item created')
 
     const contactMenuItem = await environment.createEntry('menuItem', {
       fields: {
         title: { 'en-US': 'Contact' },
         url: { 'en-US': '/contact' },
-        order: { 'en-US': 4 },
+        order: { 'en-US': 6 },
       },
     })
     await contactMenuItem.publish()
@@ -72,8 +92,10 @@ async function createSampleMenus() {
         items: {
           'en-US': [
             { sys: { type: 'Link', linkType: 'Entry', id: homeMenuItem.sys.id } },
-            { sys: { type: 'Link', linkType: 'Entry', id: aboutMenuItem.sys.id } },
-            { sys: { type: 'Link', linkType: 'Entry', id: servicesMenuItem.sys.id } },
+            { sys: { type: 'Link', linkType: 'Entry', id: featuresMenuItem.sys.id } },
+            { sys: { type: 'Link', linkType: 'Entry', id: pricingMenuItem.sys.id } },
+            { sys: { type: 'Link', linkType: 'Entry', id: resourcesMenuItem.sys.id } },
+            { sys: { type: 'Link', linkType: 'Entry', id: getStartedMenuItem.sys.id } },
             { sys: { type: 'Link', linkType: 'Entry', id: contactMenuItem.sys.id } },
           ],
         },
@@ -132,7 +154,7 @@ async function createSampleMenus() {
 
     console.log('✅ Sample menus created successfully!')
     console.log('\nCreated:')
-    console.log('- Main menu with Home, About Us, Services, Contact')
+    console.log('- Main menu with Home, Features, Pricing, Resources, Get Started, Contact')
     console.log('- Footer menu with Privacy Policy, Terms of Service, Contact Us')
   } catch (error) {
     console.error('Error creating sample menus:', error)

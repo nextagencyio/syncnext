@@ -177,10 +177,7 @@ async function createHomepage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'Homepage Hero'
-        },
-        heading: {
-          'en-US': createRichTextWithFormatting('Development with SyncNext', true)
+          'en-US': '*Empower* Your Web Development with *SyncNext*'
         },
         heroLayout: {
           'en-US': 'image_top'
@@ -223,14 +220,14 @@ async function createHomepage() {
       environment,
       'Decoupled Architecture',
       'Harness the power of headless CMS to separate the front and back-end for optimal flexibility.',
-      'Layers'
+      'Network'
     )
 
     const statsItem2 = await createStatsItem(
       environment,
       'AI Development Tools',
       'Leverage cutting-edge AI assistants and smart code generators to accelerate your development.',
-      'Brain'
+      'Bot'
     )
 
     const sideBySideEntry = await environment.createEntry('sideBySide', {

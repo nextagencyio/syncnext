@@ -8,9 +8,14 @@ interface SectionHeroProps {
   modifier?: string
 }
 
+// Helper function to convert asterisk formatting to strong tags
+function formatTitle(title: string): string {
+  return title.replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+}
+
 export default function SectionHero({ section, modifier }: SectionHeroProps) {
   const fields = section.fields
-  const { heading, heroLayout, linkTitle, linkUrl, link2Title, link2Url, media, summary } = fields
+  const { title, heroLayout, linkTitle, linkUrl, link2Title, link2Url, media, summary } = fields
 
   // Convert Contentful data to the format expected by the Hero component
   const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
@@ -27,7 +32,7 @@ export default function SectionHero({ section, modifier }: SectionHeroProps) {
         priority={true}
       />
     ) : null,
-    heading: heading ? resolveRichText(heading) : undefined,
+    heading: title ? formatTitle(title as string) : undefined,
     summary: summary ? resolveRichText(summary) : undefined,
     link: linkTitle && linkUrl ? {
       title: linkTitle as string,
