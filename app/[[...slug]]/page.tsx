@@ -112,10 +112,14 @@ export default async function Page(props: {
 
   const { content, type } = pageData
 
+  // Get the current slug to determine if this is the homepage
+  const params = await props.params
+  const slug = params.slug?.join('/') || 'home'
+
   // Render the appropriate component based on content type
   switch (type) {
     case 'landing':
-      return <Landing landing={content} />
+      return <Landing landing={content} hidePageTitle={slug === 'home'} />
 
     case 'page':
       return <PageComponent page={content} />
