@@ -44,7 +44,7 @@ export const Default: Story = {
     closeButtonName: 'Close',
     saveButton: {
       name: 'Save Changes',
-      redirects: 'http://drupal.org/'
+      redirects: 'https://contentful.com/'
     }
   }
 };

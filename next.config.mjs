@@ -1,25 +1,12 @@
-const externalDomain = process.env.DRUPAL_AUTH_URI;
-const externalUrl = new URL(externalDomain);
-const externalDomainHost = externalUrl.hostname;
-const externalDomainProtocol = externalUrl.protocol.replace(':', '');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  async rewrites() {
-    return [
-      {
-        source: '/sites/default/files/:path*',
-        destination: `${externalDomain}/sites/default/files/:path*`, // Proxy to the external domain
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {
-        protocol: externalDomainProtocol,
-        hostname: externalDomainHost,
-        port: '', // Specify port if needed
+        protocol: 'https',
+        hostname: 'images.ctfassets.net',
+        port: '',
         pathname: '/**',
       },
     ],
@@ -29,7 +16,7 @@ const nextConfig = {
     LOGO_URL: '/images/logo.svg',
     LOGO_WIDTH: '160',
     LOGO_HEIGHT: '44',
-    SITE_NAME: 'DrupalX',
+    SITE_NAME: 'ContentfulCMS',
     SHOW_LOGO: '1',
     SHOW_SITE_NAME: '0',
     CTA_LINK_COUNT: '2',

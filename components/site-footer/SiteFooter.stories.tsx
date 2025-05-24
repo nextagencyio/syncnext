@@ -24,7 +24,7 @@ export const Default: Story = {
     siteLogo: '/images/logo.svg',
     siteLogoWidth: 200,
     siteLogoHeight: 34,
-    siteName: 'DrupalX',
+    siteName: 'ContentfulCMS',
     links: [
       {
         title: 'Privacy Policy',

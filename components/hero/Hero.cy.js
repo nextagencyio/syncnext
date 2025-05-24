@@ -47,7 +47,7 @@ describe('Hero Component', () => {
         cy.get('h1')
           .should('exist')
           .and('have.class', 'text-4xl lg:text-5xl font-semibold mb-4 lg:mb-4')
-          .and('contain.text', 'Empower Your Content with DrupalX Today');
+          .and('contain.text', 'Empower Your Content with Our CMS Today');
       });
     });
 

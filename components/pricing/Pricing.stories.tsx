@@ -17,13 +17,13 @@ type Story = StoryObj<typeof Pricing>;
 
 export const Default: Story = {
   args: {
-    eyebrow: "Choose Your Plan",
+    eyebrow: "Modern CMS",
     title: "Compare Our Options",
     summary: "Select the best option for your needs",
     includesLabel: "Includes",
     cards: [
       {
-        eyebrow: "DrupalX CMS",
+        eyebrow: "Content Management",
         title: "Free",
         monthlyLabel: "",
         features: ["Full access to open source features", "Community support", "Documentation"],

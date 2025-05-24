@@ -66,8 +66,8 @@ const mockStat2: StatCardProps = {
 
 export const WithStatCards: Story = {
   args: {
-    title: 'Discover the Unmatched Advantages of Choosing DrupalX for Your Development Needs',
-    summary: '<p>DrupalX combines the power of decoupled architecture with AI-driven optimization to enhance your web projects. Experience lightning-fast performance and intuitive design tools that simplify your workflow.</p>',
+    title: 'Discover the Unmatched Advantages of Choosing Our CMS for Your Development Needs',
+    summary: '<p>Our modern CMS combines the power of headless architecture with AI-driven optimization to enhance your web projects. Experience lightning-fast performance and intuitive design tools that simplify your workflow.</p>',
     layout: 'right',
     media: mockMedia,
     features: [mockStat1, mockStat2],

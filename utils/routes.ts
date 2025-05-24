@@ -3,7 +3,10 @@ interface CalculatePathArgs {
   url: string;
 }
 
-// Set frontpage path - can be used for both Drupal and Contentful
+// Environment configuration for routes
+const SITE_URL = process.env.SITE_URL || 'http://localhost:3000'
+
+// Set frontpage path for Contentful CMS
 export const frontpagePath = '/';
 
 export const calculatePath = ({ path = "/", url }: CalculatePathArgs): string => {

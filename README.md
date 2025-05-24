@@ -1,70 +1,107 @@
-# Drupal Decoupled Integrations: Next.js demo project
+# Next.js Contentful CMS
 
-## Introduction
-
-This is a starter project for a Next.js app that connects to a Drupal using GraphQL. Is a port of the features from our Remix Drupal demo project.
+A modern Next.js application integrated with Contentful CMS for content management. This project demonstrates a headless CMS approach using Next.js 15 with App Router and Contentful for content delivery.
 
 ## Features
 
-### Drupal Integration
-- [x] GraphQL API integration
-- [x] Previews
-- [x] View revisions
-- [x] Support taxonomy terms
-- [ ] Meta tags for SEO
-
 ### Contentful Integration
-- [x] Full Contentful CMS integration
-- [x] Dynamic content types (Landing, Page, Article)
-- [x] Dynamic menu management
-- [x] Reusable section components
-- [x] Rich text rendering
-- [x] Image optimization with Next.js
-- [x] TypeScript support
-- [x] Content management scripts
+- **Content Types**: Landing pages, articles, pages with dynamic sections
+- **Menu Management**: Configurable navigation through Contentful
+- **Rich Text**: Full rich text support with custom rendering
+- **Image Optimization**: Next.js Image component with Contentful assets
+- **Static Generation**: Pre-built pages for optimal performance
 
-## Get Started
+### Development Tools
+- **TypeScript**: Full type safety
+- **Tailwind CSS**: Utility-first styling
+- **Storybook**: Component documentation and testing
+- **Cypress**: End-to-end testing
 
-### Clone Next.js demo project
+## Getting Started
+
+### Prerequisites
+- Node.js 20 or higher
+- Contentful account with Space ID and Management Token
+
+### Installation
+
+Clone the repository:
 ```bash
-npx create-next-app@latest --example "https://github.com/octahedroid/drupal-decoupled/tree/main/examples/next-graphql"
+git clone <repository-url>
+cd nextjs-contentful-cms
 ```
 
-### Copy `.env.example`
-
+Install dependencies:
 ```bash
-cp .env.example .env
+npm install
 ```
 
-Update values read copied file for instructions
+### Environment Setup
+
+Create a `.env` file in the root directory:
+```env
+CONTENTFUL_SPACE_ID=your_space_id
+CONTENTFUL_ACCESS_TOKEN=your_access_token
+CONTENTFUL_PREVIEW_ACCESS_TOKEN=your_preview_token
+CONTENTFUL_MANAGEMENT_TOKEN=your_management_token
+```
+
+### Content Setup
+
+Set up Contentful content types:
+```bash
+npm run setup-contentful
+```
+
+Create sample content:
+```bash
+npm run create-landing
+npm run create-pages
+npm run create-menus
+```
 
 ### Development
 
-Run the dev server:
-
+Start the development server:
 ```bash
-yarn dev
+npm run dev
 ```
 
-### Sync GraphQL Changes
+Visit [http://localhost:8080](http://localhost:8080) to see your application.
 
-Run the gql:sync script
+### Storybook
 
+Run Storybook for component development:
 ```bash
-yarn gql:sync
+npm run storybook
 ```
 
-## Contentful Integration
+### Testing
 
-This project includes a complete Contentful integration with React components for rendering different content types. See [CONTENTFUL_INTEGRATION.md](./CONTENTFUL_INTEGRATION.md) for detailed documentation.
+Run Cypress tests:
+```bash
+npm run cypress
+```
 
-### Quick Start with Contentful
+### Build
 
-1. Set up your Contentful credentials in `.env`
-2. Create content types: `npm run setup-contentful`
-3. Create demo content: `npm run create-landing && npm run create-pages && npm run create-menus`
-4. Visit your pages at the generated URLs
+Build for production:
+```bash
+npm run build
+```
 
-## Next.js docs
-📖 See the [Next.js docs](https://nextjs.org/docs) for details on supported features.
+## Project Structure
+
+```
+├── app/                    # Next.js App Router
+├── components/             # React components
+├── scripts/               # Setup and utility scripts
+├── utils/                 # Utility functions and Contentful integration
+├── lib/                   # Shared libraries and types
+└── public/                # Static assets
+```
+
+## License
+
+This project is licensed under the MIT License.
 
