@@ -17,6 +17,7 @@
     "create-homepage": "tsx scripts/create-homepage.ts",
     "create-get-started": "tsx scripts/create-get-started.ts",
     "create-contact": "tsx scripts/create-contact.ts",
+    "create-features": "tsx scripts/create-features.ts",
     "create-all-content": "tsx scripts/create-all-content.ts",
     "cleanup-content": "tsx scripts/cleanup-contentful.ts",
     "cleanup-all": "tsx scripts/cleanup-contentful.ts --structure"

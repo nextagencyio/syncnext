@@ -4,7 +4,7 @@ This directory contains scripts for managing your Contentful space, specifically
 
 ## Prerequisites
 
-Before running any scripts, you need to set up your environment variables. Create a `.env.local` file in the project root with your Contentful credentials:
+Before running any scripts, you need to set up your environment variables. Create a `.env` file in the project root with your Contentful credentials:
 
 ```env
 CONTENTFUL_MANAGEMENT_TOKEN=your_management_token_here
@@ -87,7 +87,7 @@ npm run cleanup-all
 ## Recommended Workflow
 
 ### Initial Setup (First Time)
-1. Set up your `.env.local` file with Contentful credentials
+1. Set up your `.env` file with Contentful credentials
 2. Ensure `card.webp` exists in the `/scripts` directory
 3. Run the setup script to create content types:
    ```bash
@@ -197,7 +197,7 @@ Make sure the `card.webp` file exists in your `/scripts` directory before runnin
 - If you see this error, make sure your package.json scripts use `tsx` not `ts-node`.
 
 ### "Please provide CONTENTFUL_MANAGEMENT_TOKEN and CONTENTFUL_SPACE_ID"
-- Ensure your `.env.local` file exists in the project root
+- Ensure your `.env` file exists in the project root
 - Verify your environment variable names match exactly
 - Check that your Contentful management token has the necessary permissions
 
