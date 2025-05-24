@@ -6,7 +6,7 @@ import Heading from '@/components/heading/Heading';
 
 export interface AccordionItemData {
   title: string;
-  body: { value: string };
+  body: string;
   link?: { url: string; title: string };
   id?: string;
 }
@@ -35,7 +35,7 @@ export default function Accordion({ title, items, modifier, containerModifier }:
                   {item.title}
                 </AccordionTrigger>
                 <AccordionContent className="accordion-content px-6 py-4">
-                  <div dangerouslySetInnerHTML={{ __html: item.body.value }} />
+                  <div dangerouslySetInnerHTML={{ __html: item.body }} />
                   {item.link && (
                     <Button
                       asChild

@@ -10,8 +10,8 @@ const meta: Meta<typeof Text> = {
       description: 'The title of the text component',
     },
     body: {
-      control: 'object',
-      description: 'The main content of the text component as TextFormat',
+      control: 'text',
+      description: 'The main content of the text component',
     },
     link: {
       control: 'object',
@@ -46,11 +46,7 @@ type Story = StoryObj<typeof Text>;
 export const Default: Story = {
   args: {
     title: 'Title Lorem Ipsum Dolor',
-    body: {
-      value: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mauris mi, aliquam in orci at, finibus malesuada elit. Vivamus ex ante, imperdiet nec odio ac, sollicitudin fermentum velit.</p>',
-      processed: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mauris mi, aliquam in orci at, finibus malesuada elit. Vivamus ex ante, imperdiet nec odio ac, sollicitudin fermentum velit.</p>',
-      format: 'full_html',
-    },
+    body: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mauris mi, aliquam in orci at, finibus malesuada elit. Vivamus ex ante, imperdiet nec odio ac, sollicitudin fermentum velit.</p>',
     eyebrow: 'Test eyebrow',
     link: {
       url: '#',

@@ -54,11 +54,7 @@ export const Default: Story = {
     jobTitle: 'Job Title',
     logo: mockMedia,
     quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mauris mi, aliquam',
-    thumb: {
-      image: {
-        url: "./images/card.webp",
-      },
-    },
+    thumb: "./images/card.webp",
     containerClassName: 'container mx-auto my-2 lg:my-10',
   }
 };

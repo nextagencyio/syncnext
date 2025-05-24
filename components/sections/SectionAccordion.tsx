@@ -22,9 +22,7 @@ export default function SectionAccordion({ section, modifier }: SectionAccordion
         items.push({
           id: item.sys.id,
           title: itemTitle as string,
-          body: {
-            value: resolveRichText(body)
-          },
+          body: resolveRichText(body),
           link: linkTitle && linkUrl ? {
             title: linkTitle as string,
             url: linkUrl as string,

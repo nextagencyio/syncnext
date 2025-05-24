@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { LinkFormat, TextFormat } from '@/lib/types';
+import { LinkFormat } from '@/lib/types';
 
 export interface TextProps {
   title?: string;
-  body?: TextFormat;
+  body?: string;
   link?: LinkFormat;
   link2?: LinkFormat;
   eyebrow?: string;
@@ -64,8 +64,8 @@ export default function Text({
       {title && (
         <h2 className="mt-2 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">{title}</h2>
       )}
-      {body && body.value && (
-        <div className="mt-4 text-xl text-gray-500" dangerouslySetInnerHTML={{ __html: body.value }}></div>
+      {body && (
+        <div className="mt-4 text-xl text-gray-500" dangerouslySetInnerHTML={{ __html: body }}></div>
       )}
     </>
   );

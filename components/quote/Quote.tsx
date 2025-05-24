@@ -1,21 +1,20 @@
 import { ReactNode } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { MediaImage } from '@/lib/types';
 
 interface QuoteProps {
   author?: string;
   jobTitle?: string;
   logo?: ReactNode;
   quote: string;
-  thumb?: MediaImage;
+  thumb?: string;
   containerClassName?: string;
 }
 
-const AvatarComponent: React.FC<{ thumb: QuoteProps['thumb']; author?: string }> = ({ thumb, author }) => {
+const AvatarComponent: React.FC<{ thumb: string; author?: string }> = ({ thumb, author }) => {
   return (
     <Avatar className="w-16 h-16 mb-2 mx-auto">
-      {thumb?.image?.url && <AvatarImage src={thumb.image.url} alt={author || 'Quote author'} />}
+      <AvatarImage src={thumb} alt={author || 'Quote author'} />
     </Avatar>
   );
 };

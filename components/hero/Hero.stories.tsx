@@ -37,16 +37,8 @@ export const Default: Story = {
   args: {
     heroLayout: 'image_top',
     media: mockMedia,
-    heading: {
-      processed: 'Welcome to <strong>Our Website</strong>',
-      value: 'Welcome to Our Website',
-      format: 'full_html',
-    },
-    summary: {
-      processed: 'This is a brief summary of our amazing content. It can include <em>formatted text</em> as well.',
-      value: 'This is a brief summary of our amazing content. It can include formatted text as well.',
-      format: 'full_html',
-    },
+    heading: 'Welcome to Our Amazing Platform',
+    summary: 'Discover the power of our innovative solutions that will transform your business and drive success.',
     link: {
       url: 'https://example.com',
       title: 'Learn More',
@@ -70,15 +62,7 @@ export const ImageBottomSplit: Story = {
   args: {
     ...Default.args,
     heroLayout: 'image_bottom_split',
-    heading: {
-      processed: 'Empower Your Content with DrupalX Today',
-      value: 'Empower Your Content with DrupalX Today',
-      format: 'full_html',
-    },
-    summary: {
-      processed: 'Discover the power of a decoupled CMS that adapts to your needs. With DrupalX, you can create, manage, and scale your content effortlessly.',
-      value: 'Discover the power of a decoupled CMS that adapts to your needs. With DrupalX, you can create, manage, and scale your content effortlessly.',
-      format: 'full_html',
-    },
+    heading: 'Empower Your Content with DrupalX Today',
+    summary: 'Discover the power of a decoupled CMS that adapts to your needs. With DrupalX, you can create, manage, and scale your content effortlessly.',
   },
 };

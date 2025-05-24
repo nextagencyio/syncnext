@@ -27,12 +27,8 @@ export default function SectionHero({ section, modifier }: SectionHeroProps) {
         priority={true}
       />
     ) : null,
-    heading: heading ? {
-      processed: resolveRichText(heading)
-    } : undefined,
-    summary: summary ? {
-      processed: resolveRichText(summary)
-    } : undefined,
+    heading: heading ? resolveRichText(heading) : undefined,
+    summary: summary ? resolveRichText(summary) : undefined,
     link: linkTitle && linkUrl ? {
       title: linkTitle as string,
       url: linkUrl as string,

@@ -10,8 +10,8 @@ const meta: Meta<typeof Newsletter> = {
       description: 'Title of the newsletter',
     },
     summary: {
-      control: 'object',
-      description: 'Summary text of the newsletter as TextFormat',
+      control: 'text',
+      description: 'Summary text of the newsletter',
     },
     modifier: {
       control: 'text',
@@ -31,11 +31,7 @@ type Story = StoryObj<typeof Newsletter>;
 export const Default: Story = {
   args: {
     title: 'Sign up for our newsletter',
-    summary: {
-      value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      processed: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      format: 'full_html',
-    },
+    summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     modifier: "container mx-auto px-8 my-2 lg:my-10",
   },
 };

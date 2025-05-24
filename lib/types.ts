@@ -1,31 +1,19 @@
-export interface ImageVariation {
-  name: string;
-  url: string;
-  width?: number;
-  height?: number;
-}
-
-export interface MediaImage {
-  __typename?: string;
-  id?: string;
-  image?: {
-    url?: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-    variations?: ImageVariation[];
-  };
-}
-
+// Content format types for rich text and links
 export interface TextFormat {
-  value?: string;
   processed?: string;
-  format?: string;
-  summary?: string;
 }
 
 export interface LinkFormat {
   url?: string;
   title?: string;
   internal?: boolean;
+}
+
+// Simplified content image type for Next.js Image component
+export interface ContentImage {
+  url: string;
+  alt: string;
+  width: number;
+  height: number;
+  title?: string;
 }

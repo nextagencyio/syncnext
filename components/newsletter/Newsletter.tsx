@@ -3,11 +3,10 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { TextFormat } from "@/lib/types";
 
 export interface NewsletterProps {
   title: string;
-  summary?: TextFormat;
+  summary?: string;
   modifier?: string;
 }
 
@@ -18,10 +17,12 @@ export default function Newsletter({ title, summary, modifier }: NewsletterProps
         <div className="flex flex-col lg:space-y-8">
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl font-semibold mb-4 sm:text-4xl">{title}</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: summary?.processed ?? '' }}
-              className='newsletter-summary'
-            />
+            {summary && (
+              <div
+                dangerouslySetInnerHTML={{ __html: summary }}
+                className='newsletter-summary'
+              />
+            )}
           </div>
           <div className="mt-6 lg:mt-0">
             <NewsletterForm />
