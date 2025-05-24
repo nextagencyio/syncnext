@@ -24,7 +24,7 @@ export const Default: Story = {
     siteLogo: '/images/logo.svg',
     siteLogoWidth: 200,
     siteLogoHeight: 34,
-    siteName: 'ContentfulCMS',
+    siteName: 'SyncNext',
     links: [
       {
         title: 'Privacy Policy',

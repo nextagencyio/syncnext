@@ -16,7 +16,7 @@ const nextConfig = {
     LOGO_URL: '/images/logo.svg',
     LOGO_WIDTH: '160',
     LOGO_HEIGHT: '44',
-    SITE_NAME: 'ContentfulCMS',
+    SITE_NAME: 'SyncNext',
     SHOW_LOGO: '1',
     SHOW_SITE_NAME: '0',
     CTA_LINK_COUNT: '2',

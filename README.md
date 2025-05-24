@@ -1,6 +1,6 @@
-# Next.js Contentful CMS
+# SyncNext - AI-Powered Lightning Fast Development
 
-A modern Next.js application integrated with Contentful CMS for content management. This project demonstrates a headless CMS approach using Next.js 15 with App Router and Contentful for content delivery.
+A modern Next.js application integrated with Contentful CMS for content management. SyncNext demonstrates a headless CMS approach using Next.js 15 with App Router and Contentful for content delivery, enhanced with AI-powered development tools.
 
 ## Features
 
@@ -16,6 +16,7 @@ A modern Next.js application integrated with Contentful CMS for content manageme
 - **Tailwind CSS**: Utility-first styling
 - **Storybook**: Component documentation and testing
 - **Cypress**: End-to-end testing
+- **AI Development**: Enhanced with modern AI-powered development workflows
 
 ## Getting Started
 
@@ -28,7 +29,7 @@ A modern Next.js application integrated with Contentful CMS for content manageme
 Clone the repository:
 ```bash
 git clone <repository-url>
-cd nextjs-contentful-cms
+cd syncnext
 ```
 
 Install dependencies:
@@ -48,17 +49,32 @@ CONTENTFUL_MANAGEMENT_TOKEN=your_management_token
 
 ### Content Setup
 
-Set up Contentful content types:
+#### Quick Setup (Recommended)
+Set up everything at once with a single command:
 ```bash
-npm run setup-contentful
+npm run create-all-content
 ```
 
-Create sample content:
+This will create:
+- All Contentful content types
+- Navigation menus (main and footer)
+- Homepage with comprehensive sections
+- Get Started page for onboarding
+- Contact page with map embed
+- Sample pages and articles
+- Demo landing pages
+
+#### Manual Setup
+Alternatively, you can set up content step by step:
+
 ```bash
+npm run setup-contentful   # Set up content types first
+npm run create-menus       # Create navigation menus
 npm run create-homepage    # Creates the homepage (slug: 'home')
+npm run create-get-started # Creates the get started page
+npm run create-contact     # Creates the contact page
 npm run create-landing     # Creates additional demo landing pages
 npm run create-pages       # Creates sample pages
-npm run create-menus       # Creates navigation menus
 ```
 
 ### Development
@@ -68,7 +84,7 @@ Start the development server:
 npm run dev
 ```
 
-Visit [http://localhost:8080](http://localhost:8080) to see your homepage.
+Visit [http://localhost:8080](http://localhost:8080) to see your SyncNext homepage.
 
 ### Storybook
 
@@ -102,7 +118,15 @@ npm run build
 └── public/                # Static assets
 ```
 
+## SyncNext Features
+
+SyncNext combines the power of modern web technologies with AI-enhanced development workflows:
+
+- **Decoupled Architecture**: Headless CMS approach for maximum flexibility
+- **AI Development Tools**: Enhanced development experience with modern AI assistants
+- **Lightning Fast Performance**: Optimized for speed and user experience
+- **Scalable Solutions**: Built to grow with your business needs
+
 ## License
 
 This project is licensed under the MIT License.
-
