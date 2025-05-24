@@ -1,6 +1,6 @@
 # Contentful Scripts
 
-This directory contains scripts for managing your Contentful space, specifically for recreating Drupal paragraph types as Contentful content types.
+This directory contains scripts for managing your Contentful space, specifically for creating content types that work with your React section components.
 
 ## Prerequisites
 
@@ -9,12 +9,14 @@ Before running any scripts, you need to set up your environment variables. Creat
 ```env
 CONTENTFUL_MANAGEMENT_TOKEN=your_management_token_here
 CONTENTFUL_SPACE_ID=your_space_id_here
+CONTENTFUL_ACCESS_TOKEN=your_delivery_token_here
 ```
 
 ### Getting Contentful Credentials
 
 1. **Space ID**: Found in your Contentful space settings under "General settings"
-2. **Management Token**: Create one in your Contentful space under "Settings" > "API keys" > "Content management tokens"
+2. **Management Token**: Create one in your Contentful space under "Settings" > "API keys" > "Content management tokens" (used for scripts)
+3. **Access Token**: Found in your Contentful space under "Settings" > "API keys" > "Content delivery API - access token" (used for fetching content in the app)
 
 ## Scripts Overview
 
@@ -46,7 +48,22 @@ npm run setup-contentful
 npm run create-landing
 ```
 
-### 3. `cleanup-contentful.ts`
+### 3. `create-sample-pages.ts`
+**Purpose**: Creates sample pages and articles using the new Page and Article content types.
+
+**Features**:
+- Creates 3 sample pages (About Us, Services, Contact)
+- Creates 3 sample articles (Technology Trends, Digital Marketing, Web Development)
+- Uses local `card.webp` image for featured images
+- Includes realistic business content and proper Rich Text formatting
+- Generates timestamped slugs for easy identification
+
+**Usage**:
+```bash
+npm run create-pages
+```
+
+### 4. `cleanup-contentful.ts`
 **Purpose**: Cleans your Contentful space with two modes of operation.
 
 **Two cleanup modes**:
@@ -79,6 +96,7 @@ npm run cleanup-all
 4. Create comprehensive demo content:
    ```bash
    npm run create-landing
+   npm run create-pages
    ```
 
 ### Development Workflow
@@ -87,18 +105,21 @@ npm run cleanup-all
   ```bash
   npm run cleanup-content
   npm run create-landing
+  npm run create-pages
   ```
 - **To reset everything**: Complete cleanup, setup, then create demo content:
   ```bash
   npm run cleanup-all
   npm run setup-contentful
   npm run create-landing
+  npm run create-pages
   ```
 
 ### Content Types Created
 
-The setup script creates content types that mirror your React components:
+The setup script creates content types that work with your React section components:
 
+#### Section/Component Content Types:
 - **Hero** - Hero sections with title, heading, media, and CTAs
 - **Text** - Rich text content with layout options and multiple CTAs
 - **Card** - Individual cards with media, title, summary, and tags
@@ -111,9 +132,21 @@ The setup script creates content types that mirror your React components:
 - **Media** - Simple media display components
 - **Embed** - Third-party embeds and scripts
 - **Newsletter** - Newsletter signup forms
-- **CardGroup** - Groups of cards with title and summary
 - **LogoCollection** - Logo grids/collections
 - **SideBySide** - Two-column layouts with content and media
+
+#### Node/Page Content Types:
+- **Landing** - Dynamic landing pages with flexible section arrays
+- **Page** - Basic pages with title, slug, featured image, and body content
+- **Article** - Blog articles with title, slug, subhead, lead, featured image, and body
+
+### Section Components
+
+Your React section components are located in `/components/sections/` and include:
+- `SectionHero` - Renders hero content from Contentful
+- `SectionText` - Renders text content from Contentful
+- `SectionRenderer` - Dynamically renders the appropriate section component
+- More section components can be added as needed
 
 ### Landing Page Structure
 

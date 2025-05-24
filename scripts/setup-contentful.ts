@@ -384,31 +384,7 @@ async function setupContentful() {
       console.log('Newsletter content type already exists')
     }
 
-    // Create Bullet content type
-    if (!existingTypes.has('bullet')) {
-      const bulletContentType = await environment.createContentTypeWithId('bullet', {
-        name: 'Bullet',
-        displayField: 'title',
-        fields: [
-          symbolField('title', 'Title'),
-          {
-            id: 'bullets',
-            name: 'Bullet Points',
-            type: 'Array',
-            required: false,
-            localized: false,
-            items: {
-              type: 'Symbol',
-            },
-          },
-        ],
-      })
-      await bulletContentType.publish()
-      console.log('Bullet content type created and published')
-    }
-    else {
-      console.log('Bullet content type already exists')
-    }
+
 
     // Create CardGroup content type
     if (!existingTypes.has('cardGroup')) {
@@ -455,24 +431,7 @@ async function setupContentful() {
       console.log('LogoCollection content type already exists')
     }
 
-    // Create StatsItem content type
-    if (!existingTypes.has('statsItem')) {
-      const statsItemContentType = await environment.createContentTypeWithId('statsItem', {
-        name: 'Stats Item',
-        displayField: 'title',
-        fields: [
-          symbolField('title', 'Title'),
-          symbolField('value', 'Value'),
-          symbolField('unit', 'Unit'),
-          textField('description', 'Description'),
-        ],
-      })
-      await statsItemContentType.publish()
-      console.log('StatsItem content type created and published')
-    }
-    else {
-      console.log('StatsItem content type already exists')
-    }
+
 
     // Create SideBySide content type
     if (!existingTypes.has('sideBySide')) {
@@ -497,7 +456,7 @@ async function setupContentful() {
 
     // Create Landing content type if it doesn't exist
     if (!existingTypes.has('landing')) {
-      const allParagraphTypes = [
+      const allSectionTypes = [
         'hero', 'text', 'card', 'accordion',
         'gallery', 'pricing', 'media', 'carousel',
         'quote', 'embed', 'newsletter',
@@ -532,7 +491,7 @@ async function setupContentful() {
               linkType: 'Entry',
               validations: [
                 {
-                  linkContentType: allParagraphTypes,
+                  linkContentType: allSectionTypes,
                 },
               ],
             },
@@ -547,26 +506,88 @@ async function setupContentful() {
       // Update the existing Landing content type to include all paragraph types
       const landingContentType = await environment.getContentType('landing')
 
-      // Update the sections field to include all paragraph types
+      // Update the sections field to include all section types
       const sectionsField = landingContentType.fields.find((field: any) => field.id === 'sections')
       if (sectionsField && sectionsField.items && sectionsField.items.validations) {
-        const allParagraphTypes = [
+        const allSectionTypes = [
           'hero', 'text', 'card', 'accordion',
           'gallery', 'pricing', 'media', 'carousel',
-          'quote', 'embed', 'newsletter', 'bullet',
-          'cardGroup', 'logoCollection', 'statsItem', 'sideBySide',
+          'quote', 'embed', 'newsletter',
+          'cardGroup', 'logoCollection', 'sideBySide',
         ]
 
         sectionsField.items.validations = [
           {
-            linkContentType: allParagraphTypes,
+            linkContentType: allSectionTypes,
           },
         ]
 
         const updatedLanding = await landingContentType.update()
         await updatedLanding.publish()
-        console.log('Landing Page content type updated with all paragraph types')
+        console.log('Landing Page content type updated with all section types')
       }
+    }
+
+    // Create Page content type
+    if (!existingTypes.has('page')) {
+      const pageContentType = await environment.createContentTypeWithId('page', {
+        name: 'Page',
+        displayField: 'title',
+        fields: [
+          symbolField('title', 'Title', true),
+          {
+            id: 'slug',
+            name: 'Slug',
+            type: 'Symbol',
+            required: true,
+            localized: false,
+            validations: [
+              {
+                unique: true,
+              },
+            ],
+          },
+          assetLinkField('mediaPage', 'Featured Image'),
+          richTextField('body', 'Body Content'),
+        ],
+      })
+      await pageContentType.publish()
+      console.log('Page content type created and published')
+    }
+    else {
+      console.log('Page content type already exists')
+    }
+
+    // Create Article content type
+    if (!existingTypes.has('article')) {
+      const articleContentType = await environment.createContentTypeWithId('article', {
+        name: 'Article',
+        displayField: 'title',
+        fields: [
+          symbolField('title', 'Title', true),
+          {
+            id: 'slug',
+            name: 'Slug',
+            type: 'Symbol',
+            required: true,
+            localized: false,
+            validations: [
+              {
+                unique: true,
+              },
+            ],
+          },
+          symbolField('subhead', 'Subhead'),
+          richTextField('lead', 'Lead/Summary'),
+          assetLinkField('media', 'Featured Image'),
+          richTextField('body', 'Body Content'),
+        ],
+      })
+      await articleContentType.publish()
+      console.log('Article content type created and published')
+    }
+    else {
+      console.log('Article content type already exists')
     }
 
     console.log('All content types setup completed successfully!')
