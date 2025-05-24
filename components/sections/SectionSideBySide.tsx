@@ -1,77 +1,79 @@
 import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
 import { Entry } from 'contentful'
-import Sidebyside from '@/components/sidebyside/Sidebyside'
+import Sidebyside, { BulletProps } from '@/components/sidebyside/Sidebyside'
+import { StatCardProps } from '@/components/stat-card/StatCard'
+import { LinkFormat } from '@/lib/types'
 import Image from 'next/image'
+import { transformStatsItem, transformBullet, type StatsItemType, type BulletType } from './transformers'
 
 interface SectionSideBySideProps {
   section: Entry<any>
   modifier?: string
 }
 
+interface StatFeature extends StatCardProps {
+  type: 'stat'
+}
+
+type Feature = BulletProps | StatFeature
+type SectionFeature = StatsItemType | BulletType
+
 export default function SectionSideBySide({ section, modifier }: SectionSideBySideProps) {
   const fields = section.fields
-  const { title, leftContent, rightContent, leftMedia, rightMedia, layout } = fields
+  const { eyebrow, title, summary, linkTitle, linkUrl, media, features, layout } = fields
 
-  // For now, we'll use a simple layout where one side has content and the other has media
-  // This can be enhanced to support both left/right content and media
-
-  const resolvedLeftMedia = resolveContentfulImage(leftMedia as ContentfulImage)
-  const resolvedRightMedia = resolveContentfulImage(rightMedia as ContentfulImage)
-
-  // Determine which side has media (prioritize left media, fall back to right)
-  const mediaElement = resolvedLeftMedia ? (
+  // Resolve media
+  const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
+  const mediaElement = resolvedMedia ? (
     <Image
-      src={resolvedLeftMedia.url}
-      alt={resolvedLeftMedia.alt}
-      width={resolvedLeftMedia.width}
-      height={resolvedLeftMedia.height}
-      className="w-full h-auto rounded-lg"
-      sizes="(max-width: 768px) 100vw, 50vw"
-    />
-  ) : resolvedRightMedia ? (
-    <Image
-      src={resolvedRightMedia.url}
-      alt={resolvedRightMedia.alt}
-      width={resolvedRightMedia.width}
-      height={resolvedRightMedia.height}
+      src={resolvedMedia.url}
+      alt={resolvedMedia.alt}
+      width={resolvedMedia.width}
+      height={resolvedMedia.height}
       className="w-full h-auto rounded-lg"
       sizes="(max-width: 768px) 100vw, 50vw"
     />
   ) : null
 
-  // Use left content as primary content, with right content as summary if available
-  const contentTitle = title as string || ''
-  const contentSummary = leftContent ? resolveRichText(leftContent) :
-    rightContent ? resolveRichText(rightContent) : ''
+  // Build link object
+  const link: LinkFormat | undefined = linkTitle && linkUrl ? {
+    url: linkUrl as string,
+    title: linkTitle as string,
+  } : undefined
 
-  if (!mediaElement) {
-    // If no media, render as a simple two-column text layout
-    return (
-      <div className={modifier ?? 'container mx-auto my-6 lg:my-25'}>
-        {title && <h2 className="text-3xl font-bold mb-6 text-center">{title as string}</h2>}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {leftContent && (
-            <div className="prose prose-lg">
-              <div dangerouslySetInnerHTML={{ __html: resolveRichText(leftContent) }} />
-            </div>
-          )}
-          {rightContent && (
-            <div className="prose prose-lg">
-              <div dangerouslySetInnerHTML={{ __html: resolveRichText(rightContent) }} />
-            </div>
-          )}
-        </div>
-      </div>
-    )
+  // Transform features
+  const featureItems: Feature[] = []
+
+  if (features && Array.isArray(features)) {
+    (features as Entry<any>[]).forEach((feature: Entry<any>) => {
+      if (feature && feature.fields && feature.sys?.contentType?.sys?.id) {
+        const contentType = feature.sys.contentType.sys.id
+
+        if (contentType === 'statsItem') {
+          const statCard = transformStatsItem(feature)
+          featureItems.push({
+            ...statCard,
+            border: false,
+            layout: 'left',
+          } as StatFeature)
+        }
+        else if (contentType === 'bullet') {
+          featureItems.push(transformBullet(feature))
+        }
+      }
+    })
   }
 
   return (
     <Sidebyside
-      title={contentTitle}
-      summary={contentSummary}
-      media={mediaElement}
+      eyebrow={eyebrow as string ?? ''}
       layout={layout as string}
+      title={title as string ?? ''}
+      summary={summary ? resolveRichText(summary) : ''}
+      link={link}
+      media={mediaElement}
       modifier={modifier}
+      features={featureItems}
     />
   )
 }

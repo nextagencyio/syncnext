@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Separator } from "@/components/ui/separator"
+import Logo from '@/components/logo/Logo'
 
 export type SiteFooterProps = {
   links: { title: string; url: string | null }[];
@@ -34,8 +34,8 @@ const SiteFooter: React.FC<SiteFooterProps> = ({
 
         <div className="flex justify-center md:w-1/3">
           <Link href="/" className="flex items-center justify-center">
-            {showLogo && siteLogo && (
-              <Image src={siteLogo} width={siteLogoWidth} height={siteLogoHeight} alt={siteName} />
+            {showLogo && (
+              <Logo size="sm" textColor="text-muted-foreground" />
             )}
           </Link>
         </div>

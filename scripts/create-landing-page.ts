@@ -145,6 +145,31 @@ async function createPlaceholderImage(environment: any) {
   return publishedAsset.sys.id
 }
 
+// Helper function to create statsItem entries
+async function createStatsItem(environment: any, heading: string, body: string, icon: string) {
+  const statsItem = await environment.createEntry('statsItem', {
+    fields: {
+      heading: { 'en-US': heading },
+      body: { 'en-US': body },
+      icon: { 'en-US': icon }
+    }
+  })
+  await statsItem.publish()
+  return statsItem.sys.id
+}
+
+// Helper function to create bullet entries
+async function createBullet(environment: any, icon: string, summary: string) {
+  const bullet = await environment.createEntry('bullet', {
+    fields: {
+      icon: { 'en-US': icon },
+      summary: { 'en-US': summary }
+    }
+  })
+  await bullet.publish()
+  return bullet.sys.id
+}
+
 async function createComprehensiveLandingPage() {
   const accessToken = process.env.CONTENTFUL_MANAGEMENT_TOKEN
   const spaceId = process.env.CONTENTFUL_SPACE_ID
@@ -627,7 +652,7 @@ async function createComprehensiveLandingPage() {
     entries.push(newsletterEntry.sys.id)
     console.log('Newsletter section created')
 
-    // 16. Create Logo Collection
+    // 16. Create Logo Collection with multiple logos
     console.log('Creating Logo Collection...')
     const logoCollectionEntry = await environment.createEntry('logoCollection', {
       fields: {
@@ -635,7 +660,7 @@ async function createComprehensiveLandingPage() {
           'en-US': 'Trusted by Industry Leaders'
         },
         logos: {
-          'en-US': Array(5).fill(null).map(() => ({
+          'en-US': Array(6).fill(null).map(() => ({
             sys: {
               type: 'Link',
               linkType: 'Asset',
@@ -649,20 +674,47 @@ async function createComprehensiveLandingPage() {
     entries.push(logoCollectionEntry.sys.id)
     console.log('Logo Collection created')
 
-    // 17. Create Side by Side section
+    // 17. Create Side by Side section with new structure
     console.log('Creating Side by Side section...')
+
+    // Create features for this section
+    const statsItem1 = await createStatsItem(
+      environment,
+      'Technical Excellence',
+      'Deep technical expertise combined with innovative design thinking for superior solutions.',
+      'Award'
+    )
+
+    const bullet1 = await createBullet(
+      environment,
+      'Target',
+      'Creative Vision: We believe the best solutions emerge when technology meets creativity.'
+    )
+
+    const bullet2 = await createBullet(
+      environment,
+      'TrendingUp',
+      'Measurable Success: Every project is an opportunity to exceed expectations and create impact.'
+    )
+
     const sideBySideEntry = await environment.createEntry('sideBySide', {
       fields: {
+        eyebrow: {
+          'en-US': 'Our Approach'
+        },
         title: {
           'en-US': 'Technology Meets Creativity'
         },
-        leftContent: {
-          'en-US': createRichTextWithHeading('Our Approach', 'We believe that the best solutions emerge when technical excellence meets creative vision. Our team combines deep technical expertise with innovative design thinking.')
+        summary: {
+          'en-US': createRichText('We believe that the best solutions emerge when technical excellence meets creative vision. Our team combines deep expertise with innovative design thinking to deliver exceptional results.')
         },
-        rightContent: {
-          'en-US': createRichTextWithHeading('Your Success', 'Every project is an opportunity to exceed expectations. We measure our success by the tangible impact we create for your business and users.')
+        linkTitle: {
+          'en-US': 'Learn More'
         },
-        leftMedia: {
+        linkUrl: {
+          'en-US': '/about'
+        },
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -671,17 +723,33 @@ async function createComprehensiveLandingPage() {
             }
           }
         },
-        rightMedia: {
-          'en-US': {
-            sys: {
-              type: 'Link',
-              linkType: 'Asset',
-              id: imageId
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: statsItem1
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet1
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet2
+              }
             }
-          }
+          ]
         },
         layout: {
-          'en-US': 'default'
+          'en-US': 'left'
         }
       }
     })

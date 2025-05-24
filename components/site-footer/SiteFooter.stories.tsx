@@ -9,9 +9,9 @@ const meta: Meta<typeof SiteFooter> = {
       description: 'Define the links',
       control: 'object',
     },
-    siteLogo: {
-      description: 'Define the site logo',
-      control: 'text',
+    showLogo: {
+      description: 'Show the SyncNext logo',
+      control: 'boolean',
     },
   },
 };
@@ -21,9 +21,7 @@ type Story = StoryObj<typeof SiteFooter>;
 
 export const Default: Story = {
   args: {
-    siteLogo: '/images/logo.svg',
-    siteLogoWidth: 200,
-    siteLogoHeight: 34,
+    showLogo: true,
     siteName: 'SyncNext',
     links: [
       {

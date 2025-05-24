@@ -50,6 +50,31 @@ function createRichTextWithFormatting(content: string, bold: boolean = false) {
   }
 }
 
+// Helper function to create statsItem entries
+async function createStatsItem(environment: any, heading: string, body: string, icon: string) {
+  const statsItem = await environment.createEntry('statsItem', {
+    fields: {
+      heading: { 'en-US': heading },
+      body: { 'en-US': body },
+      icon: { 'en-US': icon }
+    }
+  })
+  await statsItem.publish()
+  return statsItem.sys.id
+}
+
+// Helper function to create bullet entries
+async function createBullet(environment: any, icon: string, summary: string) {
+  const bullet = await environment.createEntry('bullet', {
+    fields: {
+      icon: { 'en-US': icon },
+      summary: { 'en-US': summary }
+    }
+  })
+  await bullet.publish()
+  return bullet.sys.id
+}
+
 async function createPlaceholderImageIfNeeded(environment: any) {
   const placeholderImageId = process.env.CONTENTFUL_PLACEHOLDER_IMAGE_ID
 
@@ -178,20 +203,40 @@ async function createGetStartedPage() {
     entries.push(heroEntry.sys.id)
     console.log('Get Started Hero created')
 
-    // 2. Create Side by Side section - For Designers
+    // 2. Create Side by Side section - For Designers with bullets
     console.log('Creating SyncNext for Designers section...')
+
+    // Create bullet entries for designers section
+    const designerBullet1 = await createBullet(
+      environment,
+      'Figma',
+      'Figma Templates: Access a variety of community templates built on Bootstrap 5.'
+    )
+
+    const designerBullet2 = await createBullet(
+      environment,
+      'Palette',
+      'Design System: Leverage consistent design patterns and components for rapid prototyping.'
+    )
+
     const designersSideBySide = await environment.createEntry('sideBySide', {
       fields: {
+        eyebrow: {
+          'en-US': 'For Designers'
+        },
         title: {
           'en-US': 'SyncNext for Designers'
         },
-        leftContent: {
+        summary: {
           'en-US': createRichText('Leverage a variety of Figma community templates built on Bootstrap 5 to jumpstart your design process.')
         },
-        rightContent: {
-          'en-US': createRichText('')
+        linkTitle: {
+          'en-US': 'View Templates'
         },
-        rightMedia: {
+        linkUrl: {
+          'en-US': '/design-templates'
+        },
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -200,8 +245,26 @@ async function createGetStartedPage() {
             }
           }
         },
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: designerBullet1
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: designerBullet2
+              }
+            }
+          ]
+        },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })
@@ -209,20 +272,41 @@ async function createGetStartedPage() {
     entries.push(designersSideBySide.sys.id)
     console.log('SyncNext for Designers section created')
 
-    // 3. Create Side by Side section - For Developers
+    // 3. Create Side by Side section - For Developers with stats
     console.log('Creating SyncNext for Developers section...')
+
+    // Create stats and bullet entries for developers section
+    const devStatsItem = await createStatsItem(
+      environment,
+      'Open Source',
+      'Visit our GitHub repository to download the SyncNext project template and start building your site today.',
+      'Github'
+    )
+
+    const devBullet = await createBullet(
+      environment,
+      'Terminal',
+      'Modern Stack: Built with React, Next.js, and TypeScript for optimal performance.'
+    )
+
     const developersSideBySide = await environment.createEntry('sideBySide', {
       fields: {
+        eyebrow: {
+          'en-US': 'For Developers'
+        },
         title: {
           'en-US': 'SyncNext for Developers'
         },
-        leftContent: {
-          'en-US': createRichText('')
-        },
-        rightContent: {
+        summary: {
           'en-US': createRichText('Visit our GitHub repository to download the SyncNext project template and start building your site today.')
         },
-        leftMedia: {
+        linkTitle: {
+          'en-US': 'View on GitHub'
+        },
+        linkUrl: {
+          'en-US': 'https://github.com/syncnext'
+        },
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -231,8 +315,26 @@ async function createGetStartedPage() {
             }
           }
         },
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: devStatsItem
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: devBullet
+              }
+            }
+          ]
+        },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'left'
         }
       }
     })
@@ -282,3 +384,4 @@ async function createGetStartedPage() {
 }
 
 createGetStartedPage()
+

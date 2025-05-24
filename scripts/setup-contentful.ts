@@ -384,8 +384,6 @@ async function setupContentful() {
       console.log('Newsletter content type already exists')
     }
 
-
-
     // Create CardGroup content type
     if (!existingTypes.has('cardGroup')) {
       const cardGroupContentType = await environment.createContentTypeWithId('cardGroup', {
@@ -431,7 +429,41 @@ async function setupContentful() {
       console.log('LogoCollection content type already exists')
     }
 
+    // Create StatsItem content type
+    if (!existingTypes.has('statsItem')) {
+      const statsItemContentType = await environment.createContentTypeWithId('statsItem', {
+        name: 'Stats Item',
+        displayField: 'heading',
+        fields: [
+          symbolField('heading', 'Heading', true),
+          textField('body', 'Body'),
+          symbolField('icon', 'Icon'),
+          assetLinkField('media', 'Media'),
+        ],
+      })
+      await statsItemContentType.publish()
+      console.log('StatsItem content type created and published')
+    }
+    else {
+      console.log('StatsItem content type already exists')
+    }
 
+    // Create Bullet content type
+    if (!existingTypes.has('bullet')) {
+      const bulletContentType = await environment.createContentTypeWithId('bullet', {
+        name: 'Bullet',
+        displayField: 'summary',
+        fields: [
+          symbolField('icon', 'Icon', true),
+          textField('summary', 'Summary', true),
+        ],
+      })
+      await bulletContentType.publish()
+      console.log('Bullet content type created and published')
+    }
+    else {
+      console.log('Bullet content type already exists')
+    }
 
     // Create SideBySide content type
     if (!existingTypes.has('sideBySide')) {
@@ -439,11 +471,13 @@ async function setupContentful() {
         name: 'Side by Side',
         displayField: 'title',
         fields: [
+          symbolField('eyebrow', 'Eyebrow'),
           symbolField('title', 'Title'),
-          richTextField('leftContent', 'Left Content'),
-          richTextField('rightContent', 'Right Content'),
-          assetLinkField('leftMedia', 'Left Media'),
-          assetLinkField('rightMedia', 'Right Media'),
+          richTextField('summary', 'Summary'),
+          symbolField('linkTitle', 'Link Title'),
+          symbolField('linkUrl', 'Link URL'),
+          assetLinkField('media', 'Media'),
+          entryArrayField('features', 'Features', ['statsItem', 'bullet']),
           symbolField('layout', 'Layout'),
         ],
       })

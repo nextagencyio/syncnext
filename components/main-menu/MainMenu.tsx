@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import {
@@ -15,6 +14,7 @@ import {
 import { MainMenuItem, MainMenuProps } from './Types'
 import { frontpagePath } from '@/utils/routes'
 import { cn } from "@/lib/utils"
+import Logo from '@/components/logo/Logo'
 
 const MainMenu: React.FC<MainMenuProps> = ({
   modifier,
@@ -56,23 +56,18 @@ const MainMenu: React.FC<MainMenuProps> = ({
         <div className="flex items-center justify-between h-16">
           <Link
             href="/"
-            className={`flex items-center ${!showLogo ? "text-2xl font-bold" : ""}`}
+            className="flex items-center"
           >
-            {showLogo && (
-              <Image
-                src={siteLogo ?? ''}
-                alt="Site Logo"
-                width={siteLogoWidth ?? 200}
-                height={siteLogoHeight ?? 100}
-                className="mr-2"
-              />
-            )}
-            {showSiteName && siteName && <span className="text-2xl">{siteName.split('\n').map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}</span>}
+            {showLogo ? (
+              <Logo size="md" textColor="text-foreground" />
+            ) : showSiteName && siteName ? (
+              <span className="text-2xl font-bold">{siteName.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}</span>
+            ) : null}
           </Link>
 
           {/* Desktop menu */}

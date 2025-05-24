@@ -21,7 +21,7 @@ export default function SectionLogoCollection({ section, modifier }: SectionLogo
         const resolvedMedia = resolveContentfulImage(asset as ContentfulImage)
         if (resolvedMedia) {
           logoData.push({
-            name: resolvedMedia.title || `Logo ${index + 1}`,
+            name: `${resolvedMedia.title || 'Logo'} ${index + 1}`,
             media: (
               <Image
                 src={resolvedMedia.url}

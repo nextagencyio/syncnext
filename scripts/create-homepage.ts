@@ -106,6 +106,31 @@ async function createPlaceholderImageIfNeeded(environment: any) {
   return publishedAsset.sys.id
 }
 
+// Helper function to create statsItem entries
+async function createStatsItem(environment: any, heading: string, body: string, icon: string) {
+  const statsItem = await environment.createEntry('statsItem', {
+    fields: {
+      heading: { 'en-US': heading },
+      body: { 'en-US': body },
+      icon: { 'en-US': icon }
+    }
+  })
+  await statsItem.publish()
+  return statsItem.sys.id
+}
+
+// Helper function to create bullet entries
+async function createBullet(environment: any, icon: string, summary: string) {
+  const bullet = await environment.createEntry('bullet', {
+    fields: {
+      icon: { 'en-US': icon },
+      summary: { 'en-US': summary }
+    }
+  })
+  await bullet.publish()
+  return bullet.sys.id
+}
+
 async function createHomepage() {
   const accessToken = process.env.CONTENTFUL_MANAGEMENT_TOKEN
   const spaceId = process.env.CONTENTFUL_SPACE_ID
@@ -155,7 +180,7 @@ async function createHomepage() {
           'en-US': 'Homepage Hero'
         },
         heading: {
-          'en-US': createRichTextWithFormatting('Empower Your Web Development with SyncNext', true)
+          'en-US': createRichTextWithFormatting('Development with SyncNext', true)
         },
         heroLayout: {
           'en-US': 'image_top'
@@ -164,13 +189,13 @@ async function createHomepage() {
           'en-US': 'Start'
         },
         linkUrl: {
-          'en-US': '#get-started'
+          'en-US': '/get-started'
         },
         link2Title: {
           'en-US': 'Explore'
         },
         link2Url: {
-          'en-US': '#features'
+          'en-US': '/features'
         },
         media: {
           'en-US': {
@@ -190,26 +215,33 @@ async function createHomepage() {
     entries.push(heroEntry.sys.id)
     console.log('Homepage Hero created')
 
-    // 2. Create Side by Side section - Unmatched Advantages
+    // 2. Create Side by Side section - Unmatched Advantages with statsItems
     console.log('Creating advantages side-by-side section...')
+
+    // Create statsItem entries for this section
+    const statsItem1 = await createStatsItem(
+      environment,
+      'Decoupled Architecture',
+      'Harness the power of headless CMS to separate the front and back-end for optimal flexibility.',
+      'Layers'
+    )
+
+    const statsItem2 = await createStatsItem(
+      environment,
+      'AI Development Tools',
+      'Leverage cutting-edge AI assistants and smart code generators to accelerate your development.',
+      'Brain'
+    )
+
     const sideBySideEntry = await environment.createEntry('sideBySide', {
       fields: {
         title: {
           'en-US': 'Unmatched Advantages of SyncNext'
         },
-        leftContent: {
-          'en-US': createRichText([
-            'Elevate Your Web Development with SyncNext\'s Cutting Edge Features',
-            '',
-            'Decoupled Architecture: Harness the power of headless CMS to separate the front and back-end for optimal flexibility.',
-            '',
-            'AI Development Tools: Leverage cutting-edge AI assistants and smart code generators to accelerate your development.'
-          ])
+        summary: {
+          'en-US': createRichText('Elevate Your Web Development with SyncNext\'s Cutting Edge Features')
         },
-        rightContent: {
-          'en-US': createRichText('')
-        },
-        leftMedia: {
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -218,8 +250,26 @@ async function createHomepage() {
             }
           }
         },
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: statsItem1
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: statsItem2
+              }
+            }
+          ]
+        },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })
@@ -249,7 +299,7 @@ async function createHomepage() {
           }
         },
         tags: {
-          'en-US': ['Architecture', 'Integration']
+          'en-US': ['Modern', 'Solutions']
         }
       }
     })
@@ -259,7 +309,7 @@ async function createHomepage() {
     const card2 = await environment.createEntry('card', {
       fields: {
         title: {
-          'en-US': 'Seamless Integration & Flexibility'
+          'en-US': 'Experience Seamless Integration and Flexibility'
         },
         summary: {
           'en-US': 'Leverage the power of React and Node.js to dramatically improve your website\'s efficiency and speed.'
@@ -274,7 +324,7 @@ async function createHomepage() {
           }
         },
         tags: {
-          'en-US': ['React', 'Performance']
+          'en-US': ['Integration', 'Flexibility']
         }
       }
     })
@@ -284,10 +334,10 @@ async function createHomepage() {
     const card3 = await environment.createEntry('card', {
       fields: {
         title: {
-          'en-US': 'Blazing Fast Performance'
+          'en-US': 'Achieve Blazing Fast Performance'
         },
         summary: {
-          'en-US': 'Deliver lightning-quick load times and smooth interactions that keep your audience coming back.'
+          'en-US': 'That Keeps Your Users Engaged and Satisfied'
         },
         media: {
           'en-US': {
@@ -330,7 +380,7 @@ async function createHomepage() {
     entries.push(cardGroupEntry.sys.id)
     console.log('Innovative features card group created')
 
-    // 4. Create Logo Collection section
+    // 4. Create Logo Collection section with multiple logos
     console.log('Creating technology logos collection...')
     const logoCollectionEntry = await environment.createEntry('logoCollection', {
       fields: {
@@ -339,6 +389,41 @@ async function createHomepage() {
         },
         logos: {
           'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Asset',
+                id: imageId
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Asset',
+                id: imageId
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Asset',
+                id: imageId
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Asset',
+                id: imageId
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Asset',
+                id: imageId
+              }
+            },
             {
               sys: {
                 type: 'Link',
@@ -354,20 +439,37 @@ async function createHomepage() {
     entries.push(logoCollectionEntry.sys.id)
     console.log('Technology logos collection created')
 
-    // 5. Create another Side by Side section - Elevate Skills
+    // 5. Create another Side by Side section - Elevate Skills with bullet points
     console.log('Creating skills elevation side-by-side section...')
+
+    // Create bullet entries for this section
+    const bullet1 = await createBullet(
+      environment,
+      'Code',
+      'Modern CMS Integration: Seamlessly connect your content management with cutting-edge front-end technologies.'
+    )
+
+    const bullet2 = await createBullet(
+      environment,
+      'Rocket',
+      'Powerful Development: Create scalable and innovative web solutions with enhanced performance.'
+    )
+
+    const bullet3 = await createBullet(
+      environment,
+      'Star',
+      'Future-Ready: Join the SyncNext ecosystem to unlock new possibilities in web development.'
+    )
+
     const sideBySideEntry2 = await environment.createEntry('sideBySide', {
       fields: {
         title: {
           'en-US': 'Elevate Your Web Development Skills with SyncNext'
         },
-        leftContent: {
-          'en-US': createRichText('')
-        },
-        rightContent: {
+        summary: {
           'en-US': createRichText('Join the SyncNext ecosystem to unlock new possibilities in web development. Our platform combines the best of modern CMS with cutting-edge front-end technologies, enabling you to create powerful, scalable, and innovative web solutions.')
         },
-        rightMedia: {
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -376,8 +478,33 @@ async function createHomepage() {
             }
           }
         },
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet1
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet2
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet3
+              }
+            }
+          ]
+        },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'left'
         }
       }
     })
@@ -432,26 +559,32 @@ async function createHomepage() {
     entries.push(newsletterEntry.sys.id)
     console.log('Newsletter section created')
 
-    // 8. Create final Side by Side section - Essential Features
+    // 8. Create final Side by Side section - Essential Features with mixed features
     console.log('Creating essential features side-by-side section...')
+
+    // Create mixed features for this section
+    const statsItem3 = await createStatsItem(
+      environment,
+      'Key Features',
+      'Explore our innovative tools designed to enhance your web development journey, from AI-assisted coding to seamless React integration.',
+      'Star'
+    )
+
+    const bullet4 = await createBullet(
+      environment,
+      'Zap',
+      'Accelerate Your Projects: Leverage SyncNext\'s powerful features to reduce development time and deliver high-performance websites faster than ever.'
+    )
+
     const sideBySideEntry3 = await environment.createEntry('sideBySide', {
       fields: {
         title: {
-          'en-US': 'Discover the Essential Features That Make SyncNext Stand Out'
+          'en-US': 'Discover the Essential Features That Make SyncNext Stand Out in Web Development'
         },
-        leftContent: {
-          'en-US': createRichText([
-            'SyncNext offers a powerful blend of flexibility and performance, enabling seamless integration and unparalleled user experience.',
-            '',
-            'Key Features: Explore our innovative tools designed to enhance your web development journey, from AI-assisted coding to seamless React integration.',
-            '',
-            'Accelerate Your Projects: Leverage SyncNext\'s powerful features to reduce development time and deliver high-performance websites faster than ever.'
-          ])
+        summary: {
+          'en-US': createRichText('SyncNext offers a powerful blend of flexibility and performance, enabling seamless integration and unparalleled user experience.')
         },
-        rightContent: {
-          'en-US': createRichText('')
-        },
-        leftMedia: {
+        media: {
           'en-US': {
             sys: {
               type: 'Link',
@@ -460,8 +593,26 @@ async function createHomepage() {
             }
           }
         },
+        features: {
+          'en-US': [
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: statsItem3
+              }
+            },
+            {
+              sys: {
+                type: 'Link',
+                linkType: 'Entry',
+                id: bullet4
+              }
+            }
+          ]
+        },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })

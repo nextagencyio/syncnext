@@ -1,55 +1,37 @@
-import MainMenu from './MainMenu';
 import type { Meta, StoryObj } from '@storybook/react';
+import MainMenu from './MainMenu';
 
 const meta: Meta<typeof MainMenu> = {
-  title: 'Navigation/Main Navigation',
+  title: 'General/Main Menu',
   component: MainMenu,
   argTypes: {
     modifier: {
-      description: 'Define the modifier class for the main menu',
+      description: 'Define the modifier',
       control: 'text',
     },
     linkModifier: {
-      description: 'Define the modifier class for the main menu links',
+      description: 'Define the link modifier',
       control: 'text',
     },
     showLogo: {
-      description: 'Show the site logo',
+      description: 'Show the SyncNext logo',
       control: 'boolean',
-    },
-    siteLogo: {
-      description: 'Define the path to the site logo',
-      control: 'text',
-    },
-    siteLogoWidth: {
-      description: 'Define the width of the site logo',
-      control: { type: 'number' },
-    },
-    siteLogoHeight: {
-      description: 'Define the height of the site logo',
-      control: { type: 'number' },
-    },
-    siteName: {
-      description: 'Define the site name to display',
-      control: 'text',
     },
     showSiteName: {
       description: 'Show the site name',
       control: 'boolean',
     },
-    ctaLinkCount: {
-      description: 'Number of links to display as Call To Action (CTA) links',
-      control: { type: 'number' },
+    siteName: {
+      description: 'Define the site name',
+      control: 'text',
     },
     menuItems: {
-      description: 'Define the array of main menu items',
+      description: 'Define the menu items',
       control: 'object',
     },
-  },
-  parameters: {
-    layout: 'fullscreen',
-    nextjs: {
-      appDirectory: true,
+    ctaLinkCount: {
+      description: 'Number of CTA links',
+      control: 'number',
     },
   },
 };
@@ -57,69 +39,41 @@ const meta: Meta<typeof MainMenu> = {
 export default meta;
 type Story = StoryObj<typeof MainMenu>;
 
+const sampleMenuItems = [
+  { title: 'Home', url: '/' },
+  { title: 'About', url: '/about' },
+  {
+    title: 'Services',
+    url: '/services',
+    below: [
+      { title: 'Web Development', url: '/services/web-development' },
+      { title: 'Consulting', url: '/services/consulting' },
+    ]
+  },
+  { title: 'Contact', url: '/contact' },
+  { title: 'Get Started', url: '/get-started' },
+];
+
 export const Default: Story = {
   args: {
-    modifier: 'bg-white shadow-md',
-    linkModifier: 'text-gray-700 hover:text-blue-600',
+    modifier: 'bg-white shadow-sm',
+    linkModifier: 'text-foreground hover:text-primary',
     showLogo: true,
-    siteLogo: './images/logo.svg',
-    siteLogoWidth: 150,
-    siteLogoHeight: 50,
-    siteName: 'Site Name',
     showSiteName: false,
-    ctaLinkCount: 2,
-    menuItems: [
-      {
-        title: 'Home',
-        url: '/',
-        inActiveTrail: true,
-      },
-      {
-        title: 'Products',
-        url: '/products',
-        isExpanded: true,
-        below: [
-          {
-            title: 'Product Category 1',
-            url: '/products/category-1',
-          },
-          {
-            title: 'Product Category 2',
-            url: '/products/category-2',
-          },
-          {
-            title: 'Product Category 3',
-            url: '/products/category-3',
-          },
-        ],
-      },
-      {
-        title: 'Services',
-        url: '/services',
-        isExpanded: true,
-        below: [
-          {
-            title: 'Service 1',
-            url: '/services/service-1',
-          },
-          {
-            title: 'Service 2',
-            url: '/services/service-2',
-          },
-        ],
-      },
-      {
-        title: 'About',
-        url: '/about',
-      },
-      {
-        title: 'Contact',
-        url: '/contact',
-      },
-      {
-        title: 'Get Started',
-        url: '/get-started',
-      },
-    ],
-  },
+    siteName: 'SyncNext',
+    menuItems: sampleMenuItems,
+    ctaLinkCount: 1,
+  }
+};
+
+export const WithSiteName: Story = {
+  args: {
+    modifier: 'bg-white shadow-sm',
+    linkModifier: 'text-foreground hover:text-primary',
+    showLogo: false,
+    showSiteName: true,
+    siteName: 'SyncNext',
+    menuItems: sampleMenuItems,
+    ctaLinkCount: 1,
+  }
 };
