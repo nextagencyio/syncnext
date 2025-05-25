@@ -29,7 +29,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({
         <div className="flex justify-center md:w-1/3">
           <Link href="/" className="flex items-center justify-center">
             {showLogo && (
-              <Logo size="md" textColor="text-muted-foreground" />
+              <Logo size="md" textColor="text-foreground" />
             )}
           </Link>
         </div>
