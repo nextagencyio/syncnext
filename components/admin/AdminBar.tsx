@@ -114,7 +114,7 @@ export default function AdminBar({ postId, postType, isPreviewMode }: AdminBarPr
           href={editUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs md:text-sm flex items-center"
+          className="bg-primary hover:bg-primary/90 text-white px-2 py-1 rounded text-xs md:text-sm flex items-center"
           title="Edit in Contentful"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1 md:h-4 md:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
