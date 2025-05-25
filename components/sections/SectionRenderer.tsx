@@ -1,4 +1,4 @@
-import { Entry } from 'contentful'
+import { SectionEntry } from '@/lib/contentful-types'
 import SectionHero from './SectionHero'
 import SectionText from './SectionText'
 import SectionCard from './SectionCard'
@@ -16,7 +16,7 @@ import SectionSideBySide from './SectionSideBySide'
 import SectionRecentArticles from './SectionRecentArticles'
 
 interface SectionRendererProps {
-  section: Entry<any>
+  section: SectionEntry
   modifier?: string
 }
 
@@ -25,49 +25,49 @@ export default function SectionRenderer({ section, modifier }: SectionRendererPr
 
   switch (contentType) {
     case 'hero':
-      return <SectionHero section={section} modifier={modifier} />
+      return <SectionHero section={section as any} modifier={modifier} />
 
     case 'text':
-      return <SectionText section={section} modifier={modifier} />
+      return <SectionText section={section as any} modifier={modifier} />
 
     case 'card':
-      return <SectionCard section={section} modifier={modifier} />
+      return <SectionCard section={section as any} modifier={modifier} />
 
     case 'cardGroup':
-      return <SectionCardGroup section={section} modifier={modifier} />
+      return <SectionCardGroup section={section as any} modifier={modifier} />
 
     case 'gallery':
-      return <SectionGallery section={section} modifier={modifier} />
+      return <SectionGallery section={section as any} modifier={modifier} />
 
     case 'media':
-      return <SectionMedia section={section} modifier={modifier} />
+      return <SectionMedia section={section as any} modifier={modifier} />
 
     case 'quote':
-      return <SectionQuote section={section} modifier={modifier} />
+      return <SectionQuote section={section as any} modifier={modifier} />
 
     case 'embed':
-      return <SectionEmbed section={section} modifier={modifier} />
+      return <SectionEmbed section={section as any} modifier={modifier} />
 
     case 'newsletter':
-      return <SectionNewsletter section={section} modifier={modifier} />
+      return <SectionNewsletter section={section as any} modifier={modifier} />
 
     case 'accordion':
-      return <SectionAccordion section={section} modifier={modifier} />
+      return <SectionAccordion section={section as any} modifier={modifier} />
 
     case 'pricing':
-      return <SectionPricing section={section} modifier={modifier} />
+      return <SectionPricing section={section as any} modifier={modifier} />
 
     case 'carousel':
-      return <SectionCarousel section={section} modifier={modifier} />
+      return <SectionCarousel section={section as any} modifier={modifier} />
 
     case 'logoCollection':
-      return <SectionLogoCollection section={section} modifier={modifier} />
+      return <SectionLogoCollection section={section as any} modifier={modifier} />
 
     case 'sideBySide':
-      return <SectionSideBySide section={section} modifier={modifier} />
+      return <SectionSideBySide section={section as any} modifier={modifier} />
 
     case 'recentArticles':
-      return <SectionRecentArticles section={section} modifier={modifier} />
+      return <SectionRecentArticles section={section as any} modifier={modifier} />
 
     default:
       console.warn(`Unknown section type: ${contentType}`)

@@ -28,7 +28,8 @@ A modern Next.js application integrated with Contentful CMS for content manageme
 - **Network Resilience**: Timeout configuration and connection retry logic
 
 ### 🔧 Development Tools
-- **TypeScript**: Full type safety with enhanced Contentful types
+- **TypeScript**: Full type safety with practical Contentful type definitions
+- **Type Safety**: Custom interfaces for all content types with runtime type guards
 - **Tailwind CSS**: Utility-first styling
 - **Storybook**: Component documentation and testing
 - **Cypress**: End-to-end testing
@@ -235,6 +236,31 @@ import { validateContentEntry } from '@/utils/contentful'
 
 // Validate required fields before rendering
 const isValid = validateContentEntry(entry, ['title', 'slug'])
+```
+
+### Type Safety Best Practices
+SyncNext uses a practical approach to TypeScript with Contentful:
+
+```typescript
+// ❌ Avoid: Using Entry<any> defeats TypeScript's purpose
+interface ArticleProps {
+  article: Entry<any>
+}
+
+// ✅ Better: Use typed interfaces with proper field definitions
+import { ArticleEntry } from '@/lib/contentful-types'
+
+interface ArticleProps {
+  article: ArticleEntry  // Now you get full IntelliSense and type checking
+}
+
+// ✅ Best: Use type guards for runtime safety
+import { isArticleEntry } from '@/lib/contentful-types'
+
+if (isArticleEntry(entry)) {
+  // TypeScript now knows this is an ArticleEntry
+  console.log(entry.fields.title) // ✅ Type-safe access
+}
 ```
 
 ### ISR (Incremental Static Regeneration)

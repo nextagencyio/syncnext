@@ -1,16 +1,15 @@
-import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { resolveContentfulImage, resolveRichText } from '@/utils/contentful'
+import { ArticleEntry, ContentfulImage } from '@/lib/contentful-types'
 import Image from 'next/image'
 
 interface ArticleProps {
-  article: Entry<any>
+  article: ArticleEntry
 }
 
 export default function Article({ article }: ArticleProps) {
-  const fields = article.fields
-  const { title, lead, media, body, tags } = fields
+  const { title, lead, media, body, tags } = article.fields
 
-  const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
+  const resolvedMedia = media ? resolveContentfulImage(media as ContentfulImage) : null
   const leadProcessed = lead ? resolveRichText(lead) : null
   const bodyProcessed = body ? resolveRichText(body) : null
 
@@ -33,10 +32,10 @@ export default function Article({ article }: ArticleProps) {
         <div className="mx-auto max-w-2xl">
           {tags && Array.isArray(tags) && tags.length > 0 && (
             <div className="uppercase mb-2 text-sm tracking-wide">
-              {(tags as string[]).join(', ')}
+              {tags.join(', ')}
             </div>
           )}
-          <h1 className="text-4xl font-bold mb-8">{title as string}</h1>
+          <h1 className="text-4xl font-bold mb-8">{title}</h1>
           {leadProcessed && (
             <div
               className="prose prose-lg lead mb-4"

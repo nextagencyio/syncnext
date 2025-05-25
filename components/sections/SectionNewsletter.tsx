@@ -1,5 +1,5 @@
 import { resolveRichText } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { NewsletterEntry } from '@/lib/contentful-types'
 import Newsletter from '@/components/newsletter/Newsletter'
 
 export interface NewsletterSection {
@@ -9,17 +9,16 @@ export interface NewsletterSection {
 }
 
 interface SectionNewsletterProps {
-  section: Entry<any>
+  section: NewsletterEntry
   modifier?: string
 }
 
 export default function SectionNewsletter({ section, modifier }: SectionNewsletterProps) {
-  const fields = section.fields
-  const { newsletterTitle, summary } = fields
+  const { newsletterTitle, summary } = section.fields
 
   return (
     <Newsletter
-      title={newsletterTitle as string}
+      title={newsletterTitle}
       summary={summary ? resolveRichText(summary) : undefined}
       modifier={modifier}
     />

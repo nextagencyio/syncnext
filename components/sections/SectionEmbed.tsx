@@ -1,4 +1,4 @@
-import { Entry } from 'contentful';
+import { EmbedEntry } from '@/lib/contentful-types';
 import Embed from '@/components/embed/Embed';
 
 export interface EmbedSection {
@@ -8,7 +8,7 @@ export interface EmbedSection {
 }
 
 interface SectionEmbedProps {
-  section: Entry<any> | EmbedSection;
+  section: EmbedEntry | EmbedSection;
   modifier?: string;
 }
 
@@ -19,9 +19,9 @@ export default function SectionEmbed({ section, modifier }: SectionEmbedProps) {
 
   if ('fields' in section) {
     // Contentful Entry format
-    const fields = section.fields;
-    title = fields.title as string;
-    script = fields.script as string;
+    const { title: entryTitle, script: entryScript } = section.fields;
+    title = entryTitle;
+    script = entryScript;
   } else {
     // EmbedSection format
     title = section.title;

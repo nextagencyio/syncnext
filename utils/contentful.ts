@@ -1,7 +1,8 @@
-import { createClient, Entry, Asset } from 'contentful'
+import { createClient, Entry } from 'contentful'
 import * as dotenv from 'dotenv'
 import { withCache, contentfulCache } from './contentful-cache'
 import { shouldSuppressWarning } from './content-routing'
+import type { ContentfulImage, MenuEntry } from '@/lib/contentful-types'
 
 // Load environment variables
 dotenv.config({ path: '.env' })
@@ -69,33 +70,7 @@ const isRetryableError = (error: any): boolean => {
   return false
 }
 
-// Type definitions for our content types
-export interface ContentfulImage extends Asset {
-  fields: {
-    title: string
-    description: string
-    file: {
-      url: string
-      details: {
-        size: number
-        image: {
-          width: number
-          height: number
-        }
-      }
-      fileName: string
-      contentType: string
-    }
-  }
-}
-
-export interface LandingPageEntry extends Entry<any> {
-  fields: {
-    title: string
-    slug: string
-    sections: Entry<any>[]
-  }
-}
+// Types are now imported from @/lib/contentful-types
 
 // Helper function to get an entry by slug with enhanced error handling and caching
 export async function getEntryBySlug(contentType: string, slug: string, retries = 3): Promise<Entry<any> | null> {
@@ -345,23 +320,7 @@ export function resolveRichText(richTextContent: any): string {
     .join('')
 }
 
-// Menu-related types
-export interface MenuItemEntry extends Entry<any> {
-  fields: {
-    title: string
-    url: string
-    order?: number
-    children?: MenuItemEntry[]
-  }
-}
-
-export interface MenuEntry extends Entry<any> {
-  fields: {
-    name: string
-    identifier: string
-    items: MenuItemEntry[]
-  }
-}
+// Menu types are now imported from @/lib/contentful-types
 
 // Helper function to get a menu by identifier
 export async function getMenuByIdentifier(identifier: 'main' | 'footer'): Promise<MenuEntry | null> {

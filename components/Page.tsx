@@ -1,17 +1,16 @@
-import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { resolveContentfulImage, resolveRichText } from '@/utils/contentful'
+import { PageEntry, ContentfulImage } from '@/lib/contentful-types'
 import Heading from '@/components/heading/Heading'
 import Image from 'next/image'
 
 interface PageProps {
-  page: Entry<any>
+  page: PageEntry
 }
 
 export default function Page({ page }: PageProps) {
-  const fields = page.fields
-  const { title, mediaPage, body } = fields
+  const { title, mediaPage, body } = page.fields
 
-  const resolvedMedia = resolveContentfulImage(mediaPage as ContentfulImage)
+  const resolvedMedia = mediaPage ? resolveContentfulImage(mediaPage as ContentfulImage) : null
   const bodyProcessed = body ? resolveRichText(body) : null
 
   return (
@@ -31,7 +30,7 @@ export default function Page({ page }: PageProps) {
           </div>
         )}
         <div className="mx-auto max-w-2xl">
-          <Heading level={1} title={title as string} className="mb-8" />
+          <Heading level={1} title={title} className="mb-8" />
           {bodyProcessed && (
             <div
               className="prose prose-lg max-w-none"
