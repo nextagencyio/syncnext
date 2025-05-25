@@ -16,7 +16,7 @@ async function createAllContent() {
     { name: 'Get Started Page', command: 'npm run create-get-started' },
     { name: 'Resources Page', command: 'npm run create-resources' },
     { name: 'Contact Page', command: 'npm run create-contact' },
-    { name: 'Sample Pages', command: 'npm run create-pages' },
+    { name: 'Privacy Policy and Terms of Service', command: 'npm run create-pages' },
     { name: 'Demo Landing Pages', command: 'npm run create-landing' },
     { name: 'Articles', command: 'npm run create-articles' },
   ]
@@ -42,7 +42,8 @@ async function createAllContent() {
   console.log('✅ Get Started page for onboarding')
   console.log('✅ Resources page with Recent Articles section')
   console.log('✅ Contact page with map embed')
-  console.log('✅ Sample pages and articles')
+  console.log('✅ Articles')
+  console.log('✅ Privacy Policy and Terms of Service pages')
   console.log('✅ Demo landing pages')
   console.log('\n🌐 Your complete SyncNext site is ready!')
   console.log('Visit: http://localhost:8080/')

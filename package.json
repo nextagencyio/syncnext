@@ -12,7 +12,7 @@
     "cypress": "npx cypress run",
     "setup-contentful": "tsx scripts/setup-contentful.ts",
     "create-landing": "tsx scripts/create-landing-page.ts",
-    "create-pages": "tsx scripts/create-sample-pages.ts",
+    "create-pages": "tsx scripts/create-pages.ts",
     "create-menus": "tsx scripts/create-sample-menus.ts",
     "create-homepage": "tsx scripts/create-homepage.ts",
     "create-get-started": "tsx scripts/create-get-started.ts",
