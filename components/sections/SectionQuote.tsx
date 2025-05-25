@@ -1,24 +1,23 @@
-import { resolveContentfulImage, ContentfulImage } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { resolveContentfulImage } from '@/utils/contentful'
+import { QuoteEntry, ContentfulImage } from '@/lib/contentful-types'
 import Image from 'next/image'
 
 interface SectionQuoteProps {
-  section: Entry<any>
+  section: QuoteEntry
   modifier?: string
 }
 
 export default function SectionQuote({ section, modifier }: SectionQuoteProps) {
-  const fields = section.fields
-  const { author, jobTitle, logo, quote, thumb } = fields
+  const { author, jobTitle, logo, quote, thumb } = section.fields
 
-  const logoImage = resolveContentfulImage(logo as ContentfulImage)
-  const thumbImage = resolveContentfulImage(thumb as ContentfulImage)
+  const logoImage = logo ? resolveContentfulImage(logo as ContentfulImage) : null
+  const thumbImage = thumb ? resolveContentfulImage(thumb as ContentfulImage) : null
 
   return (
     <div className={modifier ?? 'container mx-auto my-6 lg:my-15'}>
       <div className="max-w-4xl mx-auto text-center">
         <blockquote className="text-xl md:text-2xl lg:text-3xl font-medium text-gray-900 mb-8">
-          &ldquo;{quote as string}&rdquo;
+          &ldquo;{quote}&rdquo;
         </blockquote>
 
         <div className="flex items-center justify-center gap-4">
@@ -33,11 +32,11 @@ export default function SectionQuote({ section, modifier }: SectionQuoteProps) {
           )}
           <div className="text-left">
             <div className="font-semibold text-lg text-gray-900">
-              {author as string}
+              {author}
             </div>
             {jobTitle && (
               <div className="text-gray-600">
-                {jobTitle as string}
+                {jobTitle}
               </div>
             )}
           </div>

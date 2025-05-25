@@ -1,10 +1,10 @@
 import RecentCards from '@/components/recent-cards/RecentCards';
 import { getImage } from '@/components/helpers/Utilities';
 import { getEntriesByType } from '@/utils/contentful';
-import { Entry } from 'contentful';
+import { RecentArticlesEntry, ArticleEntry } from '@/lib/contentful-types';
 
 interface SectionRecentArticlesProps {
-  section: Entry<any>;
+  section: RecentArticlesEntry;
   modifier?: string;
 }
 
@@ -14,15 +14,15 @@ export default async function SectionRecentArticles({ section, modifier }: Secti
 
   // Sort by published date (newest first) and take first 6
   const sortedArticles = articles
-    .filter((article: Entry<any>) => article.fields && article.fields.publishedDate)
-    .sort((a: Entry<any>, b: Entry<any>) => {
+    .filter((article: any) => article.fields && article.fields.publishedDate)
+    .sort((a: any, b: any) => {
       const dateA = new Date(a.fields.publishedDate as string);
       const dateB = new Date(b.fields.publishedDate as string);
       return dateB.getTime() - dateA.getTime();
     })
     .slice(0, 6);
 
-  const recentCardResults = sortedArticles.map((article: Entry<any>) => {
+  const recentCardResults = sortedArticles.map((article: any) => {
     // Extract excerpt from lead rich text field
     const lead = article.fields.lead as any;
     const excerpt = lead?.content?.[0]?.content?.[0]?.value || '';

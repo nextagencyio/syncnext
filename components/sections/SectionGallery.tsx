@@ -1,25 +1,25 @@
-import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
-import { Entry, Asset } from 'contentful'
+import { resolveContentfulImage, resolveRichText } from '@/utils/contentful'
+import { GalleryEntry, ContentfulImage } from '@/lib/contentful-types'
+import { Asset } from 'contentful'
 import Gallery from '@/components/gallery/Gallery'
 import Image from 'next/image'
 
 interface SectionGalleryProps {
-  section: Entry<any>
+  section: GalleryEntry
   modifier?: string
 }
 
 export default function SectionGallery({ section, modifier }: SectionGalleryProps) {
-  const fields = section.fields
-  const { title, gallerySummary, mediaItem } = fields
+  const { title, gallerySummary, mediaItem } = section.fields
 
   // Convert Contentful media items to React nodes
   const mediaItems: React.ReactNode[] = []
   const mediaIds: string[] = []
 
   if (mediaItem && Array.isArray(mediaItem)) {
-    (mediaItem as Asset[]).forEach((asset: Asset) => {
+    mediaItem.forEach((asset: ContentfulImage) => {
       if (asset && asset.fields) {
-        const resolvedMedia = resolveContentfulImage(asset as ContentfulImage)
+        const resolvedMedia = resolveContentfulImage(asset)
         if (resolvedMedia) {
           mediaItems.push(
             <Image
@@ -40,7 +40,7 @@ export default function SectionGallery({ section, modifier }: SectionGalleryProp
 
   return (
     <Gallery
-      title={title as string}
+      title={title}
       summary={resolveRichText(gallerySummary)}
       mediaItems={mediaItems}
       mediaIds={mediaIds}

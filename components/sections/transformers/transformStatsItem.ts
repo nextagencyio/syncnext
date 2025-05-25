@@ -1,5 +1,6 @@
 import React from 'react'
-import { resolveContentfulImage, ContentfulImage } from '@/utils/contentful'
+import { resolveContentfulImage } from '@/utils/contentful'
+import { ContentfulImage } from '@/lib/contentful-types'
 import { Entry } from 'contentful'
 import { StatCardProps } from '@/components/stat-card/StatCard'
 import Image from 'next/image'
@@ -12,7 +13,7 @@ export interface StatsItemType {
   media?: ContentfulImage
 }
 
-export function transformStatsItem(statsItem: Entry<any>): StatCardProps {
+export function transformStatsItem(statsItem: any): StatCardProps {
   const fields = statsItem.fields
   const { heading, body, icon, media } = fields
 

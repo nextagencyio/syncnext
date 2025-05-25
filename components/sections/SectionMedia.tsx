@@ -1,9 +1,9 @@
-import { resolveContentfulImage, ContentfulImage } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { resolveContentfulImage } from '@/utils/contentful'
+import { MediaEntry, ContentfulImage } from '@/lib/contentful-types'
 import Image from 'next/image'
 
 interface SectionMediaProps {
-  section: Entry<any>
+  section: MediaEntry
   modifier?: string
 }
 

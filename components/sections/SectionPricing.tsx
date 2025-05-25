@@ -1,34 +1,33 @@
 import { resolveRichText } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { PricingEntry, PricingCardEntry } from '@/lib/contentful-types'
 import Pricing, { PricingCardProps } from '@/components/pricing/Pricing'
 
 interface SectionPricingProps {
-  section: Entry<any>
+  section: PricingEntry
   modifier?: string
 }
 
 export default function SectionPricing({ section, modifier }: SectionPricingProps) {
-  const fields = section.fields
-  const { eyebrow, pricingTitle, pricingSummary, pricingCards } = fields
+  const { eyebrow, pricingTitle, pricingSummary, pricingCards } = section.fields
 
   // Convert Contentful pricing cards to PricingCardProps format
   const cards: PricingCardProps[] = []
 
   if (pricingCards && Array.isArray(pricingCards)) {
-    (pricingCards as Entry<any>[]).forEach((card: Entry<any>) => {
+    pricingCards.forEach((card: PricingCardEntry) => {
       if (card && card.fields) {
         const { title, eyebrow: cardEyebrow, featuresText, linkTitle, linkUrl, suffix } = card.fields
 
         // Convert features text to array (assuming it's newline-separated)
-        const features = featuresText ? (featuresText as string).split('\n').filter(f => f.trim()) : []
+        const features = featuresText ? featuresText.split('\n').filter(f => f.trim()) : []
 
         cards.push({
-          eyebrow: cardEyebrow as string || '',
-          title: title as string,
-          monthlyLabel: suffix as string || '',
+          eyebrow: cardEyebrow || '',
+          title: title || '',
+          monthlyLabel: suffix || '',
           features,
-          ctaText: linkTitle as string || 'Get Started',
-          ctaLink: linkUrl as string || '#',
+          ctaText: linkTitle || 'Get Started',
+          ctaLink: linkUrl || '#',
         })
       }
     })
@@ -36,8 +35,8 @@ export default function SectionPricing({ section, modifier }: SectionPricingProp
 
   return (
     <Pricing
-      eyebrow={eyebrow as string}
-      title={pricingTitle as string}
+      eyebrow={eyebrow}
+      title={pricingTitle}
       summary={resolveRichText(pricingSummary)}
       cards={cards}
       modifier={modifier}

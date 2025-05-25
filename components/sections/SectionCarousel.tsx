@@ -1,30 +1,29 @@
-import { resolveContentfulImage, ContentfulImage } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { resolveContentfulImage } from '@/utils/contentful'
+import { CarouselEntry, CarouselItemEntry, ContentfulImage } from '@/lib/contentful-types'
 import Carousel, { CarouselItemData } from '@/components/carousel/Carousel'
 import Image from 'next/image'
 
 interface SectionCarouselProps {
-  section: Entry<any>
+  section: CarouselEntry
   modifier?: string
 }
 
 export default function SectionCarousel({ section, modifier }: SectionCarouselProps) {
-  const fields = section.fields
-  const { title, carouselItem } = fields
+  const { title, carouselItem } = section.fields
 
   // Convert Contentful carousel items to CarouselItemData format
   const items: CarouselItemData[] = []
 
   if (carouselItem && Array.isArray(carouselItem)) {
-    (carouselItem as Entry<any>[]).forEach((item: Entry<any>) => {
+    carouselItem.forEach((item: CarouselItemEntry) => {
       if (item && item.fields) {
         const { title: itemTitle, summary, media } = item.fields
         const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
 
         items.push({
           id: item.sys.id,
-          title: itemTitle as string,
-          summary: summary as string,
+          title: itemTitle,
+          summary: summary,
           media: resolvedMedia ? (
             <Image
               src={resolvedMedia.url}
@@ -44,7 +43,7 @@ export default function SectionCarousel({ section, modifier }: SectionCarouselPr
     <div>
       {title && (
         <div className="container mx-auto mb-6 text-center">
-          <h2 className="text-3xl font-bold">{title as string}</h2>
+          <h2 className="text-3xl font-bold">{title}</h2>
         </div>
       )}
       <Carousel

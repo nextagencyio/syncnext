@@ -7,7 +7,7 @@ export interface BulletType {
   summary: string
 }
 
-export function transformBullet(bullet: Entry<any>): BulletProps {
+export function transformBullet(bullet: any): BulletProps {
   const fields = bullet.fields
   const { icon, summary } = fields
 

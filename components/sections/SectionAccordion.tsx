@@ -1,31 +1,30 @@
 import { resolveRichText } from '@/utils/contentful'
-import { Entry } from 'contentful'
+import { AccordionEntry, AccordionItemEntry } from '@/lib/contentful-types'
 import Accordion, { AccordionItemData } from '@/components/accordion/Accordion'
 
 interface SectionAccordionProps {
-  section: Entry<any>
+  section: AccordionEntry
   modifier?: string
 }
 
 export default function SectionAccordion({ section, modifier }: SectionAccordionProps) {
-  const fields = section.fields
-  const { title, accordionItem } = fields
+  const { title, accordionItem } = section.fields
 
   // Convert Contentful accordion items to AccordionItemData format
   const items: AccordionItemData[] = []
 
   if (accordionItem && Array.isArray(accordionItem)) {
-    (accordionItem as Entry<any>[]).forEach((item: Entry<any>) => {
+    accordionItem.forEach((item: AccordionItemEntry) => {
       if (item && item.fields) {
         const { title: itemTitle, body, linkTitle, linkUrl } = item.fields
 
         items.push({
           id: item.sys.id,
-          title: itemTitle as string,
+          title: itemTitle,
           body: resolveRichText(body),
           link: linkTitle && linkUrl ? {
-            title: linkTitle as string,
-            url: linkUrl as string,
+            title: linkTitle,
+            url: linkUrl,
           } : undefined,
         })
       }
@@ -34,7 +33,7 @@ export default function SectionAccordion({ section, modifier }: SectionAccordion
 
   return (
     <Accordion
-      title={title as string}
+      title={title}
       items={items}
       modifier={modifier}
     />
