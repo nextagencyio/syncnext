@@ -1,7 +1,7 @@
 import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
 import { Entry } from 'contentful'
 import CardGroup, { CustomCardProps } from '@/components/card-group/CardGroup'
-import Image from 'next/image'
+import { getImage } from '../helpers/Utilities'
 
 interface SectionCardGroupProps {
   section: Entry<any>
@@ -23,15 +23,10 @@ export default function SectionCardGroup({ section, modifier }: SectionCardGroup
 
         cardProps.push({
           type: 'custom',
-          media: resolvedMedia ? (
-            <Image
-              src={resolvedMedia.url}
-              alt={resolvedMedia.alt}
-              width={resolvedMedia.width}
-              height={resolvedMedia.height}
-              className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+          media: resolvedMedia ? getImage(
+            resolvedMedia,
+            'w-full h-full object-cover',
+            ['i169medium', 'i169large']
           ) : undefined,
           heading: {
             title: cardTitle as string,

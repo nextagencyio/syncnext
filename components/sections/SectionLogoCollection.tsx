@@ -1,7 +1,7 @@
 import { resolveContentfulImage, ContentfulImage } from '@/utils/contentful'
 import { Entry, Asset } from 'contentful'
 import LogoCollection, { Logo } from '@/components/logo-collection/LogoCollection'
-import Image from 'next/image'
+import { getImage } from '../helpers/Utilities'
 
 interface SectionLogoCollectionProps {
   section: Entry<any>
@@ -22,15 +22,10 @@ export default function SectionLogoCollection({ section, modifier }: SectionLogo
         if (resolvedMedia) {
           logoData.push({
             name: `${resolvedMedia.title || 'Logo'} ${index + 1}`,
-            media: (
-              <Image
-                src={resolvedMedia.url}
-                alt={resolvedMedia.alt}
-                width={resolvedMedia.width}
-                height={resolvedMedia.height}
-                className="max-w-[100px] md:max-w-[120px] h-auto object-contain"
-                sizes="(max-width: 768px) 100px, 120px"
-              />
+            media: getImage(
+              resolvedMedia,
+              "max-w-[100px] md:max-w-[120px] h-auto",
+              ["thumbnail", "thumbnail"]
             ),
           })
         }

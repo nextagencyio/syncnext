@@ -134,10 +134,10 @@ async function createBullet(environment: any, icon: string, summary: string) {
 // Helper function to create logo assets from the images directory
 async function createLogoAssets(environment: any) {
   const logoFiles = [
+    { name: 'contentful.png', title: 'Contentful Logo' },
     { name: 'nextjs.png', title: 'Next.js Logo' },
     { name: 'react.png', title: 'React Logo' },
     { name: 'tailwind.png', title: 'Tailwind CSS Logo' },
-    { name: 'contentful.png', title: 'Contentful Logo' },
     { name: 'storybook.png', title: 'Storybook Logo' },
     { name: 'shadcn.png', title: 'shadcn/ui Logo' },
     { name: 'graphql.png', title: 'GraphQL Logo' },

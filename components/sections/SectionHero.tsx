@@ -1,7 +1,7 @@
 import Hero, { HeroProps } from '@/components/hero/Hero'
 import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
 import { Entry } from 'contentful'
-import Image from 'next/image'
+import { getImage } from '../helpers/Utilities'
 
 interface SectionHeroProps {
   section: Entry<any>
@@ -22,15 +22,10 @@ export default function SectionHero({ section, modifier }: SectionHeroProps) {
 
   const heroProps: Partial<HeroProps> = {
     heroLayout: (heroLayout as 'image_top' | 'image_bottom' | 'image_bottom_split') || undefined,
-    media: resolvedMedia ? (
-      <Image
-        src={resolvedMedia.url}
-        alt={resolvedMedia.alt}
-        width={resolvedMedia.width}
-        height={resolvedMedia.height}
-        className="max-w-full h-auto"
-        priority={true}
-      />
+    media: resolvedMedia ? getImage(
+      resolvedMedia,
+      'max-w-full h-auto',
+      ['heros', 'herol']
     ) : null,
     heading: title ? formatTitle(title as string) : undefined,
     summary: summary ? resolveRichText(summary) : undefined,
