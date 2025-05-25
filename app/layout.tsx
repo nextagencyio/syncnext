@@ -5,11 +5,22 @@ import Header from "@/components/Header";
 import { getMenuByIdentifier, transformContentfulMenu } from "@/utils/contentful";
 import getConfig from 'next/config';
 import AdminBarWrapper from "@/components/admin/AdminBarWrapper";
+import { Metadata } from "next";
 
 import './globals.css'
 
 const font = Open_Sans({ subsets: ["latin"] });
 const { publicRuntimeConfig } = getConfig();
+
+export const metadata: Metadata = {
+  title: 'SyncNext - AI-Powered Lightning Fast Development',
+  description: 'A modern Next.js application integrated with Contentful CMS for content management.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
+};
 
 export default async function RootLayout({
   children,
