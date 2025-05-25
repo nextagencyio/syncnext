@@ -551,7 +551,7 @@ async function createFeaturesPage() {
           'en-US': 'What is SyncNext?'
         },
         body: {
-          'en-US': createRichText('SyncNext is a modern web development platform that combines the power of Next.js with cutting-edge frontend technologies.')
+          'en-US': createRichText('SyncNext is a modern web development platform that combines the power of Contentful with cutting-edge frontend technologies.')
         }
       }
     })

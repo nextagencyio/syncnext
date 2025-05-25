@@ -142,7 +142,7 @@ async function createBullet(environment: any, title: string, text: string) {
   const bullet = await environment.createEntry('bullet', {
     fields: {
       icon: {
-        'en-US': 'CheckCircle'
+        'en-US': 'Check'
       },
       summary: {
         'en-US': text
@@ -236,13 +236,13 @@ async function createPricingPage() {
           'en-US': 'Get Started'
         },
         linkUrl: {
-          'en-US': '/get-started'
+          'en-US': '#get-started'
         },
         link2Title: {
           'en-US': 'Learn More'
         },
         link2Url: {
-          'en-US': '/learn-more'
+          'en-US': '#learn-more'
         },
         media: {
           'en-US': {
@@ -284,7 +284,7 @@ async function createPricingPage() {
           'en-US': 'Unleash Your Content with SyncNext'
         },
         eyebrow: {
-          'en-US': 'EXPLORE'
+          'en-US': 'Explore'
         },
         summary: {
           'en-US': createRichText('SyncNext is a powerful decoupled CMS that streamlines content management and enhances user experience. With its flexible architecture, you can easily integrate and scale your digital projects.')
@@ -320,10 +320,10 @@ async function createPricingPage() {
           'en-US': 'Learn More'
         },
         linkUrl: {
-          'en-US': '/learn-more'
+          'en-US': '#learn-more'
         },
         layout: {
-          'en-US': 'right'
+          'en-US': 'image_left'
         }
       }
     })
@@ -347,7 +347,7 @@ async function createPricingPage() {
           { text: 'AI development features' },
         ],
         cta_text: 'Get Started',
-        cta_link: '/get-started',
+        cta_link: '#',
       },
       {
         eyebrow: 'Paid Services',
@@ -360,7 +360,7 @@ async function createPricingPage() {
           { text: 'Consulting services' },
         ],
         cta_text: 'Contact Sales',
-        cta_link: '/contact',
+        cta_link: '#',
       },
     ]
 
@@ -373,7 +373,7 @@ async function createPricingPage() {
     const pricingEntry = await environment.createEntry('pricing', {
       fields: {
         eyebrow: {
-          'en-US': 'TAILORED SYNCNEXT OFFERINGS'
+          'en-US': 'Tailored SyncNext Offerings'
         },
         pricingTitle: {
           'en-US': 'Unlock the Full Potential of SyncNext'
@@ -419,10 +419,10 @@ async function createPricingPage() {
           'en-US': 'Sign Up'
         },
         linkUrl: {
-          'en-US': '/sign-up'
+          'en-US': '#sign-up'
         },
         layout: {
-          'en-US': 'left'
+          'en-US': 'image_left'
         }
       }
     })
@@ -435,7 +435,7 @@ async function createPricingPage() {
     const landingPage = await environment.createEntry('landing', {
       fields: {
         title: {
-          'en-US': 'Pricing - SyncNext'
+          'en-US': 'SyncNext Pricing'
         },
         slug: {
           'en-US': 'pricing'

@@ -186,19 +186,7 @@ async function createResourcesPage() {
           'en-US': 'SyncNext Resources'
         },
         summary: {
-          'en-US': createRichText('Discover guides, tutorials, and insights to help you master SyncNext and build amazing web experiences.')
-        },
-        linkTitle: {
-          'en-US': 'Browse All Resources'
-        },
-        linkUrl: {
-          'en-US': '/blog'
-        },
-        link2Title: {
-          'en-US': 'Get Support'
-        },
-        link2Url: {
-          'en-US': '/support'
+          'en-US': createRichText('')
         },
         media: {
           'en-US': {
@@ -218,30 +206,12 @@ async function createResourcesPage() {
     entries.push(heroEntry.sys.id)
     console.log('Resources hero section created')
 
-    // 2. Create Recent Posts section (using text section as placeholder)
+    // 2. Create Recent Posts section
     console.log('\nCreating Recent Posts section...')
-    const recentPostsEntry = await environment.createEntry('text', {
+    const recentPostsEntry = await environment.createEntry('recentPosts', {
       fields: {
         title: {
-          'en-US': 'Latest Resources'
-        },
-        body: {
-          'en-US': createRichText('Stay up to date with the latest tutorials, guides, and best practices for building with SyncNext. Our resource library is constantly growing with new content to help you succeed.')
-        },
-        linkTitle: {
-          'en-US': 'View All Articles'
-        },
-        linkUrl: {
-          'en-US': '/blog'
-        },
-        link2Title: {
-          'en-US': 'Subscribe to Updates'
-        },
-        link2Url: {
-          'en-US': '/newsletter'
-        },
-        textLayout: {
-          'en-US': 'center'
+          'en-US': ''
         }
       }
     })
@@ -254,7 +224,7 @@ async function createResourcesPage() {
     const landingPage = await environment.createEntry('landing', {
       fields: {
         title: {
-          'en-US': 'Resources - SyncNext'
+          'en-US': 'Resources'
         },
         slug: {
           'en-US': 'resources'

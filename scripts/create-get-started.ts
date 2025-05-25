@@ -177,7 +177,7 @@ async function createGetStartedPage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'Get Started with SyncNext'
+          'en-US': 'Get Started'
         },
         heroLayout: {
           'en-US': 'image_bottom'
@@ -200,26 +200,13 @@ async function createGetStartedPage() {
     entries.push(heroEntry.sys.id)
     console.log('Get Started Hero created')
 
-    // 2. Create Side by Side section - For Designers with bullets
+    // 2. Create Side by Side section - For Designers
     console.log('Creating SyncNext for Designers section...')
-
-    // Create bullet entries for designers section
-    const designerBullet1 = await createBullet(
-      environment,
-      'Figma',
-      'Figma Templates: Access a variety of community templates built on Bootstrap 5.'
-    )
-
-    const designerBullet2 = await createBullet(
-      environment,
-      'Palette',
-      'Design System: Leverage consistent design patterns and components for rapid prototyping.'
-    )
 
     const designersSideBySide = await environment.createEntry('sideBySide', {
       fields: {
         eyebrow: {
-          'en-US': 'For Designers'
+          'en-US': 'Bootstrap UI kits'
         },
         title: {
           'en-US': 'SyncNext for Designers'
@@ -228,10 +215,10 @@ async function createGetStartedPage() {
           'en-US': createRichText('Leverage a variety of Figma community templates built on Bootstrap 5 to jumpstart your design process.')
         },
         linkTitle: {
-          'en-US': 'View Templates'
+          'en-US': 'Browse Figma UI kits'
         },
         linkUrl: {
-          'en-US': '/design-templates'
+          'en-US': '#figma-kits'
         },
         media: {
           'en-US': {
@@ -242,26 +229,8 @@ async function createGetStartedPage() {
             }
           }
         },
-        features: {
-          'en-US': [
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: designerBullet1
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: designerBullet2
-              }
-            }
-          ]
-        },
         layout: {
-          'en-US': 'right'
+          'en-US': 'image_right'
         }
       }
     })
@@ -269,27 +238,13 @@ async function createGetStartedPage() {
     entries.push(designersSideBySide.sys.id)
     console.log('SyncNext for Designers section created')
 
-    // 3. Create Side by Side section - For Developers with stats
+    // 3. Create Side by Side section - For Developers
     console.log('Creating SyncNext for Developers section...')
-
-    // Create stats and bullet entries for developers section
-    const devStatsItem = await createStatsItem(
-      environment,
-      'Open Source',
-      'Visit our GitHub repository to download the SyncNext project template and start building your site today.',
-      'Github'
-    )
-
-    const devBullet = await createBullet(
-      environment,
-      'Terminal',
-      'Modern Stack: Built with React, Next.js, and TypeScript for optimal performance.'
-    )
 
     const developersSideBySide = await environment.createEntry('sideBySide', {
       fields: {
         eyebrow: {
-          'en-US': 'For Developers'
+          'en-US': 'Project template'
         },
         title: {
           'en-US': 'SyncNext for Developers'
@@ -298,10 +253,10 @@ async function createGetStartedPage() {
           'en-US': createRichText('Visit our GitHub repository to download the SyncNext project template and start building your site today.')
         },
         linkTitle: {
-          'en-US': 'View on GitHub'
+          'en-US': 'Find out more'
         },
         linkUrl: {
-          'en-US': 'https://github.com/syncnext'
+          'en-US': '#github-repo'
         },
         media: {
           'en-US': {
@@ -312,26 +267,8 @@ async function createGetStartedPage() {
             }
           }
         },
-        features: {
-          'en-US': [
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: devStatsItem
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: devBullet
-              }
-            }
-          ]
-        },
         layout: {
-          'en-US': 'left'
+          'en-US': 'image_left'
         }
       }
     })
