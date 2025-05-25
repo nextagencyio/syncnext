@@ -392,14 +392,34 @@ async function setupContentful() {
         fields: [
           symbolField('title', 'Title'),
           richTextField('summary', 'Summary'),
-          entryArrayField('cards', 'Cards', ['card']),
+          entryArrayField('cards', 'Cards', ['card', 'statsItem']),
         ],
       })
       await cardGroupContentType.publish()
       console.log('CardGroup content type created and published')
     }
     else {
-      console.log('CardGroup content type already exists')
+      // Update the existing CardGroup content type to support both card and statsItem
+      const cardGroupContentType = await environment.getContentType('cardGroup')
+
+      // Update the cards field to include both card and statsItem types
+      const cardsField = cardGroupContentType.fields.find((field: any) => field.id === 'cards')
+      if (cardsField && cardsField.items && cardsField.items.validations) {
+        const supportedTypes = ['card', 'statsItem']
+
+        cardsField.items.validations = [
+          {
+            linkContentType: supportedTypes,
+          },
+        ]
+
+        const updatedCardGroup = await cardGroupContentType.update()
+        await updatedCardGroup.publish()
+        console.log('CardGroup content type updated to support both card and statsItem entries')
+      }
+      else {
+        console.log('CardGroup content type already exists')
+      }
     }
 
     // Create LogoCollection content type

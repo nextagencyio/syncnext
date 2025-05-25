@@ -342,80 +342,29 @@ async function createHomepage() {
     console.log('Creating innovative features card group...')
     const featureCards = []
 
-    const card1 = await environment.createEntry('card', {
-      fields: {
-        title: {
-          'en-US': 'Unlock the Power of Modern Web Solutions'
-        },
-        summary: {
-          'en-US': 'Experience seamless integration and flexibility with our Decoupled Architecture.'
-        },
-        media: {
-          'en-US': {
-            sys: {
-              type: 'Link',
-              linkType: 'Asset',
-              id: imageId
-            }
-          }
-        },
-        tags: {
-          'en-US': ['Modern', 'Solutions']
-        }
-      }
-    })
-    await card1.publish()
-    featureCards.push(card1.sys.id)
+    const featureStatsItem1 = await createStatsItem(
+      environment,
+      'Modern Web Solutions',
+      'Experience seamless integration and flexibility with our Decoupled Architecture.',
+      'Code'
+    )
+    featureCards.push(featureStatsItem1)
 
-    const card2 = await environment.createEntry('card', {
-      fields: {
-        title: {
-          'en-US': 'Experience Seamless Integration and Flexibility'
-        },
-        summary: {
-          'en-US': 'Leverage the power of React and Node.js to dramatically improve your website\'s efficiency and speed.'
-        },
-        media: {
-          'en-US': {
-            sys: {
-              type: 'Link',
-              linkType: 'Asset',
-              id: imageId
-            }
-          }
-        },
-        tags: {
-          'en-US': ['Integration', 'Flexibility']
-        }
-      }
-    })
-    await card2.publish()
-    featureCards.push(card2.sys.id)
+    const featureStatsItem2 = await createStatsItem(
+      environment,
+      'Seamless Integration',
+      'Leverage the power of React and Node.js to dramatically improve your website\'s efficiency and speed.',
+      'Zap'
+    )
+    featureCards.push(featureStatsItem2)
 
-    const card3 = await environment.createEntry('card', {
-      fields: {
-        title: {
-          'en-US': 'Achieve Blazing Fast Performance'
-        },
-        summary: {
-          'en-US': 'That Keeps Your Users Engaged and Satisfied'
-        },
-        media: {
-          'en-US': {
-            sys: {
-              type: 'Link',
-              linkType: 'Asset',
-              id: imageId
-            }
-          }
-        },
-        tags: {
-          'en-US': ['Performance', 'Speed']
-        }
-      }
-    })
-    await card3.publish()
-    featureCards.push(card3.sys.id)
+    const featureStatsItem3 = await createStatsItem(
+      environment,
+      'Blazing Fast Performance',
+      'Achieve optimal speed and efficiency that keeps your users engaged and satisfied.',
+      'Rocket'
+    )
+    featureCards.push(featureStatsItem3)
 
     // Create Card Group
     const cardGroupEntry = await environment.createEntry('cardGroup', {
