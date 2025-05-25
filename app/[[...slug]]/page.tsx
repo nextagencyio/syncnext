@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getEntryBySlug, getEntriesByType } from '@/utils/contentful'
 import { getContentTypeForSlug, extractArticleSlug, getContentTypePriority } from '@/utils/content-routing'
+import { LandingPageEntry, PageEntry, ArticleEntry } from '@/lib/contentful-types'
 import Landing from '@/components/Landing'
 import PageComponent from '@/components/Page'
 import Article from '@/components/Article'
@@ -150,15 +151,15 @@ export default async function Page(props: {
     case 'landing':
       return (
         <main data-post-id={content.sys.id} data-post-type="landing">
-          <Landing landing={content} hidePageTitle={true} />
+          <Landing landing={content as LandingPageEntry} hidePageTitle={true} />
         </main>
       )
 
     case 'page':
-      return <PageComponent page={content} />
+      return <PageComponent page={content as PageEntry} />
 
     case 'article':
-      return <Article article={content} />
+      return <Article article={content as ArticleEntry} />
 
     default:
       return (
