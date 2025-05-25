@@ -25,9 +25,6 @@ interface MenuData {
 type HeaderProps = {
   mainMenu: MenuData['menu'] | null;
   config: {
-    LOGO_URL: string;
-    LOGO_WIDTH: string;
-    LOGO_HEIGHT: string;
     SITE_NAME: string;
     SHOW_LOGO: string;
     SHOW_SITE_NAME: string;
@@ -51,9 +48,6 @@ export default function Header({ mainMenu, config }: HeaderProps) {
     <header role="banner" className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mb-8">
       <div className={`lg:container mx-auto transition-all duration-300 ease-in-out ${scrolled ? 'py-2' : 'py-6'}`}>
         <MainMenu
-          siteLogo={config.LOGO_URL}
-          siteLogoWidth={parseInt(config.LOGO_WIDTH)}
-          siteLogoHeight={parseInt(config.LOGO_HEIGHT)}
           siteName={config.SITE_NAME}
           showLogo={config.SHOW_LOGO === '1'}
           showSiteName={config.SHOW_SITE_NAME === '1'}

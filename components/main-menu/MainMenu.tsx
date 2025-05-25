@@ -19,9 +19,6 @@ import Logo from '@/components/logo/Logo'
 const MainMenu: React.FC<MainMenuProps> = ({
   modifier,
   linkModifier,
-  siteLogo,
-  siteLogoWidth,
-  siteLogoHeight,
   siteName,
   showLogo,
   showSiteName,

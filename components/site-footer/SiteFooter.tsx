@@ -5,9 +5,6 @@ import Logo from '@/components/logo/Logo'
 
 export type SiteFooterProps = {
   links: { title: string; url: string | null }[];
-  siteLogo?: string;
-  siteLogoWidth?: number;
-  siteLogoHeight?: number;
   siteName?: string;
   showLogo?: boolean;
   currentYear?: number;
@@ -15,9 +12,6 @@ export type SiteFooterProps = {
 
 const SiteFooter: React.FC<SiteFooterProps> = ({
   links,
-  siteLogo,
-  siteLogoWidth,
-  siteLogoHeight,
   siteName = '',
   showLogo = true,
   currentYear = new Date().getFullYear(),
@@ -35,7 +29,7 @@ const SiteFooter: React.FC<SiteFooterProps> = ({
         <div className="flex justify-center md:w-1/3">
           <Link href="/" className="flex items-center justify-center">
             {showLogo && (
-              <Logo size="sm" textColor="text-muted-foreground" />
+              <Logo size="md" textColor="text-muted-foreground" />
             )}
           </Link>
         </div>

@@ -13,9 +13,6 @@ const nextConfig = {
     formats: ['image/webp'],
   },
   publicRuntimeConfig: {
-    LOGO_URL: '/images/logo.svg',
-    LOGO_WIDTH: '160',
-    LOGO_HEIGHT: '44',
     SITE_NAME: 'SyncNext',
     SHOW_LOGO: '1',
     SHOW_SITE_NAME: '0',

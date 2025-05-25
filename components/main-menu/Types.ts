@@ -10,9 +10,6 @@ export interface MainMenuItem {
 export interface MainMenuProps {
   modifier?: string;
   linkModifier?: string;
-  siteLogo?: string;
-  siteLogoWidth: number;
-  siteLogoHeight: number;
   siteName?: string;
   showLogo?: boolean;
   showSiteName?: boolean;
