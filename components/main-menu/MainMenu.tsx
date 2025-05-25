@@ -32,8 +32,8 @@ const MainMenu: React.FC<MainMenuProps> = ({
   menuItems = menuItems.map((item, index) => {
     const isCTA = index >= menuItems.length - ctaLinkCount
 
-    const inActiveTrail = item.url === frontpagePath && pathname === '/'
-      ? true
+    const inActiveTrail = item.url === frontpagePath
+      ? pathname === '/'
       : pathname.startsWith(item.url)
 
     const below = item.below?.map((subItem) => ({
