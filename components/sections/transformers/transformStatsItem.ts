@@ -36,6 +36,6 @@ export function transformStatsItem(statsItem: Entry<any>): StatCardProps {
     icon: icon as string,
     media: mediaElement,
     border: false,
-    layout: 'left',
+    layout: 'center',
   }
 }

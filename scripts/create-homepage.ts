@@ -344,7 +344,7 @@ async function createHomepage() {
 
     const featureStatsItem1 = await createStatsItem(
       environment,
-      'Modern Web Solutions',
+      'Unlock the Power of Modern Web Solutions Tailored for You',
       'Experience seamless integration and flexibility with our Decoupled Architecture.',
       'Code'
     )
@@ -352,17 +352,17 @@ async function createHomepage() {
 
     const featureStatsItem2 = await createStatsItem(
       environment,
-      'Seamless Integration',
+      'Experience seamless integration and flexibility with our Decoupled Architecture',
       'Leverage the power of React and Node.js to dramatically improve your website\'s efficiency and speed.',
-      'Zap'
+      'GitBranch'
     )
     featureCards.push(featureStatsItem2)
 
     const featureStatsItem3 = await createStatsItem(
       environment,
-      'Blazing Fast Performance',
+      'Achieve Blazing Fast Performance That Keeps Your Users Engaged and Satisfied',
       'Achieve optimal speed and efficiency that keeps your users engaged and satisfied.',
-      'Rocket'
+      'Zap'
     )
     featureCards.push(featureStatsItem3)
 
@@ -412,27 +412,8 @@ async function createHomepage() {
     entries.push(logoCollectionEntry.sys.id)
     console.log('Technology logos collection created')
 
-    // 5. Create another Side by Side section - Elevate Skills with bullet points
+    // 5. Create another Side by Side section - Elevate Skills
     console.log('Creating skills elevation side-by-side section...')
-
-    // Create bullet entries for this section
-    const bullet1 = await createBullet(
-      environment,
-      'Code',
-      'Modern CMS Integration: Seamlessly connect your content management with cutting-edge front-end technologies.'
-    )
-
-    const bullet2 = await createBullet(
-      environment,
-      'Rocket',
-      'Powerful Development: Create scalable and innovative web solutions with enhanced performance.'
-    )
-
-    const bullet3 = await createBullet(
-      environment,
-      'Star',
-      'Future-Ready: Join the SyncNext ecosystem to unlock new possibilities in web development.'
-    )
 
     const sideBySideEntry2 = await environment.createEntry('sideBySide', {
       fields: {
@@ -450,31 +431,6 @@ async function createHomepage() {
               id: imageId
             }
           }
-        },
-        features: {
-          'en-US': [
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: bullet1
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: bullet2
-              }
-            },
-            {
-              sys: {
-                type: 'Link',
-                linkType: 'Entry',
-                id: bullet3
-              }
-            }
-          ]
         },
         layout: {
           'en-US': 'left'
