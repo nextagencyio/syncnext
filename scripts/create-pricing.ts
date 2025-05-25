@@ -323,7 +323,7 @@ async function createPricingPage() {
           'en-US': '#learn-more'
         },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'right'
         }
       }
     })
@@ -422,7 +422,7 @@ async function createPricingPage() {
           'en-US': '#sign-up'
         },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'left'
         }
       }
     })
