@@ -1,25 +1,52 @@
-import { Entry } from 'contentful'
+import { Entry } from 'contentful';
+import Embed from '@/components/embed/Embed';
+
+export interface EmbedSection {
+  type: 'embed';
+  title?: string;
+  script: string;
+}
 
 interface SectionEmbedProps {
-  section: Entry<any>
-  modifier?: string
+  section: Entry<any> | EmbedSection;
+  modifier?: string;
 }
 
 export default function SectionEmbed({ section, modifier }: SectionEmbedProps) {
-  const fields = section.fields
-  const { title, script } = fields
+  // Handle both Contentful Entry and EmbedSection interfaces
+  let title: string | undefined;
+  let script: string;
+
+  if ('fields' in section) {
+    // Contentful Entry format
+    const fields = section.fields;
+    title = fields.title as string;
+    script = fields.script as string;
+  } else {
+    // EmbedSection format
+    title = section.title;
+    script = section.script;
+  }
+
+  // Use the script directly as content, ensure it's a string
+  const content = script || '';
 
   return (
-    <div className={modifier ?? 'container mx-auto my-6 lg:my-15'}>
-      {title && (
-        <div className="mb-4 text-center">
-          <h2 className="text-3xl font-bold">{title as string}</h2>
-        </div>
-      )}
-      <div
-        className="embed-content"
-        dangerouslySetInnerHTML={{ __html: script as string }}
-      />
-    </div>
-  )
+    <Embed
+      title={title}
+      content={content}
+      modifier={modifier}
+    />
+  );
 }
+
+// GraphQL fragment for embed sections
+export const embedSectionFragment = `
+  fragment EmbedSection on LandingSection {
+    type
+    title
+    script
+    caption
+    maxWidth
+  }
+`;

@@ -7,6 +7,9 @@ interface EmbedProps {
 }
 
 export default function Embed({ title, content, modifier }: EmbedProps) {
+  // Ensure content is a string and not undefined
+  const safeContent = content || '';
+
   return (
     <div className="container mx-auto px-4">
       <Card className={`border-none shadow-none ${modifier ?? 'my-6 lg:my-25'}`}>
@@ -18,7 +21,7 @@ export default function Embed({ title, content, modifier }: EmbedProps) {
         <CardContent>
           <div
             className="prose max-w-none [&_iframe]:w-full [&_iframe]:max-w-full"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{ __html: safeContent }}
           ></div>
         </CardContent>
       </Card>
