@@ -53,14 +53,8 @@ function createHeadingRichText(text: string, level = 2) {
 // Helper function to create placeholder image if it doesn't exist
 async function createPlaceholderImageIfNeeded(environment: any): Promise<string> {
   try {
-    // Try to find existing card.webp asset
-    const existingAssets = await environment.getAssets({
-      'fields.title': 'Features Page Image'
-    })
-
-    if (existingAssets.items.length > 0) {
-      return existingAssets.items[0].sys.id
-    }
+    // Generate unique asset title to avoid conflicts
+    const uniqueTitle = `Features Page Image - ${Date.now()}`
 
     // Check if card.png exists in scripts/images directory
     const imagePath = join(__dirname, 'images', 'card.png')
@@ -75,7 +69,7 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
       const asset = await environment.createAsset({
         fields: {
           title: {
-            'en-US': 'Features Page Image'
+            'en-US': uniqueTitle
           },
           description: {
             'en-US': 'Features page hero image'
@@ -106,7 +100,7 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
     const asset = await environment.createAsset({
       fields: {
         title: {
-          'en-US': 'Features Page Image'
+          'en-US': uniqueTitle
         },
         description: {
           'en-US': 'Features page hero image'
@@ -114,7 +108,7 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
         file: {
           'en-US': {
             contentType: 'image/png',
-            fileName: 'features-hero.png',
+            fileName: `features-hero-${Date.now()}.png`,
             uploadFrom: {
               sys: {
                 type: 'Link',
@@ -128,7 +122,26 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
     })
 
     await asset.processForAllLocales()
-    await asset.publish()
+
+    // Wait for processing to complete before publishing
+    let processingAttempts = 0
+    const maxAttempts = 10
+
+    while (processingAttempts < maxAttempts) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000)) // Wait 1 second
+        const refreshedAsset = await environment.getAsset(asset.sys.id)
+        await refreshedAsset.publish()
+        break
+      } catch (publishError: any) {
+        processingAttempts++
+        if (publishError.name === 'VersionMismatch' && processingAttempts < maxAttempts) {
+          console.log(`Asset processing not complete, retrying... (${processingAttempts}/${maxAttempts})`)
+          continue
+        }
+        throw publishError
+      }
+    }
 
     return asset.sys.id
   } catch (error) {

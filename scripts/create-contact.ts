@@ -152,10 +152,7 @@ async function createContactPage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'Contact Hero'
-        },
-        heading: {
-          'en-US': createRichTextWithFormatting('Contact Us', true)
+          'en-US': 'Contact Us'
         },
         heroLayout: {
           'en-US': 'image_top'

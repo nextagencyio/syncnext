@@ -69,7 +69,26 @@ async function createPlaceholderImageIfNeeded(environment: any): Promise<string>
       })
 
       await asset.processForAllLocales()
-      await asset.publish()
+
+      // Wait for processing to complete before publishing
+      let processingAttempts = 0
+      const maxAttempts = 10
+
+      while (processingAttempts < maxAttempts) {
+        try {
+          await new Promise(resolve => setTimeout(resolve, 1000)) // Wait 1 second
+          const refreshedAsset = await environment.getAsset(asset.sys.id)
+          await refreshedAsset.publish()
+          break
+        } catch (publishError: any) {
+          processingAttempts++
+          if (publishError.name === 'VersionMismatch' && processingAttempts < maxAttempts) {
+            console.log(`Asset processing not complete, retrying... (${processingAttempts}/${maxAttempts})`)
+            continue
+          }
+          throw publishError
+        }
+      }
 
       return asset.sys.id
     }

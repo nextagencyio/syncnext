@@ -260,10 +260,7 @@ async function createComprehensiveLandingPage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'Welcome to Our Amazing Platform'
-        },
-        heading: {
-          'en-US': createRichText('Transform Your Business with Our Innovative Solutions')
+          'en-US': 'Transform Your Business with Our Innovative Solutions'
         },
         heroLayout: {
           'en-US': 'default'

@@ -177,10 +177,7 @@ async function createGetStartedPage() {
     const heroEntry = await environment.createEntry('hero', {
       fields: {
         title: {
-          'en-US': 'Get Started Hero'
-        },
-        heading: {
-          'en-US': createRichTextWithFormatting('Get Started', true)
+          'en-US': 'Get Started with SyncNext'
         },
         heroLayout: {
           'en-US': 'image_bottom'
