@@ -18,6 +18,7 @@ async function createAllContent() {
     { name: 'Contact Page', command: 'npm run create-contact' },
     { name: 'Sample Pages', command: 'npm run create-pages' },
     { name: 'Demo Landing Pages', command: 'npm run create-landing' },
+    { name: 'Articles', command: 'npm run create-articles' },
   ]
 
   for (const script of scripts) {

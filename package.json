@@ -20,6 +20,7 @@
     "create-features": "tsx scripts/create-features.ts",
     "create-pricing": "tsx scripts/create-pricing.ts",
     "create-resources": "tsx scripts/create-resources.ts",
+    "create-articles": "tsx scripts/create-articles.ts",
     "create-all-content": "tsx scripts/create-all-content.ts",
     "cleanup-content": "tsx scripts/cleanup-contentful.ts",
     "cleanup-all": "tsx scripts/cleanup-contentful.ts --structure"

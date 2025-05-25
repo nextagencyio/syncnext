@@ -206,9 +206,9 @@ async function createResourcesPage() {
     entries.push(heroEntry.sys.id)
     console.log('Resources hero section created')
 
-    // 2. Create Recent Posts section
+    // 2. Create Recent Posts section (using text as placeholder)
     console.log('\nCreating Recent Posts section...')
-    const recentPostsEntry = await environment.createEntry('recentPosts', {
+    const recentPostsEntry = await environment.createEntry('text', {
       fields: {
         title: {
           'en-US': ''
