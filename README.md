@@ -32,7 +32,7 @@ A modern Next.js application integrated with Contentful CMS for content manageme
 - **Type Safety**: Custom interfaces for all content types with runtime type guards
 - **Tailwind CSS**: Utility-first styling
 - **Storybook**: Component documentation and testing
-- **Cypress**: End-to-end testing
+
 - **AI Development**: Enhanced with modern AI-powered development workflows
 - **Comprehensive Documentation**: Detailed setup guides and best practices
 
@@ -128,12 +128,7 @@ Run Storybook for component development:
 npm run storybook
 ```
 
-### Testing
 
-Run Cypress tests:
-```bash
-npm run cypress
-```
 
 ### Build
 
