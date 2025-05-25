@@ -119,18 +119,6 @@ async function createStatsItem(environment: any, heading: string, body: string, 
   return statsItem.sys.id
 }
 
-// Helper function to create bullet entries
-async function createBullet(environment: any, icon: string, summary: string) {
-  const bullet = await environment.createEntry('bullet', {
-    fields: {
-      icon: { 'en-US': icon },
-      summary: { 'en-US': summary }
-    }
-  })
-  await bullet.publish()
-  return bullet.sys.id
-}
-
 // Helper function to create logo assets from the images directory
 async function createLogoAssets(environment: any) {
   const logoFiles = [
@@ -491,18 +479,18 @@ async function createHomepage() {
     // 8. Create final Side by Side section - Essential Features with mixed features
     console.log('Creating essential features side-by-side section...')
 
-    // Create mixed features for this section
     const statsItem3 = await createStatsItem(
       environment,
       'Key Features',
       'Explore our innovative tools designed to enhance your web development journey, from AI-assisted coding to seamless React integration.',
-      'Star'
+      ''
     )
 
-    const bullet4 = await createBullet(
+    const statsItem4 = await createStatsItem(
       environment,
-      'Zap',
-      'Accelerate Your Projects: Leverage SyncNext\'s powerful features to reduce development time and deliver high-performance websites faster than ever.'
+      'Accelerate Your Projects',
+      'Leverage SyncNext\'s powerful features to reduce development time and deliver high-performance websites faster than ever.',
+      ''
     )
 
     const sideBySideEntry3 = await environment.createEntry('sideBySide', {
@@ -535,7 +523,7 @@ async function createHomepage() {
               sys: {
                 type: 'Link',
                 linkType: 'Entry',
-                id: bullet4
+                id: statsItem4
               }
             }
           ]
