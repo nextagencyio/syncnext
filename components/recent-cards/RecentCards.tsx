@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Link from 'next/link';
+import { Badge } from "@/components/ui/badge";
 
 interface RecentCardProps {
   id: string;
@@ -9,8 +10,13 @@ interface RecentCardProps {
   title: string;
   summary: string;
   media: ReactNode;
-  tags?: string[];
-  publishedDate?: string;
+  metadata?: {
+    date: string;
+    tags: Array<{
+      name: string;
+      slug: string;
+    }>;
+  };
 }
 
 interface RecentCardsProps {
@@ -28,7 +34,12 @@ export default function RecentCards({ results }: RecentCardsProps) {
                 {article.media}
               </AspectRatio>
             </Link>
-            <CardHeader>
+            <CardHeader className="space-y-4">
+              {article.metadata?.date && (
+                <time className="text-sm text-muted-foreground">
+                  {article.metadata.date}
+                </time>
+              )}
               <CardTitle className='text-3xl'>
                 <Link href={article.path} className="hover:underline">
                   {article.title}
@@ -36,25 +47,22 @@ export default function RecentCards({ results }: RecentCardsProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600 mb-3">
-                {article.summary}
-              </p>
-              {article.tags && article.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {article.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
+              <div
+                className="prose prose-sm text-muted-foreground"
+                dangerouslySetInnerHTML={{ __html: article.summary }}
+              />
+              {article.metadata?.tags && article.metadata.tags.length > 0 && (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {article.metadata.tags.map((tag) => (
+                    <Badge
+                      key={tag.slug}
+                      variant="secondary"
+                      className="font-normal hover:bg-secondary/80"
                     >
-                      {tag}
-                    </span>
+                      {tag.name}
+                    </Badge>
                   ))}
                 </div>
-              )}
-              {article.publishedDate && (
-                <p className="text-xs text-gray-500">
-                  {new Date(article.publishedDate).toLocaleDateString()}
-                </p>
               )}
             </CardContent>
           </Card>

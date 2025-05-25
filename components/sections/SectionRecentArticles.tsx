@@ -37,14 +37,30 @@ export default async function SectionRecentArticles({ section, modifier }: Secti
       ['i169medium', 'i169large']
     ) : null;
 
+    // Format tags as objects with name and slug
+    const tags = (article.fields.tags as string[] || []).map(tag => ({
+      name: tag,
+      slug: tag.toLowerCase().replace(/\s+/g, '-'),
+    }));
+
+    // Format the published date
+    const publishedDate = article.fields.publishedDate as string;
+    const formattedDate = publishedDate ? new Date(publishedDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }) : '';
+
     return {
       id: article.sys.id,
       path: `/articles/${article.fields.slug}`,
       title: article.fields.title as string,
       summary: excerpt,
       media: mediaElement,
-      tags: article.fields.tags as string[] || [],
-      publishedDate: article.fields.publishedDate as string,
+      metadata: {
+        date: formattedDate,
+        tags: tags,
+      },
     };
   });
 
