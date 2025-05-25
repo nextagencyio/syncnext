@@ -13,6 +13,7 @@ import SectionPricing from './SectionPricing'
 import SectionCarousel from './SectionCarousel'
 import SectionLogoCollection from './SectionLogoCollection'
 import SectionSideBySide from './SectionSideBySide'
+import SectionRecentPosts from './SectionRecentPosts'
 
 interface SectionRendererProps {
   section: Entry<any>
@@ -64,6 +65,9 @@ export default function SectionRenderer({ section, modifier }: SectionRendererPr
 
     case 'sideBySide':
       return <SectionSideBySide section={section} modifier={modifier} />
+
+    case 'recentPosts':
+      return <SectionRecentPosts section={section} modifier={modifier} />
 
     default:
       console.warn(`Unknown section type: ${contentType}`)

@@ -514,7 +514,7 @@ async function setupContentful() {
         'hero', 'text', 'card', 'accordion',
         'gallery', 'pricing', 'media', 'carousel',
         'quote', 'embed', 'newsletter',
-        'cardGroup', 'logoCollection', 'sideBySide',
+        'cardGroup', 'logoCollection', 'sideBySide', 'recentPosts',
       ]
 
       const landingContentType = await environment.createContentTypeWithId('landing', {
@@ -567,7 +567,7 @@ async function setupContentful() {
           'hero', 'text', 'card', 'accordion',
           'gallery', 'pricing', 'media', 'carousel',
           'quote', 'embed', 'newsletter',
-          'cardGroup', 'logoCollection', 'sideBySide',
+          'cardGroup', 'logoCollection', 'sideBySide', 'recentPosts',
         ]
 
         sectionsField.items.validations = [
@@ -642,6 +642,24 @@ async function setupContentful() {
     }
     else {
       console.log('Article content type already exists')
+    }
+
+    // Create RecentPosts content type
+    if (!existingTypes.has('recentPosts')) {
+      const recentPostsContentType = await environment.createContentTypeWithId('recentPosts', {
+        name: 'Recent Posts',
+        description: 'A section that displays recent articles/posts',
+        displayField: 'title',
+        fields: [
+          symbolField('title', 'Title'),
+          entryArrayField('articles', 'Articles', ['article'], true),
+        ],
+      })
+      await recentPostsContentType.publish()
+      console.log('RecentPosts content type created and published')
+    }
+    else {
+      console.log('RecentPosts content type already exists')
     }
 
     // Create MenuItem content type
