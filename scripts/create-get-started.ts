@@ -50,25 +50,16 @@ function createRichTextWithFormatting(content: string, bold: boolean = false) {
   }
 }
 
-// Helper function to create statsItem entries
-async function createStatsItem(environment: any, heading: string, body: string, icon: string) {
-  const statsItem = await environment.createEntry('statsItem', {
-    fields: {
-      heading: { 'en-US': heading },
-      body: { 'en-US': body },
-      icon: { 'en-US': icon }
-    }
-  })
-  await statsItem.publish()
-  return statsItem.sys.id
-}
-
-// Helper function to create bullet entries
+// Helper function to create bullet point
 async function createBullet(environment: any, icon: string, summary: string) {
   const bullet = await environment.createEntry('bullet', {
     fields: {
-      icon: { 'en-US': icon },
-      summary: { 'en-US': summary }
+      icon: {
+        'en-US': icon
+      },
+      summary: {
+        'en-US': summary
+      }
     }
   })
   await bullet.publish()
@@ -206,19 +197,19 @@ async function createGetStartedPage() {
     const designersSideBySide = await environment.createEntry('sideBySide', {
       fields: {
         eyebrow: {
-          'en-US': 'Bootstrap UI kits'
+          'en-US': 'ShadCN UI Components'
         },
         title: {
           'en-US': 'SyncNext for Designers'
         },
         summary: {
-          'en-US': createRichText('Leverage a variety of Figma community templates built on Bootstrap 5 to jumpstart your design process.')
+          'en-US': createRichText('Leverage beautifully-designed, accessible components from ShadCN UI built on Tailwind CSS to jumpstart your design process.')
         },
         linkTitle: {
-          'en-US': 'Browse Figma UI kits'
+          'en-US': 'Browse ShadCN Components'
         },
         linkUrl: {
-          'en-US': '#figma-kits'
+          'en-US': 'https://ui.shadcn.com/'
         },
         media: {
           'en-US': {
@@ -230,7 +221,7 @@ async function createGetStartedPage() {
           }
         },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })
@@ -253,10 +244,10 @@ async function createGetStartedPage() {
           'en-US': createRichText('Visit our GitHub repository to download the SyncNext project template and start building your site today.')
         },
         linkTitle: {
-          'en-US': 'Find out more'
+          'en-US': 'View GitHub Repository'
         },
         linkUrl: {
-          'en-US': '#github-repo'
+          'en-US': 'https://github.com/nextagencyio/syncnext'
         },
         media: {
           'en-US': {
@@ -268,7 +259,7 @@ async function createGetStartedPage() {
           }
         },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'left'
         }
       }
     })
