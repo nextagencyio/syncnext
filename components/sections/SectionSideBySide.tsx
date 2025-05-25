@@ -3,8 +3,8 @@ import { Entry } from 'contentful'
 import Sidebyside, { BulletProps } from '@/components/sidebyside/Sidebyside'
 import { StatCardProps } from '@/components/stat-card/StatCard'
 import { LinkFormat } from '@/lib/types'
-import Image from 'next/image'
 import { transformStatsItem, transformBullet, type StatsItemType, type BulletType } from './transformers'
+import { getImage } from '../helpers/Utilities'
 
 interface SectionSideBySideProps {
   section: Entry<any>
@@ -24,16 +24,11 @@ export default function SectionSideBySide({ section, modifier }: SectionSideBySi
 
   // Resolve media
   const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
-  const mediaElement = resolvedMedia ? (
-    <Image
-      src={resolvedMedia.url}
-      alt={resolvedMedia.alt}
-      width={resolvedMedia.width}
-      height={resolvedMedia.height}
-      className="w-full h-auto rounded-lg"
-      sizes="(max-width: 768px) 100vw, 50vw"
-    />
-  ) : null
+  const mediaElement = resolvedMedia ? getImage(
+    resolvedMedia,
+    'w-full h-auto rounded-lg',
+    ['i43medium', 'i43medium']
+  ) : null;
 
   // Build link object
   const link: LinkFormat | undefined = linkTitle && linkUrl ? {
