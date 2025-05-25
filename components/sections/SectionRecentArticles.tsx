@@ -1,16 +1,28 @@
 import RecentCards from '@/components/recent-cards/RecentCards';
 import { getImage } from '@/components/helpers/Utilities';
+import { getEntriesByType } from '@/utils/contentful';
 import { Entry } from 'contentful';
 
-interface SectionRecentPostsProps {
+interface SectionRecentArticlesProps {
   section: Entry<any>;
   modifier?: string;
 }
 
-export default function SectionRecentPosts({ section, modifier }: SectionRecentPostsProps) {
-  const articles = (section.fields.articles as Entry<any>[]) || [];
+export default async function SectionRecentArticles({ section, modifier }: SectionRecentArticlesProps) {
+  // Dynamically fetch recent articles
+  const articles = await getEntriesByType('article');
 
-  const recentCardResults = articles.map((article: Entry<any>) => {
+  // Sort by published date (newest first) and take first 6
+  const sortedArticles = articles
+    .filter((article: Entry<any>) => article.fields && article.fields.publishedDate)
+    .sort((a: Entry<any>, b: Entry<any>) => {
+      const dateA = new Date(a.fields.publishedDate as string);
+      const dateB = new Date(b.fields.publishedDate as string);
+      return dateB.getTime() - dateA.getTime();
+    })
+    .slice(0, 6);
+
+  const recentCardResults = sortedArticles.map((article: Entry<any>) => {
     // Extract excerpt from lead rich text field
     const lead = article.fields.lead as any;
     const excerpt = lead?.content?.[0]?.content?.[0]?.value || '';
@@ -31,10 +43,8 @@ export default function SectionRecentPosts({ section, modifier }: SectionRecentP
       title: article.fields.title as string,
       summary: excerpt,
       media: mediaElement,
-      metadata: {
-        date: new Date().toLocaleDateString(),
-        tags: [],
-      },
+      tags: article.fields.tags as string[] || [],
+      publishedDate: article.fields.publishedDate as string,
     };
   });
 
@@ -48,29 +58,4 @@ export default function SectionRecentPosts({ section, modifier }: SectionRecentP
   );
 }
 
-// GraphQL fragment for recent posts sections
-export const recentPostsSectionFragment = `
-  fragment RecentPostsSection on LandingSection {
-    type
-    title
-    recentPosts {
-      databaseId
-      title
-      slug
-      excerpt
-      date
-      featuredImage {
-        node {
-          sourceUrl
-          altText
-        }
-      }
-      tags {
-        nodes {
-          name
-          slug
-        }
-      }
-    }
-  }
-`;
+

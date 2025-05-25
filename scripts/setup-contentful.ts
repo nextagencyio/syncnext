@@ -514,7 +514,7 @@ async function setupContentful() {
         'hero', 'text', 'card', 'accordion',
         'gallery', 'pricing', 'media', 'carousel',
         'quote', 'embed', 'newsletter',
-        'cardGroup', 'logoCollection', 'sideBySide', 'recentPosts',
+        'cardGroup', 'logoCollection', 'sideBySide', 'recentArticles',
       ]
 
       const landingContentType = await environment.createContentTypeWithId('landing', {
@@ -567,7 +567,7 @@ async function setupContentful() {
           'hero', 'text', 'card', 'accordion',
           'gallery', 'pricing', 'media', 'carousel',
           'quote', 'embed', 'newsletter',
-          'cardGroup', 'logoCollection', 'sideBySide', 'recentPosts',
+          'cardGroup', 'logoCollection', 'sideBySide', 'recentArticles',
         ]
 
         sectionsField.items.validations = [
@@ -635,31 +635,113 @@ async function setupContentful() {
           richTextField('lead', 'Lead/Summary'),
           assetLinkField('media', 'Featured Image'),
           richTextField('body', 'Body Content'),
+          {
+            id: 'tags',
+            name: 'Tags',
+            type: 'Array',
+            required: false,
+            localized: false,
+            items: {
+              type: 'Symbol',
+            },
+          },
+          {
+            id: 'publishedDate',
+            name: 'Published Date',
+            type: 'Date',
+            required: false,
+            localized: false,
+          },
         ],
       })
       await articleContentType.publish()
       console.log('Article content type created and published')
     }
     else {
-      console.log('Article content type already exists')
+      // Update existing article content type to add tags and publishedDate if they don't exist
+      const articleContentType = await environment.getContentType('article')
+      let needsUpdate = false
+
+      // Check if tags field exists
+      const tagsField = articleContentType.fields.find((field: any) => field.id === 'tags')
+      if (!tagsField) {
+        articleContentType.fields.push({
+          id: 'tags',
+          name: 'Tags',
+          type: 'Array',
+          required: false,
+          localized: false,
+          items: {
+            type: 'Symbol',
+          },
+        })
+        needsUpdate = true
+      }
+
+      // Check if publishedDate field exists
+      const publishedDateField = articleContentType.fields.find((field: any) => field.id === 'publishedDate')
+      if (!publishedDateField) {
+        articleContentType.fields.push({
+          id: 'publishedDate',
+          name: 'Published Date',
+          type: 'Date',
+          required: false,
+          localized: false,
+        })
+        needsUpdate = true
+      }
+
+      if (needsUpdate) {
+        const updatedArticle = await articleContentType.update()
+        await updatedArticle.publish()
+        console.log('Article content type updated with tags and publishedDate fields')
+      } else {
+        console.log('Article content type already exists with all fields')
+      }
     }
 
-    // Create RecentPosts content type
-    if (!existingTypes.has('recentPosts')) {
-      const recentPostsContentType = await environment.createContentTypeWithId('recentPosts', {
-        name: 'Recent Posts',
-        description: 'A section that displays recent articles/posts',
+    // Create or update RecentArticles content type
+    if (!existingTypes.has('recentArticles')) {
+      const recentArticlesContentType = await environment.createContentTypeWithId('recentArticles', {
+        name: 'Recent Articles',
+        description: 'A section that displays recent articles dynamically',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
-          entryArrayField('articles', 'Articles', ['article'], true),
         ],
       })
-      await recentPostsContentType.publish()
-      console.log('RecentPosts content type created and published')
+      await recentArticlesContentType.publish()
+      console.log('RecentArticles content type created and published')
     }
     else {
-      console.log('RecentPosts content type already exists')
+      // Check if the existing recentArticles content type needs to be updated
+      const recentArticlesContentType = await environment.getContentType('recentArticles')
+      let needsUpdate = false
+
+      // Check if it still has the old articles field
+      const articlesField = recentArticlesContentType.fields.find((field: any) => field.id === 'articles')
+      if (articlesField && !articlesField.omitted) {
+        console.log('RecentArticles content type has old articles field - it should be updated manually')
+      }
+
+      // Update name and description if needed
+      if (recentArticlesContentType.name !== 'Recent Articles') {
+        recentArticlesContentType.name = 'Recent Articles'
+        needsUpdate = true
+      }
+
+      if (recentArticlesContentType.description !== 'A section that displays recent articles dynamically') {
+        recentArticlesContentType.description = 'A section that displays recent articles dynamically'
+        needsUpdate = true
+      }
+
+      if (needsUpdate) {
+        const updatedContentType = await recentArticlesContentType.update()
+        await updatedContentType.publish()
+        console.log('RecentArticles content type metadata updated')
+      } else {
+        console.log('RecentArticles content type already exists and is up to date')
+      }
     }
 
     // Create MenuItem content type

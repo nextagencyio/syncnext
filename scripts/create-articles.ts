@@ -274,6 +274,7 @@ Headless Contentful is a modern approach to content management that separates th
 To get started with headless Contentful, you need to set up a Contentful space and a frontend framework like Next.js.`,
         excerpt: 'Learn how to get started with headless Contentful and leverage its benefits for your next project.',
         tags: ['Contentful', 'Headless CMS', 'Tutorial'],
+        publishedDate: '2024-01-15',
       },
       {
         title: 'Building with Next.js and Contentful',
@@ -291,6 +292,7 @@ To set up Next.js with Contentful, you need to create a new Next.js project and 
 Next.js can fetch data from Contentful using the REST API or GraphQL.`,
         excerpt: 'Discover how to build modern websites using Next.js as a frontend for Contentful.',
         tags: ['Next.js', 'Contentful', 'React'],
+        publishedDate: '2024-01-20',
       },
       {
         title: 'Using GraphQL with Contentful',
@@ -308,6 +310,7 @@ To use GraphQL with Contentful, you can use Contentful's built-in GraphQL API en
 GraphQL allows you to query multiple resources in a single request, reducing the number of API calls needed.`,
         excerpt: 'Learn how to use GraphQL with Contentful to build more efficient and flexible APIs.',
         tags: ['GraphQL', 'Contentful', 'API'],
+        publishedDate: '2024-01-25',
       },
       {
         title: 'SyncNext Performance Optimization Guide',
@@ -330,6 +333,7 @@ Follow these best practices to ensure your SyncNext site performs at its best:
 • Monitor and optimize API queries`,
         excerpt: 'Discover techniques and best practices for optimizing your SyncNext site performance.',
         tags: ['Performance', 'Optimization', 'Best Practices'],
+        publishedDate: '2024-02-01',
       },
       {
         title: 'Headless Contentful with SyncNext',
@@ -353,6 +357,7 @@ Learn how to set up and configure your headless Contentful site with SyncNext:
 • Deployment strategies`,
         excerpt: 'Learn how to implement headless Contentful architecture with SyncNext for better performance and flexibility.',
         tags: ['Headless', 'Contentful', 'Architecture'],
+        publishedDate: '2024-02-05',
       },
       {
         title: 'Creating Dynamic Layouts with SyncNext',
@@ -377,6 +382,7 @@ Discover advanced layout techniques:
 Learn how to combine these techniques to create powerful, flexible layouts that adapt to any content structure.`,
         excerpt: 'Explore techniques for creating flexible and dynamic layouts with SyncNext components.',
         tags: ['Layout', 'Design', 'Components'],
+        publishedDate: '2024-02-10',
       },
     ]
 
@@ -440,6 +446,12 @@ Learn how to combine these techniques to create powerful, flexible layouts that 
                   id: imageId
                 }
               }
+            },
+            tags: {
+              'en-US': articleData.tags
+            },
+            publishedDate: {
+              'en-US': articleData.publishedDate
             }
           }
         })

@@ -41,10 +41,13 @@ export interface LandingPageEntry extends Entry<any> {
 // Helper function to get an entry by slug
 export async function getEntryBySlug(contentType: string, slug: string) {
   try {
+    // Use higher include level for landing pages since they have deeply nested references
+    const includeLevel = contentType === 'landing' ? 10 : 3
+
     const entries = await client.getEntries({
       content_type: contentType,
       'fields.slug': slug,
-      include: 3, // Include linked entries up to 3 levels deep
+      include: includeLevel, // Include linked entries up to specified levels deep
     })
 
     if (entries.items.length === 0) {
@@ -61,9 +64,12 @@ export async function getEntryBySlug(contentType: string, slug: string) {
 // Helper function to get all entries of a specific content type
 export async function getEntriesByType(contentType: string) {
   try {
+    // Use higher include level for articles to get their media assets
+    const includeLevel = contentType === 'article' ? 3 : 2
+
     const entries = await client.getEntries({
       content_type: contentType,
-      include: 2,
+      include: includeLevel,
     })
 
     return entries.items

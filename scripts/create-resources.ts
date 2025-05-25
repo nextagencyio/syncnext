@@ -206,39 +206,19 @@ async function createResourcesPage() {
     entries.push(heroEntry.sys.id)
     console.log('Resources hero section created')
 
-    // 2. Create Recent Posts section
-    console.log('\nCreating Recent Posts section...')
+    // 2. Create Recent Articles section
+    console.log('\nCreating Recent Articles section...')
 
-    // Get existing articles to reference
-    const existingArticles = await environment.getEntries({
-      content_type: 'article',
-      limit: 3
-    })
-
-    if (existingArticles.items.length === 0) {
-      console.log('No articles found. Please run "npm run create-articles" first.')
-      process.exit(1)
-    }
-
-    const recentPostsEntry = await environment.createEntry('recentPosts', {
+    const recentArticlesEntry = await environment.createEntry('recentArticles', {
       fields: {
         title: {
-          'en-US': 'Latest Articles'
-        },
-        articles: {
-          'en-US': existingArticles.items.slice(0, 3).map(article => ({
-            sys: {
-              type: 'Link',
-              linkType: 'Entry',
-              id: article.sys.id
-            }
-          }))
+          'en-US': ''
         }
       }
     })
-    await recentPostsEntry.publish()
-    entries.push(recentPostsEntry.sys.id)
-    console.log('Recent posts section created')
+    await recentArticlesEntry.publish()
+    entries.push(recentArticlesEntry.sys.id)
+    console.log('Recent articles section created')
 
     // 3. Create the resources landing page
     console.log('\nCreating resources landing page...')

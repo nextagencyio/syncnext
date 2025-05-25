@@ -9,7 +9,7 @@ interface ArticleProps {
 
 export default function Article({ article }: ArticleProps) {
   const fields = article.fields
-  const { title, subhead, lead, media, body } = fields
+  const { title, subhead, lead, media, body, tags, publishedDate } = fields
 
   const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
   const leadProcessed = lead ? resolveRichText(lead) : null
@@ -37,10 +37,36 @@ export default function Article({ article }: ArticleProps) {
               {subhead as string}
             </div>
           )}
-          <Heading level={1} title={title as string} className="mb-8" />
+          <Heading level={1} title={title as string} className="mb-4" />
+
+          {/* Tags and Date */}
+          <div className="flex flex-wrap items-center gap-4 mb-8 pb-4 border-b border-gray-200">
+            {tags && Array.isArray(tags) && tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {(tags as string[]).map((tag, index) => (
+                  <span
+                    key={index}
+                    className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            {publishedDate && (
+              <time className="text-sm text-gray-500">
+                Published {new Date(publishedDate as string).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            )}
+          </div>
+
           {leadProcessed && (
             <div
-              className="prose prose-lg lead mb-4 text-xl text-gray-700"
+              className="prose prose-lg lead mb-6 text-xl text-gray-700"
               dangerouslySetInnerHTML={{ __html: leadProcessed }}
             />
           )}

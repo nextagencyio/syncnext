@@ -9,6 +9,8 @@ interface RecentCardProps {
   title: string;
   summary: string;
   media: ReactNode;
+  tags?: string[];
+  publishedDate?: string;
 }
 
 interface RecentCardsProps {
@@ -34,9 +36,26 @@ export default function RecentCards({ results }: RecentCardsProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-3">
                 {article.summary}
               </p>
+              {article.tags && article.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {article.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {article.publishedDate && (
+                <p className="text-xs text-gray-500">
+                  {new Date(article.publishedDate).toLocaleDateString()}
+                </p>
+              )}
             </CardContent>
           </Card>
         ))}
