@@ -45,6 +45,12 @@ CONTENTFUL_SPACE_ID=your_space_id
 CONTENTFUL_ACCESS_TOKEN=your_access_token
 CONTENTFUL_PREVIEW_ACCESS_TOKEN=your_preview_token
 CONTENTFUL_MANAGEMENT_TOKEN=your_management_token
+
+# For admin bar functionality (must be public)
+NEXT_PUBLIC_CONTENTFUL_SPACE_ID=your_space_id
+
+# Environment mode (set to 'preview' to enable admin bar)
+ENVIRONMENT=development
 ```
 
 ### Content Setup
@@ -118,6 +124,39 @@ npm run build
 └── public/                # Static assets
 ```
 
+## Admin Bar for Content Editing
+
+SyncNext includes an admin bar that appears when in preview mode, providing quick access to edit content in Contentful:
+
+### Enabling the Admin Bar
+
+1. Set the environment to preview mode in your `.env` file:
+   ```env
+   ENVIRONMENT=preview
+   ```
+
+2. Ensure you have the public Contentful Space ID configured:
+   ```env
+   NEXT_PUBLIC_CONTENTFUL_SPACE_ID=your_space_id
+   ```
+
+3. Restart your development server:
+   ```bash
+   npm run dev
+   ```
+
+### Using the Admin Bar
+
+When enabled, the admin bar will appear at the top of your pages with:
+- **Edit Button**: Direct link to edit the current page/entry in Contentful
+- **Home Button**: Quick navigation back to the homepage
+- **Hide/Show Toggle**: Minimize the admin bar when needed
+
+The admin bar automatically detects the current Contentful entry and generates the appropriate edit link for:
+- Landing pages
+- Articles
+- Basic pages
+
 ## SyncNext Features
 
 SyncNext combines the power of modern web technologies with AI-enhanced development workflows:
@@ -126,6 +165,7 @@ SyncNext combines the power of modern web technologies with AI-enhanced developm
 - **AI Development Tools**: Enhanced development experience with modern AI assistants
 - **Lightning Fast Performance**: Optimized for speed and user experience
 - **Scalable Solutions**: Built to grow with your business needs
+- **Content Management**: Integrated admin bar for seamless content editing
 
 ## License
 

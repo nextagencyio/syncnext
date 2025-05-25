@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { getMenuByIdentifier, transformContentfulMenu } from "@/utils/contentful";
 import getConfig from 'next/config';
+import AdminBarWrapper from "@/components/admin/AdminBarWrapper";
 
 import './globals.css'
 
@@ -31,9 +32,12 @@ export default async function RootLayout({
     console.warn('Failed to fetch menus from Contentful:', error);
   }
 
+  const isPreviewMode = process.env.ENVIRONMENT === 'preview';
+
   return (
     <html lang="en">
       <body className={font.className}>
+        <AdminBarWrapper isPreviewMode={isPreviewMode} />
         <Container>
           <Header
             mainMenu={menuData?.menu || null}

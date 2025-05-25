@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Admin Bar Adjustments */
+body.admin-bar-visible {
+  padding-top: 40px !important;
+}
+
+body.admin-bar-hidden {
+  padding-top: 0 !important;
+}
+
+/* Adjust header position when admin bar is visible */
+body.admin-bar-visible header.sticky {
+  top: 40px !important;
+}
+
+body.admin-bar-hidden header.sticky {
+  top: 0 !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  body.admin-bar-visible {
+    padding-top: 36px !important;
+  }
+
+  body.admin-bar-visible header.sticky {
+    top: 36px !important;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

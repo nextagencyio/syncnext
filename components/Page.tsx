@@ -15,7 +15,7 @@ export default function Page({ page }: PageProps) {
   const bodyProcessed = body ? resolveRichText(body) : null
 
   return (
-    <article className="mb-8">
+    <article className="mb-8" data-page-id={page.sys.id}>
       <div className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
         {resolvedMedia && (
           <div className="relative aspect-[16/9] mb-6">
