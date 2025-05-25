@@ -1,14 +1,59 @@
 import { createClient, Entry, Asset } from 'contentful'
 import * as dotenv from 'dotenv'
+import { withCache, contentfulCache } from './contentful-cache'
+import { shouldSuppressWarning } from './content-routing'
 
 // Load environment variables
 dotenv.config({ path: '.env' })
+
+// Validate required environment variables
+const requiredEnvVars = {
+  CONTENTFUL_SPACE_ID: process.env.CONTENTFUL_SPACE_ID,
+  CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
+}
+
+// Check for missing environment variables
+const missingVars = Object.entries(requiredEnvVars)
+  .filter(([key, value]) => !value)
+  .map(([key]) => key)
+
+if (missingVars.length > 0) {
+  throw new Error(
+    `Missing required Contentful environment variables: ${missingVars.join(', ')}. ` +
+    'Please check your .env file and ensure all required variables are set.'
+  )
+}
 
 // Create a Contentful client instance
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID!,
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!,
+  // Add timeout and retry configuration
+  timeout: 10000, // 10 second timeout
+  retryOnError: true,
 })
+
+// Utility functions for error handling and retries
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const isRetryableError = (error: any): boolean => {
+  // Retry on network errors, timeouts, and 5xx server errors
+  if (error.code === 'NETWORK_ERROR' || error.code === 'TIMEOUT') {
+    return true
+  }
+
+  // Check for HTTP status codes that indicate temporary issues
+  if (error.response?.status >= 500 && error.response?.status < 600) {
+    return true
+  }
+
+  // Retry on rate limiting (429)
+  if (error.response?.status === 429) {
+    return true
+  }
+
+  return false
+}
 
 // Type definitions for our content types
 export interface ContentfulImage extends Asset {
@@ -38,31 +83,48 @@ export interface LandingPageEntry extends Entry<any> {
   }
 }
 
-// Helper function to get an entry by slug
-export async function getEntryBySlug(contentType: string, slug: string) {
-  try {
-    // Use higher include level for landing pages since they have deeply nested references
-    const includeLevel = contentType === 'landing' ? 10 : 3
+// Helper function to get an entry by slug with enhanced error handling and caching
+export async function getEntryBySlug(contentType: string, slug: string, retries = 3): Promise<Entry<any> | null> {
+  const cacheKey = contentfulCache.generateKey('getEntryBySlug', { contentType, slug })
 
-    const entries = await client.getEntries({
-      content_type: contentType,
-      'fields.slug': slug,
-      include: includeLevel, // Include linked entries up to specified levels deep
-    })
+  return withCache(cacheKey, async () => {
+    try {
+      // Use higher include level for landing pages since they have deeply nested references
+      const includeLevel = contentType === 'landing' ? 10 : 3
 
-    if (entries.items.length === 0) {
+      const entries = await client.getEntries({
+        content_type: contentType,
+        'fields.slug': slug,
+        include: includeLevel, // Include linked entries up to specified levels deep
+      })
+
+      if (entries.items.length === 0) {
+        // Only log warnings for unexpected missing content
+        const suppressWarning = await shouldSuppressWarning(contentType, slug)
+        if (!suppressWarning) {
+          console.warn(`No entry found for content type "${contentType}" with slug "${slug}"`)
+        }
+        return null
+      }
+
+      return entries.items[0]
+    } catch (error) {
+      console.error(`Error fetching entry by slug (${contentType}/${slug}):`, error)
+
+      // Retry logic for network errors
+      if (retries > 0 && isRetryableError(error)) {
+        console.log(`Retrying... (${retries} attempts remaining)`)
+        await delay(1000) // Wait 1 second before retry
+        return getEntryBySlug(contentType, slug, retries - 1)
+      }
+
       return null
     }
-
-    return entries.items[0]
-  } catch (error) {
-    console.error('Error fetching entry by slug:', error)
-    return null
-  }
+  })
 }
 
-// Helper function to get all entries of a specific content type
-export async function getEntriesByType(contentType: string) {
+// Helper function to get all entries of a specific content type with enhanced error handling
+export async function getEntriesByType(contentType: string, retries = 3) {
   try {
     // Use higher include level for articles to get their media assets
     const includeLevel = contentType === 'article' ? 3 : 2
@@ -74,7 +136,15 @@ export async function getEntriesByType(contentType: string) {
 
     return entries.items
   } catch (error) {
-    console.error('Error fetching entries by type:', error)
+    console.error(`Error fetching entries by type (${contentType}):`, error)
+
+    // Retry logic for network errors
+    if (retries > 0 && isRetryableError(error)) {
+      console.log(`Retrying getEntriesByType... (${retries} attempts remaining)`)
+      await delay(1000) // Wait 1 second before retry
+      return getEntriesByType(contentType, retries - 1)
+    }
+
     return []
   }
 }

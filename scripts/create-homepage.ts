@@ -28,27 +28,7 @@ function createRichText(content: string | string[]) {
   }
 }
 
-// Helper function to create rich text with formatting
-function createRichTextWithFormatting(content: string, bold: boolean = false) {
-  return {
-    nodeType: 'document',
-    data: {},
-    content: [
-      {
-        nodeType: 'paragraph',
-        data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: content,
-            marks: bold ? [{ type: 'bold' }] : [],
-            data: {}
-          }
-        ]
-      }
-    ]
-  }
-}
+
 
 async function createPlaceholderImageIfNeeded(environment: any) {
   const placeholderImageId = process.env.CONTENTFUL_PLACEHOLDER_IMAGE_ID

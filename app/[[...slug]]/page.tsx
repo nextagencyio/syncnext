@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getEntryBySlug, getEntriesByType, LandingPageEntry } from '@/utils/contentful'
+import { getEntryBySlug, getEntriesByType } from '@/utils/contentful'
+import { getContentTypeForSlug, extractArticleSlug, getContentTypePriority } from '@/utils/content-routing'
 import Landing from '@/components/Landing'
 import PageComponent from '@/components/Page'
 import Article from '@/components/Article'
@@ -65,30 +66,35 @@ async function getPageData(props: {
   const slug = params.slug?.join('/') || 'home'
 
   try {
-    // Check if this is an article URL (starts with 'articles/')
-    if (slug.startsWith('articles/')) {
-      const articleSlug = slug.replace('articles/', '')
+    // Check if this is an article URL and extract the article slug
+    const articleSlug = extractArticleSlug(slug)
+    if (articleSlug) {
       const article = await getEntryBySlug('article', articleSlug)
       if (article) {
         return { content: article, type: 'article' }
       }
+      return null
     }
 
-    // Try to find the content in different content types
-    const [landingPage, page, article] = await Promise.all([
-      getEntryBySlug('landing', slug),
-      getEntryBySlug('page', slug),
-      getEntryBySlug('article', slug),
-    ])
+    // Determine the most likely content type for this slug
+    const expectedContentType = await getContentTypeForSlug(slug)
 
-    if (landingPage) {
-      return { content: landingPage, type: 'landing' }
-    }
-    if (page) {
-      return { content: page, type: 'page' }
-    }
-    if (article) {
-      return { content: article, type: 'article' }
+    if (expectedContentType) {
+      // We know what content type this should be, so check it directly
+      const content = await getEntryBySlug(expectedContentType, slug)
+      if (content) {
+        return { content, type: expectedContentType }
+      }
+    } else {
+      // Unknown slug - try content types in priority order
+      const contentTypePriority = getContentTypePriority()
+
+      for (const contentType of contentTypePriority) {
+        const content = await getEntryBySlug(contentType, slug)
+        if (content) {
+          return { content, type: contentType }
+        }
+      }
     }
 
     return null

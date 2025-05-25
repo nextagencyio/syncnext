@@ -1,6 +1,5 @@
 import { createClient } from 'contentful-management'
 import * as dotenv from 'dotenv'
-import axios from 'axios'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -59,39 +58,7 @@ function createRichText(content: string | string[]) {
   }
 }
 
-// Helper function to create rich text with headings
-function createRichTextWithHeading(heading: string, content: string) {
-  return {
-    nodeType: 'document',
-    data: {},
-    content: [
-      {
-        nodeType: 'heading-2',
-        data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: heading,
-            marks: [],
-            data: {}
-          }
-        ]
-      },
-      {
-        nodeType: 'paragraph',
-        data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: content,
-            marks: [],
-            data: {}
-          }
-        ]
-      }
-    ]
-  }
-}
+
 
 async function createPlaceholderImage(environment: any) {
   console.log('Creating placeholder image...')

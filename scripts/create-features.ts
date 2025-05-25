@@ -28,27 +28,7 @@ function createRichText(text: string) {
   }
 }
 
-// Helper function to create heading rich text
-function createHeadingRichText(text: string, level = 2) {
-  return {
-    nodeType: 'document',
-    data: {},
-    content: [
-      {
-        nodeType: `heading-${level}`,
-        data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: text,
-            marks: [],
-            data: {}
-          }
-        ]
-      }
-    ]
-  }
-}
+
 
 // Helper function to create placeholder image if it doesn't exist
 async function createPlaceholderImageIfNeeded(environment: any): Promise<string> {
@@ -334,7 +314,7 @@ async function createFeaturesPage() {
           ]
         },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })
@@ -371,7 +351,7 @@ async function createFeaturesPage() {
           'en-US': '#explore'
         },
         layout: {
-          'en-US': 'image_left'
+          'en-US': 'left'
         }
       }
     })
@@ -502,7 +482,7 @@ async function createFeaturesPage() {
           'en-US': '#learn-more'
         },
         layout: {
-          'en-US': 'image_right'
+          'en-US': 'right'
         }
       }
     })

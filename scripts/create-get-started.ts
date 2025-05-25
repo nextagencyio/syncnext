@@ -28,43 +28,9 @@ function createRichText(content: string | string[]) {
   }
 }
 
-// Helper function to create rich text with formatting
-function createRichTextWithFormatting(content: string, bold: boolean = false) {
-  return {
-    nodeType: 'document',
-    data: {},
-    content: [
-      {
-        nodeType: 'paragraph',
-        data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: content,
-            marks: bold ? [{ type: 'bold' }] : [],
-            data: {}
-          }
-        ]
-      }
-    ]
-  }
-}
 
-// Helper function to create bullet point
-async function createBullet(environment: any, icon: string, summary: string) {
-  const bullet = await environment.createEntry('bullet', {
-    fields: {
-      icon: {
-        'en-US': icon
-      },
-      summary: {
-        'en-US': summary
-      }
-    }
-  })
-  await bullet.publish()
-  return bullet.sys.id
-}
+
+
 
 async function createPlaceholderImageIfNeeded(environment: any) {
   const placeholderImageId = process.env.CONTENTFUL_PLACEHOLDER_IMAGE_ID
