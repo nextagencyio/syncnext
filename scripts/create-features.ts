@@ -240,13 +240,13 @@ async function createFeaturesPage() {
           'en-US': 'Get Started'
         },
         linkUrl: {
-          'en-US': '/get-started'
+          'en-US': '#primary-cta'
         },
         link2Title: {
           'en-US': 'Learn More'
         },
         link2Url: {
-          'en-US': '/docs'
+          'en-US': '#secondary-cta'
         },
         media: {
           'en-US': {
@@ -294,7 +294,7 @@ async function createFeaturesPage() {
           'en-US': 'Discover the Future of Web Development with SyncNext\'s Innovative Tools'
         },
         eyebrow: {
-          'en-US': 'CUSTOMIZABLE COMPONENTS'
+          'en-US': 'Customizable Components'
         },
         summary: {
           'en-US': createRichText('At SyncNext, we empower developers with cutting-edge tools and a modern tech stack, ensuring seamless integration and unparalleled performance that elevate your web projects.')
@@ -334,7 +334,7 @@ async function createFeaturesPage() {
           ]
         },
         layout: {
-          'en-US': 'right'
+          'en-US': 'image_right'
         }
       }
     })
@@ -350,7 +350,7 @@ async function createFeaturesPage() {
           'en-US': 'Experience Unmatched Reliability and Scalability Today'
         },
         eyebrow: {
-          'en-US': 'DEPENDABLE'
+          'en-US': 'Dependable'
         },
         summary: {
           'en-US': createRichText('At SyncNext, we prioritize reliability and scalability to ensure your web projects thrive. Our robust platform adapts seamlessly to your growing needs, empowering you to build with confidence.')
@@ -368,10 +368,10 @@ async function createFeaturesPage() {
           'en-US': 'Explore'
         },
         linkUrl: {
-          'en-US': '/explore'
+          'en-US': '#explore'
         },
         layout: {
-          'en-US': 'left'
+          'en-US': 'image_left'
         }
       }
     })
@@ -379,7 +379,7 @@ async function createFeaturesPage() {
     entries.push(sideBySideEntry2.sys.id)
     console.log('Reliability section created')
 
-    // 4. Create Features Stats section
+    // 4. Create Features Stats section (Card Group)
     console.log('\nCreating Features Stats section...')
 
     const statsItem1 = await createStatsItem(
@@ -403,26 +403,13 @@ async function createFeaturesPage() {
       'Box'
     )
 
-    const textEntry1 = await environment.createEntry('text', {
+    // Create card group for features stats
+    const cardGroupEntry = await environment.createEntry('cardGroup', {
       fields: {
         title: {
           'en-US': 'Discover Our Cutting-Edge Features'
         },
-        textLayout: {
-          'en-US': 'center'
-        }
-      }
-    })
-    await textEntry1.publish()
-    entries.push(textEntry1.sys.id)
-
-    // Create side-by-side for features stats
-    const sideBySideEntry3 = await environment.createEntry('sideBySide', {
-      fields: {
-        title: {
-          'en-US': 'Discover Our Cutting-Edge Features'
-        },
-        features: {
+        cards: {
           'en-US': [
             {
               sys: {
@@ -446,14 +433,11 @@ async function createFeaturesPage() {
               }
             }
           ]
-        },
-        layout: {
-          'en-US': 'center'
         }
       }
     })
-    await sideBySideEntry3.publish()
-    entries.push(sideBySideEntry3.sys.id)
+    await cardGroupEntry.publish()
+    entries.push(cardGroupEntry.sys.id)
     console.log('Features stats section created')
 
     // 5. Create Innovation section
@@ -463,14 +447,14 @@ async function createFeaturesPage() {
       environment,
       'Seamless Integration',
       'Easily connect with various tools and services to enhance your web projects.',
-      'Link'
+      ''
     )
 
     const statsItem5 = await createStatsItem(
       environment,
       'Robust Security',
       'Protect your website with advanced security features and regular updates.',
-      'Shield'
+      ''
     )
 
     const sideBySideEntry4 = await environment.createEntry('sideBySide', {
@@ -479,7 +463,7 @@ async function createFeaturesPage() {
           'en-US': 'Experience the Future of Web Development'
         },
         eyebrow: {
-          'en-US': 'INNOVATE'
+          'en-US': 'Innovate'
         },
         summary: {
           'en-US': createRichText('SyncNext empowers you to build dynamic websites with ease. Our platform combines cutting-edge technology with user-friendly features.')
@@ -515,10 +499,10 @@ async function createFeaturesPage() {
           'en-US': 'Learn More'
         },
         linkUrl: {
-          'en-US': '/learn-more'
+          'en-US': '#learn-more'
         },
         layout: {
-          'en-US': 'right'
+          'en-US': 'image_right'
         }
       }
     })
@@ -540,16 +524,16 @@ async function createFeaturesPage() {
           'en-US': 'Get Started'
         },
         linkUrl: {
-          'en-US': '/get-started'
+          'en-US': '#get-started'
         },
         link2Title: {
           'en-US': 'Learn More'
         },
         link2Url: {
-          'en-US': '/learn-more'
+          'en-US': '#learn-more'
         },
         textLayout: {
-          'en-US': 'center'
+          'en-US': 'default'
         }
       }
     })
@@ -677,7 +661,7 @@ async function createFeaturesPage() {
     const landingPage = await environment.createEntry('landing', {
       fields: {
         title: {
-          'en-US': 'Features - SyncNext'
+          'en-US': 'SyncNext Features'
         },
         slug: {
           'en-US': 'features'
