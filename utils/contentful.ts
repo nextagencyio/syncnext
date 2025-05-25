@@ -33,6 +33,20 @@ const client = createClient({
   retryOnError: true,
 })
 
+// Create preview client for draft content
+const previewClient = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID!,
+  accessToken: process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN || process.env.CONTENTFUL_ACCESS_TOKEN!,
+  host: 'preview.contentful.com',
+  timeout: 10000,
+  retryOnError: true,
+})
+
+// Helper to get the appropriate client
+function getClient(preview = false) {
+  return preview && process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN ? previewClient : client
+}
+
 // Utility functions for error handling and retries
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -92,7 +106,7 @@ export async function getEntryBySlug(contentType: string, slug: string, retries 
       // Use higher include level for landing pages since they have deeply nested references
       const includeLevel = contentType === 'landing' ? 10 : 3
 
-      const entries = await client.getEntries({
+      const entries = await getClient(false).getEntries({
         content_type: contentType,
         'fields.slug': slug,
         include: includeLevel, // Include linked entries up to specified levels deep
@@ -129,7 +143,7 @@ export async function getEntriesByType(contentType: string, retries = 3) {
     // Use higher include level for articles to get their media assets
     const includeLevel = contentType === 'article' ? 3 : 2
 
-    const entries = await client.getEntries({
+    const entries = await getClient(false).getEntries({
       content_type: contentType,
       include: includeLevel,
     })
@@ -147,6 +161,22 @@ export async function getEntriesByType(contentType: string, retries = 3) {
 
     return []
   }
+}
+
+// Helper function to validate content structure
+export function validateContentEntry(entry: Entry<any>, requiredFields: string[] = []): boolean {
+  if (!entry || !entry.fields) {
+    console.warn('Invalid entry: missing fields')
+    return false
+  }
+
+  const missingFields = requiredFields.filter(field => !entry.fields[field])
+  if (missingFields.length > 0) {
+    console.warn(`Entry ${entry.sys.id} missing required fields: ${missingFields.join(', ')}`)
+    return false
+  }
+
+  return true
 }
 
 // Helper function to resolve Contentful images to a format compatible with existing components
@@ -336,7 +366,7 @@ export interface MenuEntry extends Entry<any> {
 // Helper function to get a menu by identifier
 export async function getMenuByIdentifier(identifier: 'main' | 'footer'): Promise<MenuEntry | null> {
   try {
-    const entries = await client.getEntries({
+    const entries = await getClient(false).getEntries({
       content_type: 'menu',
       'fields.identifier': identifier,
       include: 3, // Include linked menu items and their children
@@ -378,4 +408,4 @@ export function transformContentfulMenu(menu: MenuEntry | null) {
   }
 }
 
-export default client
+export default getClient()

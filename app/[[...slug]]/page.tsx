@@ -9,6 +9,9 @@ import Article from '@/components/Article'
 // Enable dynamic rendering for Contentful
 export const dynamic = 'force-dynamic'
 
+// Add ISR support for better performance
+export const revalidate = 300 // Revalidate every 5 minutes
+
 type Params = Promise<{ slug: string[] }>
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 

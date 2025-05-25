@@ -10,18 +10,22 @@ A modern Next.js application integrated with Contentful CMS for content manageme
 - **Menu Management**: Configurable navigation through Contentful
 - **Rich Text**: Full rich text support with custom rendering and embedded assets
 - **Image Optimization**: Next.js Image component with Contentful assets
-- **Static Generation**: Pre-built pages for optimal performance
-- **Intelligent Caching**: TTL-based caching with automatic refresh (10-minute cache)
+- **ISR Support**: Incremental Static Regeneration with 5-minute revalidation
+- **Preview Mode**: Draft content preview with dedicated preview client
+- **Intelligent Caching**: TTL-based caching with automatic refresh (5-minute content cache)
 - **Smart Routing**: Dynamic content type detection reduces API calls by ~80%
 - **Error Handling**: Robust error handling with automatic retry logic
+- **Content Validation**: Built-in validation for data integrity
 - **Type Safety**: Enhanced TypeScript integration for better development experience
 
 ### 🛡️ Enterprise-Grade Features
 - **Performance Monitoring**: Built-in API monitoring and metrics tracking
-- **Resilient Architecture**: Automatic retry logic for network failures
-- **Environment Validation**: Comprehensive environment variable validation
-- **Caching Layer**: Smart caching to reduce API calls and improve response times
+- **Resilient Architecture**: Automatic retry logic for network failures with exponential backoff
+- **Environment Validation**: Comprehensive environment variable validation with detailed error messages
+- **Multi-layered Caching**: Smart caching to reduce API calls and improve response times
 - **Error Recovery**: Graceful degradation and fallback mechanisms
+- **Rate Limiting Handling**: Automatic retry on 429 responses
+- **Network Resilience**: Timeout configuration and connection retry logic
 
 ### 🔧 Development Tools
 - **TypeScript**: Full type safety with enhanced Contentful types
@@ -114,7 +118,7 @@ Start the development server:
 npm run dev
 ```
 
-Visit [http://localhost:8080](http://localhost:8080) to see your SyncNext homepage.
+Visit [http://localhost:3000](http://localhost:3000) to see your SyncNext homepage.
 
 ### Storybook
 
@@ -167,15 +171,19 @@ npm run build
 - **Intelligent Routing**: Direct content type targeting reduces API calls by ~80%
 
 #### Smart Caching System
-- **TTL-based Cache**: 10-minute cache for content type mappings
+- **Multi-layered Cache**: 10-minute cache for content type mappings, 5-minute for content
 - **Automatic Refresh**: Cache rebuilds when expired
 - **Performance Metrics**: Built-in cache hit rate monitoring
 - **Memory Efficient**: Configurable cache size limits
+- **Preview Support**: Separate caching for draft content
 
 #### Error Handling & Resilience
 - **Automatic Retries**: Network failures are automatically retried with exponential backoff
+- **Rate Limiting**: Automatic handling of 429 responses with retry logic
+- **Timeout Management**: 10-second timeout with configurable retry attempts
 - **Graceful Degradation**: Fallback content when API calls fail
 - **Smart Warning Suppression**: Only shows relevant warnings, reduces console noise by ~95%
+- **Content Validation**: Built-in validation for data integrity before rendering
 - **Comprehensive Logging**: Detailed error logging for debugging
 
 #### Rich Text Processing
@@ -197,9 +205,44 @@ SyncNext includes enterprise-grade monitoring:
 // Access monitoring data
 import { contentfulMonitor } from '@/utils/contentful-monitoring'
 import { getCacheStats } from '@/utils/content-routing'
+import { validateContentEntry } from '@/utils/contentful'
 
 const metrics = contentfulMonitor.getMetrics()
 const cacheStats = getCacheStats()
+
+// Generate performance report
+const report = contentfulMonitor.generateReport()
+
+// Validate content before rendering
+const isValid = validateContentEntry(entry, ['title', 'slug'])
+```
+
+## 🔄 Latest Updates & Features
+
+### Preview Mode Support
+SyncNext now includes full preview mode support for viewing draft content:
+
+```typescript
+// Automatic preview client selection
+const client = getClient(preview) // Uses preview.contentful.com for drafts
+```
+
+### Content Validation
+Built-in validation ensures data integrity:
+
+```typescript
+import { validateContentEntry } from '@/utils/contentful'
+
+// Validate required fields before rendering
+const isValid = validateContentEntry(entry, ['title', 'slug'])
+```
+
+### ISR (Incremental Static Regeneration)
+Optimized performance with automatic page regeneration:
+
+```typescript
+// Automatic revalidation every 5 minutes
+export const revalidate = 300
 ```
 
 ## Admin Bar for Content Editing
@@ -272,6 +315,8 @@ const contentType = await getContentTypeForSlug('privacy-policy')
 Customize caching behavior:
 - **Content Type Cache**: 10-minute TTL for content type mappings
 - **Content Cache**: 5-minute TTL for actual content
+- **ISR Revalidation**: 5-minute revalidation for static pages
+- **Preview Cache**: Separate caching for draft content
 - **Automatic Refresh**: Cache rebuilds when expired
 - **Memory Efficient**: Configurable size limits
 
@@ -279,8 +324,11 @@ Customize caching behavior:
 
 - **Include Levels**: Optimized for different content types (landing: 10, others: 3)
 - **Batch Requests**: Efficient data fetching patterns
-- **Image Optimization**: Automatic Contentful image transformations
+- **Image Optimization**: Automatic Contentful image transformations with WebP support
 - **Smart Retries**: Exponential backoff for failed requests
+- **Content Validation**: Pre-render validation to prevent runtime errors
+- **Preview Mode**: Dedicated preview client for draft content
+- **ISR Support**: Incremental Static Regeneration for optimal performance
 
 ## 📚 Documentation
 
@@ -299,6 +347,9 @@ SyncNext combines the power of modern web technologies with AI-enhanced developm
 - **✏️ Content Management**: Integrated admin bar for seamless content editing
 - **🛡️ Enterprise Ready**: Robust error handling, monitoring, and best practices
 - **🔒 Type Safe**: Full TypeScript integration for better developer experience
+- **🔄 ISR Support**: Incremental Static Regeneration for optimal performance
+- **👁️ Preview Mode**: Draft content preview with dedicated preview client
+- **✅ Content Validation**: Built-in validation for data integrity
 
 ## 🤝 Contributing
 
