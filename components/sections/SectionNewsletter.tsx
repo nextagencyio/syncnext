@@ -25,12 +25,3 @@ export default function SectionNewsletter({ section, modifier }: SectionNewslett
     />
   )
 }
-
-// GraphQL fragment for newsletter sections
-export const newsletterSectionFragment = `
-  fragment NewsletterSection on LandingSection {
-    type
-    newsletterTitle
-    summary
-  }
-`

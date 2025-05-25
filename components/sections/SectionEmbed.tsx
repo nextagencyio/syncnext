@@ -39,14 +39,3 @@ export default function SectionEmbed({ section, modifier }: SectionEmbedProps) {
     />
   );
 }
-
-// GraphQL fragment for embed sections
-export const embedSectionFragment = `
-  fragment EmbedSection on LandingSection {
-    type
-    title
-    script
-    caption
-    maxWidth
-  }
-`;
