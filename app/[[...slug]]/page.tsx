@@ -24,11 +24,22 @@ export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
       getEntriesByType('article'),
     ])
 
-    const allPages = [...landingPages, ...pages, ...articles]
+    const params: { slug: string[] }[] = []
 
-    const params = allPages.map((page) => ({
-      slug: (page.fields.slug as string).split('/').filter(segment => segment !== ''),
-    }))
+    // Add landing pages and regular pages
+    const regularPages = [...landingPages, ...pages]
+    regularPages.forEach((page) => {
+      params.push({
+        slug: (page.fields.slug as string).split('/').filter(segment => segment !== ''),
+      })
+    })
+
+    // Add articles with 'articles/' prefix
+    articles.forEach((article) => {
+      params.push({
+        slug: ['articles', article.fields.slug as string],
+      })
+    })
 
     // Add empty slug array for homepage (root route)
     params.push({ slug: [] })
@@ -54,6 +65,15 @@ async function getPageData(props: {
   const slug = params.slug?.join('/') || 'home'
 
   try {
+    // Check if this is an article URL (starts with 'articles/')
+    if (slug.startsWith('articles/')) {
+      const articleSlug = slug.replace('articles/', '')
+      const article = await getEntryBySlug('article', articleSlug)
+      if (article) {
+        return { content: article, type: 'article' }
+      }
+    }
+
     // Try to find the content in different content types
     const [landingPage, page, article] = await Promise.all([
       getEntryBySlug('landing', slug),
