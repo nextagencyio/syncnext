@@ -31,39 +31,108 @@ async function cleanupContentful() {
     const space = await client.getSpace(spaceId)
     const environment = await space.getEnvironment('master')
 
-    // Delete all entries
+    // Delete all entries with pagination
     console.log('\nDeleting entries...')
-    const entries = await environment.getEntries()
-    for (const entry of entries.items) {
-      if (entry.isPublished()) {
-        await entry.unpublish()
-      }
-      await entry.delete()
-    }
-    console.log(`Deleted ${entries.items.length} entries`)
+    let totalEntriesDeleted = 0
+    let hasMoreEntries = true
 
-    // Delete all assets
-    console.log('\nDeleting assets...')
-    const assets = await environment.getAssets()
-    for (const asset of assets.items) {
-      if (asset.isPublished()) {
-        await asset.unpublish()
+    while (hasMoreEntries) {
+      const entries = await environment.getEntries({ limit: 100 })
+
+      if (entries.items.length === 0) {
+        hasMoreEntries = false
+        break
       }
-      await asset.delete()
+
+      for (const entry of entries.items) {
+        try {
+          if (entry.isPublished()) {
+            await entry.unpublish()
+          }
+          await entry.delete()
+          totalEntriesDeleted++
+        } catch (error) {
+          console.warn(`Failed to delete entry ${entry.sys.id}:`, error)
+        }
+      }
+
+      console.log(`Deleted ${entries.items.length} entries (total: ${totalEntriesDeleted})`)
+
+      // Small delay to allow Contentful to process deletions
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
-    console.log(`Deleted ${assets.items.length} assets`)
+
+    console.log(`Total entries deleted: ${totalEntriesDeleted}`)
+
+    // Delete all assets with pagination
+    console.log('\nDeleting assets...')
+    let totalAssetsDeleted = 0
+    let hasMoreAssets = true
+
+    while (hasMoreAssets) {
+      const assets = await environment.getAssets({ limit: 100 })
+
+      if (assets.items.length === 0) {
+        hasMoreAssets = false
+        break
+      }
+
+      for (const asset of assets.items) {
+        try {
+          if (asset.isPublished()) {
+            await asset.unpublish()
+          }
+          await asset.delete()
+          totalAssetsDeleted++
+        } catch (error) {
+          console.warn(`Failed to delete asset ${asset.sys.id}:`, error)
+        }
+      }
+
+      console.log(`Deleted ${assets.items.length} assets (total: ${totalAssetsDeleted})`)
+
+      // Small delay to allow Contentful to process deletions
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+
+    console.log(`Total assets deleted: ${totalAssetsDeleted}`)
 
     // Only delete content types if --structure flag is passed
     if (deleteStructure) {
+      console.log('\nWaiting for deletions to propagate...')
+      await new Promise(resolve => setTimeout(resolve, 3000))
+
       console.log('\nDeleting content types...')
-      const contentTypes = await environment.getContentTypes()
-      for (const contentType of contentTypes.items) {
-        if (contentType.isPublished()) {
-          await contentType.unpublish()
+      let totalContentTypesDeleted = 0
+      let hasMoreContentTypes = true
+
+      while (hasMoreContentTypes) {
+        const contentTypes = await environment.getContentTypes({ limit: 100 })
+
+        if (contentTypes.items.length === 0) {
+          hasMoreContentTypes = false
+          break
         }
-        await contentType.delete()
+
+        for (const contentType of contentTypes.items) {
+          try {
+            if (contentType.isPublished()) {
+              await contentType.unpublish()
+            }
+            await contentType.delete()
+            totalContentTypesDeleted++
+          } catch (error) {
+            console.warn(`Failed to delete content type ${contentType.sys.id}:`, error)
+          }
+        }
+
+        console.log(`Deleted ${contentTypes.items.length} content types (total: ${totalContentTypesDeleted})`)
+
+        // Small delay to allow Contentful to process deletions
+        await new Promise(resolve => setTimeout(resolve, 1000))
       }
-      console.log(`Deleted ${contentTypes.items.length} content types`)
+
+      console.log(`Total content types deleted: ${totalContentTypesDeleted}`)
     }
     else {
       console.log('\nContent types preserved (use --structure flag to delete them)')

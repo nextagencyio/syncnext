@@ -101,6 +101,7 @@ async function setupContentful() {
     if (!existingTypes.has('hero')) {
       const heroContentType = await environment.createContentTypeWithId('hero', {
         name: 'Hero',
+        description: 'A prominent section typically used at the top of pages with a large heading, summary text, and call-to-action buttons.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -125,6 +126,7 @@ async function setupContentful() {
     if (!existingTypes.has('text')) {
       const textContentType = await environment.createContentTypeWithId('text', {
         name: 'Text',
+        description: 'A flexible text section for displaying formatted content with optional links and layout options.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -148,6 +150,7 @@ async function setupContentful() {
     if (!existingTypes.has('card')) {
       const cardContentType = await environment.createContentTypeWithId('card', {
         name: 'Card',
+        description: 'A card component for displaying content with a title, summary, media, and optional tags.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -178,6 +181,7 @@ async function setupContentful() {
     if (!existingTypes.has('accordionItem')) {
       const accordionItemContentType = await environment.createContentTypeWithId('accordionItem', {
         name: 'Accordion Item',
+        description: 'An individual item within an accordion section with a title and expandable content.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -197,6 +201,7 @@ async function setupContentful() {
     if (!existingTypes.has('accordion')) {
       const accordionContentType = await environment.createContentTypeWithId('accordion', {
         name: 'Accordion',
+        description: 'A collapsible content section containing multiple accordion items for organizing information.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -214,6 +219,7 @@ async function setupContentful() {
     if (!existingTypes.has('gallery')) {
       const galleryContentType = await environment.createContentTypeWithId('gallery', {
         name: 'Gallery',
+        description: 'A media gallery section for displaying multiple images or assets in a grid layout.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -242,6 +248,7 @@ async function setupContentful() {
     if (!existingTypes.has('pricingCard')) {
       const pricingCardContentType = await environment.createContentTypeWithId('pricingCard', {
         name: 'Pricing Card',
+        description: 'An individual pricing card within a pricing section showing plan details and features.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -263,6 +270,7 @@ async function setupContentful() {
     if (!existingTypes.has('pricing')) {
       const pricingContentType = await environment.createContentTypeWithId('pricing', {
         name: 'Pricing',
+        description: 'A pricing section that displays multiple pricing cards with features and call-to-action buttons.',
         displayField: 'pricingTitle',
         fields: [
           symbolField('eyebrow', 'Eyebrow'),
@@ -282,6 +290,7 @@ async function setupContentful() {
     if (!existingTypes.has('media')) {
       const mediaContentType = await environment.createContentTypeWithId('media', {
         name: 'Media',
+        description: 'A simple media section for displaying a single image, video, or other media asset.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -299,6 +308,7 @@ async function setupContentful() {
     if (!existingTypes.has('carouselItem')) {
       const carouselItemContentType = await environment.createContentTypeWithId('carouselItem', {
         name: 'Carousel Item',
+        description: 'An individual item within a carousel with title, summary, and media content.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -317,6 +327,7 @@ async function setupContentful() {
     if (!existingTypes.has('carousel')) {
       const carouselContentType = await environment.createContentTypeWithId('carousel', {
         name: 'Carousel',
+        description: 'A rotating carousel section containing multiple carousel items that users can navigate through.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -334,6 +345,7 @@ async function setupContentful() {
     if (!existingTypes.has('quote')) {
       const quoteContentType = await environment.createContentTypeWithId('quote', {
         name: 'Quote',
+        description: 'A testimonial or quote section featuring an author, their job title, company logo, and quote text.',
         displayField: 'author',
         fields: [
           symbolField('author', 'Author'),
@@ -354,6 +366,7 @@ async function setupContentful() {
     if (!existingTypes.has('embed')) {
       const embedContentType = await environment.createContentTypeWithId('embed', {
         name: 'Embed',
+        description: 'A section for embedding external content like videos, forms, or third-party widgets using custom code.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -371,6 +384,7 @@ async function setupContentful() {
     if (!existingTypes.has('newsletter')) {
       const newsletterContentType = await environment.createContentTypeWithId('newsletter', {
         name: 'Newsletter',
+        description: 'A newsletter signup section with a title and summary to encourage email subscriptions.',
         displayField: 'newsletterTitle',
         fields: [
           symbolField('newsletterTitle', 'Title'),
@@ -388,6 +402,7 @@ async function setupContentful() {
     if (!existingTypes.has('cardGroup')) {
       const cardGroupContentType = await environment.createContentTypeWithId('cardGroup', {
         name: 'Card Group',
+        description: 'A group of cards displayed together, supporting both regular cards and statistics items.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -426,6 +441,7 @@ async function setupContentful() {
     if (!existingTypes.has('logoCollection')) {
       const logoCollectionContentType = await environment.createContentTypeWithId('logoCollection', {
         name: 'Logo Collection',
+        description: 'A section for displaying multiple company or partner logos in a grid layout.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title'),
@@ -453,6 +469,7 @@ async function setupContentful() {
     if (!existingTypes.has('statsItem')) {
       const statsItemContentType = await environment.createContentTypeWithId('statsItem', {
         name: 'Stats Item',
+        description: 'A statistics item displaying a key metric with an icon, heading, and descriptive text.',
         displayField: 'heading',
         fields: [
           symbolField('heading', 'Heading', true),
@@ -472,6 +489,7 @@ async function setupContentful() {
     if (!existingTypes.has('bullet')) {
       const bulletContentType = await environment.createContentTypeWithId('bullet', {
         name: 'Bullet',
+        description: 'A bullet point item with an icon and summary text, typically used in feature lists.',
         displayField: 'summary',
         fields: [
           symbolField('icon', 'Icon', true),
@@ -489,6 +507,7 @@ async function setupContentful() {
     if (!existingTypes.has('sideBySide')) {
       const sideBySideContentType = await environment.createContentTypeWithId('sideBySide', {
         name: 'Side by Side',
+        description: 'A two-column layout section with content on one side and media or features on the other.',
         displayField: 'title',
         fields: [
           symbolField('eyebrow', 'Eyebrow'),
@@ -519,6 +538,7 @@ async function setupContentful() {
 
       const landingContentType = await environment.createContentTypeWithId('landing', {
         name: 'Landing Page',
+        description: 'A complete landing page composed of multiple sections arranged in a specific order.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -586,6 +606,7 @@ async function setupContentful() {
     if (!existingTypes.has('page')) {
       const pageContentType = await environment.createContentTypeWithId('page', {
         name: 'Page',
+        description: 'A standard page with a title, optional featured image, and rich text content.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -616,6 +637,7 @@ async function setupContentful() {
     if (!existingTypes.has('article')) {
       const articleContentType = await environment.createContentTypeWithId('article', {
         name: 'Article',
+        description: 'A blog article or news post with title, summary, featured image, content, tags, and publish date.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -748,6 +770,7 @@ async function setupContentful() {
     if (!existingTypes.has('menuItem')) {
       const menuItemContentType = await environment.createContentTypeWithId('menuItem', {
         name: 'Menu Item',
+        description: 'An individual navigation menu item with a title, URL, and optional child menu items.',
         displayField: 'title',
         fields: [
           symbolField('title', 'Title', true),
@@ -773,6 +796,7 @@ async function setupContentful() {
     if (!existingTypes.has('menu')) {
       const menuContentType = await environment.createContentTypeWithId('menu', {
         name: 'Menu',
+        description: 'A navigation menu containing multiple menu items, identified by a unique identifier.',
         displayField: 'name',
         fields: [
           symbolField('name', 'Menu Name', true),
