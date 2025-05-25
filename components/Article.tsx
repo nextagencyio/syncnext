@@ -1,6 +1,5 @@
 import { resolveContentfulImage, resolveRichText, ContentfulImage } from '@/utils/contentful'
 import { Entry } from 'contentful'
-import Heading from '@/components/heading/Heading'
 import Image from 'next/image'
 
 interface ArticleProps {
@@ -9,7 +8,7 @@ interface ArticleProps {
 
 export default function Article({ article }: ArticleProps) {
   const fields = article.fields
-  const { title, subhead, lead, media, body, tags, publishedDate } = fields
+  const { title, lead, media, body, tags } = fields
 
   const resolvedMedia = resolveContentfulImage(media as ContentfulImage)
   const leadProcessed = lead ? resolveRichText(lead) : null
@@ -32,47 +31,21 @@ export default function Article({ article }: ArticleProps) {
           </div>
         )}
         <div className="mx-auto max-w-2xl">
-          {subhead && (
-            <div className="uppercase mb-2 text-sm tracking-wide text-gray-600">
-              {subhead as string}
+          {tags && Array.isArray(tags) && tags.length > 0 && (
+            <div className="uppercase mb-2 text-sm tracking-wide">
+              {(tags as string[]).join(', ')}
             </div>
           )}
-          <Heading level={1} title={title as string} className="mb-4" />
-
-          {/* Tags and Date */}
-          <div className="flex flex-wrap items-center gap-4 mb-8 pb-4 border-b border-gray-200">
-            {tags && Array.isArray(tags) && tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {(tags as string[]).map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-            {publishedDate && (
-              <time className="text-sm text-gray-500">
-                Published {new Date(publishedDate as string).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-            )}
-          </div>
-
+          <h1 className="text-4xl font-bold mb-8">{title as string}</h1>
           {leadProcessed && (
             <div
-              className="prose prose-lg lead mb-6 text-xl text-gray-700"
+              className="prose prose-lg lead mb-4"
               dangerouslySetInnerHTML={{ __html: leadProcessed }}
             />
           )}
           {bodyProcessed && (
             <div
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg"
               dangerouslySetInnerHTML={{ __html: bodyProcessed }}
             />
           )}

@@ -11,9 +11,10 @@ function createRichTextFromMarkdown(markdownContent: string) {
   // Parse Markdown content and create proper rich text structure
   const lines = markdownContent.split('\n').filter(line => line.trim())
   const content: any[] = []
+  let i = 0
 
-  for (const line of lines) {
-    const trimmedLine = line.trim()
+  while (i < lines.length) {
+    const trimmedLine = lines[i].trim()
 
     if (trimmedLine.startsWith('## ')) {
       // Create heading-2 node
@@ -30,6 +31,7 @@ function createRichTextFromMarkdown(markdownContent: string) {
           }
         ]
       })
+      i++
     }
     else if (trimmedLine.startsWith('### ')) {
       // Create heading-3 node
@@ -46,21 +48,39 @@ function createRichTextFromMarkdown(markdownContent: string) {
           }
         ]
       })
+      i++
     }
     else if (trimmedLine.startsWith('• ')) {
-      // Handle bullet points
-      const text = trimmedLine.replace(/^• /, '')
+      // Handle bullet points - group consecutive ones into an unordered list
+      const listItems: any[] = []
+
+      while (i < lines.length && lines[i].trim().startsWith('• ')) {
+        const text = lines[i].trim().replace(/^• /, '')
+        listItems.push({
+          nodeType: 'list-item',
+          data: {},
+          content: [
+            {
+              nodeType: 'paragraph',
+              data: {},
+              content: [
+                {
+                  nodeType: 'text',
+                  value: text,
+                  marks: [],
+                  data: {}
+                }
+              ]
+            }
+          ]
+        })
+        i++
+      }
+
       content.push({
-        nodeType: 'paragraph',
+        nodeType: 'unordered-list',
         data: {},
-        content: [
-          {
-            nodeType: 'text',
-            value: `• ${text}`,
-            marks: [],
-            data: {}
-          }
-        ]
+        content: listItems
       })
     }
     else if (trimmedLine && !trimmedLine.startsWith('#')) {
@@ -77,6 +97,10 @@ function createRichTextFromMarkdown(markdownContent: string) {
           }
         ]
       })
+      i++
+    }
+    else {
+      i++
     }
   }
 
