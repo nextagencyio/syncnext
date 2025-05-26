@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   title: 'SyncNext - AI-Powered Lightning Fast Development',
   description: 'A modern Next.js application integrated with Contentful CMS for content management.',
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   },
 };
 
