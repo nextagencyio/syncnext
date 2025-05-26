@@ -337,14 +337,14 @@ async function createPricingPage() {
     // Create pricing cards
     const pricingCardData = [
       {
-        eyebrow: 'SyncNext CMS Platform',
+        eyebrow: 'SyncNext Starter',
         title: 'Free',
         monthly_label: '',
         features: [
           { text: 'Full access to open source features' },
           { text: 'Community support' },
           { text: 'Documentation' },
-          { text: 'AI development features' },
+          { text: 'AI features' },
         ],
         cta_text: 'Get Started',
         cta_link: '#',
